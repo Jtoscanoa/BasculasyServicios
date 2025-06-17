@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:rotationX="-2"
     tools:context=".MainActivity">
 
     <TextView
@@ -22,6 +23,15 @@
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/jashmap"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="56dp" />
+        tools:layout_editor_absoluteY="101dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="221dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="20dp"
+        android:text="ARRODILLENSE TODOS ANTE MI GIGANTESCA MONDA!!! 🥒👌💦"
+        app:layout_constraintBottom_toTopOf="@+id/imageView"
+        tools:layout_editor_absoluteX="94dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
