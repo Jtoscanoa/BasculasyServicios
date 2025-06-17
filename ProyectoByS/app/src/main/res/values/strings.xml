@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">Proyecto ByS</string>
+    <string name="app_name">Básculas y Servicios</string>
+    <string-array name="service_types">
+        <item>Servicio Técnico</item>
+        <item>Servicio de Mantenimiento</item>
+        <item>Servicio de Instalación</item>
+    </string-array>
+
 </resources>
