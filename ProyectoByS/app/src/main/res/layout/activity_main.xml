@@ -8,12 +8,20 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Chupenme todos la monda venuda"
+        android:layout_width="218dp"
+        android:layout_height="21dp"
+        android:text="Hashmap"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/jashmap"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="56dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
