@@ -30,3 +30,7 @@ public class ClientsListActivity extends AppCompatActivity {
         rv.setAdapter(adapter);
     }
 }
+
+
+
+
