@@ -1,29 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:gravity="center"
-    android:padding="32dp"
+    android:gravity="center_horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="24dp">
 
     <TextView
         android:text="Menú Principal"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="32dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <Button
-        android:id="@+id/btnGoRegister"
-        android:text="Registrar clientes"
+        android:id="@+id/btnRegisterClient"
+        android:text="REGISTRAR CLIENTES"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"/>
 
     <Button
         android:id="@+id/btnViewClients"
-        android:text="Visualizar clientes"
+        android:text="VISUALIZAR CLIENTES"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginBottom="16dp"/>
+
+    <!-- NUEVOS BOTONES -->
+
+    <Button
+        android:id="@+id/btnRegisterTeam"
+        android:text="REGISTRAR EQUIPO TÉCNICO"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"/>
+
+    <Button
+        android:id="@+id/btnRegisterRequirements"
+        android:text="REGISTRAR REQUERIMIENTOS DE MANTENIMIENTO"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"/>
+
+    <Button
+        android:id="@+id/btnRegisterEquipment"
+        android:text="REGISTRAR EQUIPO A INSTALAR"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"/>
+
+    <Button
+        android:id="@+id/btnRegisterSecondVisit"
+        android:text="REGISTRAR SEGUNDA VISITA"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"/>
+
 </LinearLayout>

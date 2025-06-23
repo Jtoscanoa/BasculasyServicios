@@ -37,6 +37,10 @@
             android:name=".ClientsListActivity"
             android:exported="true" >
         </activity>
+        <activity android:name=".RegisterTeamActivity"/>
+        <activity android:name=".RegisterRequirementsActivity"/>
+        <activity android:name=".RegisterEquipmentActivity"/>
+        <activity android:name=".RegisterSecondVisitActivity"/>
 
     </application>
 </manifest>
