@@ -34,7 +34,7 @@ public class ViewRequestsActivity extends AppCompatActivity {
             Toast.makeText(this, "No hay solicitudes registradas", Toast.LENGTH_SHORT).show();
         } else {
             // Crear un adaptador para mostrar las solicitudes
-            adapter = new RequestAdapter(this, requestsList);
+            adapter = new RequestAdapter(this, requestsList, db);
             lvRequests.setAdapter(adapter);
         }
 

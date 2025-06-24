@@ -81,16 +81,16 @@ public class DatabaseHelper {
     public List<Request> getAllRequests() {
         List<Request> list = new ArrayList<>();
         SQLiteDatabase db = helper.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM requests", null);
+        Cursor c = db.rawQuery("SELECT id, serviceType, serviceDate, serviceTime, clientCedula, serviceAddress FROM requests", null);
 
         while (c.moveToNext()) {
-            // Modificado para incluir el parámetro serviceAddress
+            // Puedes agregar un campo `serviceAddress` en el constructor de la clase `Request` si es necesario
             Request request = new Request(
                     c.getInt(c.getColumnIndex("id")),
                     c.getString(c.getColumnIndex("serviceType")),
                     c.getString(c.getColumnIndex("serviceDate")),
                     c.getString(c.getColumnIndex("serviceTime")),
-                    c.getString(c.getColumnIndex("serviceAddress")) // Asumiendo que tienes esta columna en la base de datos
+                    c.getString(c.getColumnIndex("serviceAddress"))  // Obtener el valor de serviceAddress
             );
             list.add(request);
         }
@@ -99,6 +99,7 @@ public class DatabaseHelper {
         db.close();
         return list;
     }
+
 
 
     // Método para eliminar solicitud
@@ -174,6 +175,7 @@ public class DatabaseHelper {
         db.close();
         return id;
     }
+
 
 
 

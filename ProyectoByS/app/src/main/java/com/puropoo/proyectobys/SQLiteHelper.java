@@ -35,11 +35,12 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Si hay un cambio en la estructura de la base de datos
+        // Si la base de datos ya tiene datos, y la nueva columna no existe
         if (oldVersion < 2) {
             db.execSQL("ALTER TABLE requests ADD COLUMN serviceAddress TEXT;");
         }
     }
+
 
     // Insertar miembro del equipo
     public boolean insertTeamMember(String name, String role, String phone, int age, double payment) {

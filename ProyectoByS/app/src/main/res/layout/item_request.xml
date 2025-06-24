@@ -60,6 +60,13 @@
         android:layout_height="wrap_content"
         android:hint="Dirección de la solicitud" />
 
+    <TextView
+        android:id="@+id/tvServiceAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dirección del servicio"
+        android:textSize="16sp"
+        android:paddingEnd="8dp" />
 
 
 </LinearLayout>
