@@ -43,7 +43,6 @@ public class ClientAdapter
         h.tvCedula.setText(c.cedula);
         h.tvPhone.setText(c.phone);
         h.tvAddress.setText(c.address);
-        h.tvService.setText(c.serviceType);
 
         h.btnEdit.setOnClickListener(v -> showEditDialog(c));
         h.btnDelete.setOnClickListener(v -> {
@@ -55,7 +54,7 @@ public class ClientAdapter
     @Override public int getItemCount() { return data.size(); }
 
     class ClientVH extends RecyclerView.ViewHolder {
-        TextView tvName, tvCedula, tvPhone, tvAddress, tvService;
+        TextView tvName, tvCedula, tvPhone, tvAddress;
         Button btnEdit, btnDelete;
         ClientVH(View item) {
             super(item);
@@ -63,7 +62,6 @@ public class ClientAdapter
             tvCedula  = item.findViewById(R.id.tvCedula);
             tvPhone   = item.findViewById(R.id.tvPhone);
             tvAddress = item.findViewById(R.id.tvAddress);
-            tvService = item.findViewById(R.id.tvService);
             btnEdit   = item.findViewById(R.id.btnEdit);
             btnDelete = item.findViewById(R.id.btnDelete);
         }

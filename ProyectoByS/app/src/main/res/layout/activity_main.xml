@@ -31,21 +31,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <TextView
-            android:layout_marginTop="12dp"
-            android:text="Tipo de servicio"
-            android:textStyle="bold"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <Spinner
-            android:id="@+id/spServiceType"
-            style="@style/Widget.AppCompat.Spinner.DropDown"
-            android:entries="@array/service_types"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"/>
-
         <Button
             android:id="@+id/btnRegister"
             android:text="Registrar Cliente"
@@ -61,6 +46,15 @@
             android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btnViewEditClients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Visualizar/Editar Clientes"
+            android:layout_marginTop="16dp"
+            android:onClick="goToViewEditClients"/>
+
 
         <ListView
             android:id="@+id/lvClients"

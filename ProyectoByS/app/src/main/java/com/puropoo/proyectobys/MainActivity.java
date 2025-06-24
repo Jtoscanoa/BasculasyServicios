@@ -1,5 +1,6 @@
 package com.puropoo.proyectobys;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
     private EditText etName, etCedula, etPhone, etAddress;
-    private Spinner spServiceType;
     private Button btnRegister;
     private DatabaseHelper dbHelper;
 
@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
         etCedula      = findViewById(R.id.etCedula);
         etPhone       = findViewById(R.id.etPhone);
         etAddress     = findViewById(R.id.etAddress);
-        spServiceType = findViewById(R.id.spServiceType);
         btnRegister   = findViewById(R.id.btnRegister);
 
         // 2) Crea tu helper de base de datos
@@ -36,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
             String cedula      = etCedula.getText().toString().trim();
             String phone       = etPhone.getText().toString().trim();
             String address     = etAddress.getText().toString().trim();
-            String serviceType = spServiceType.getSelectedItem().toString();
 
             // 4) Validaciones
             if (name.isEmpty() || cedula.isEmpty() || phone.isEmpty() || address.isEmpty()) {
@@ -57,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             // 5) Inserta el cliente (nota la firma con 5 parámetros)
-            long id = dbHelper.insertClient(name, cedula, phone, address, serviceType);
+            long id = dbHelper.insertClient(name, cedula, phone, address);
             if (id != -1) {
                 Toast.makeText(this,
                         "Cliente registrado correctamente",
@@ -69,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
                 etCedula.setText("");
                 etPhone.setText("");
                 etAddress.setText("");
-                spServiceType.setSelection(0);
             } else {
                 Toast.makeText(this,
                         "Error al registrar cliente",
@@ -77,5 +74,15 @@ public class MainActivity extends AppCompatActivity {
                 ).show();
             }
         });
+
+        Button btnViewEditClients = findViewById(R.id.btnViewEditClients);
+
+// Configurar el clic del botón
+        btnViewEditClients.setOnClickListener(v -> {
+            // Redirige a la actividad que muestra la lista de clientes
+            Intent intent = new Intent(MainActivity.this, ClientsListActivity.class);
+            startActivity(intent);
+        });
+
     }
 }

@@ -27,14 +27,13 @@ public class DatabaseHelper {
         return exists;
     }
 
-    public long insertClient(String name, String cedula, String phone, String address, String serviceType) {
+    public long insertClient(String name, String cedula, String phone, String address) {
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put("name", name);
         cv.put("cedula", cedula);
         cv.put("phone", phone);
         cv.put("address", address);
-        cv.put("serviceType", serviceType);
         long id = db.insert("clients", null, cv);
         db.close();
         return id;
