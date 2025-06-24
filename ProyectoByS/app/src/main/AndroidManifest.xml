@@ -41,6 +41,9 @@
         <activity android:name=".RegisterRequirementsActivity"/>
         <activity android:name=".RegisterEquipmentActivity"/>
         <activity android:name=".RegisterSecondVisitActivity"/>
+        <activity android:name=".RegisterRequestActivity" />
+        <activity android:name=".ViewRequestsActivity"></activity>
+        <activity android:name=".EditRequestActivity"></activity>
 
     </application>
 </manifest>

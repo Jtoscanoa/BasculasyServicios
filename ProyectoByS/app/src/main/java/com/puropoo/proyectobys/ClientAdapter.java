@@ -2,6 +2,7 @@ package com.puropoo.proyectobys;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,4 +98,7 @@ public class ClientAdapter
         b.setNegativeButton("Cancelar", null);
         b.show();
     }
+
+
+
 }

@@ -12,4 +12,13 @@ public class Client {
         this.address = address;
         this.serviceType = serviceType;
     }
+
+    // Getters
+    public String getName() {
+        return name;
+    }
+
+    public String getCedula() {
+        return cedula;
+    }
 }

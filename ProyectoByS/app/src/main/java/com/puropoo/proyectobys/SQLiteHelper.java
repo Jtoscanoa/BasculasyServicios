@@ -13,13 +13,22 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        // Crear tabla 'clients'
         db.execSQL("CREATE TABLE IF NOT EXISTS clients (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "name TEXT, cedula TEXT, phone TEXT, address TEXT, serviceType TEXT)");
 
+        // Crear tabla 'team_members'
         db.execSQL("CREATE TABLE IF NOT EXISTS team_members (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "name TEXT, role TEXT, phone TEXT, age INTEGER, payment REAL)");
+
+        // Crear tabla 'requests'
+        db.execSQL("CREATE TABLE IF NOT EXISTS requests (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "serviceType TEXT, " +
+                "serviceDate TEXT, " +
+                "serviceTime TEXT)");
     }
 
     @Override
@@ -27,6 +36,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         // Si necesitas upgrade de BD
     }
 
+    // Insertar miembro del equipo
     public boolean insertTeamMember(String name, String role, String phone, int age, double payment) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -39,5 +49,4 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         long result = db.insert("team_members", null, values);
         return result != -1;
     }
-
 }

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:layout_width="match_parent"
@@ -8,69 +7,59 @@
     android:padding="24dp">
 
     <TextView
-        android:text="Menú Principal"
+        android:text="Registrar Solicitud"
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_marginBottom="32dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    <Button
-        android:id="@+id/btnRegisterClient"
-        android:text="REGISTRAR CLIENTES"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"/>
-
-    <Button
-        android:id="@+id/btnViewClients"
-        android:text="VISUALIZAR CLIENTES"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"/>
-
-    <!-- NUEVOS BOTONES -->
-
-    <Button
-        android:id="@+id/btnRegisterTeam"
-        android:text="REGISTRAR EQUIPO TÉCNICO"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"/>
-
-    <Button
-        android:id="@+id/btnRegisterRequirements"
-        android:text="REGISTRAR REQUERIMIENTOS DE MANTENIMIENTO"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"/>
-
-    <Button
-        android:id="@+id/btnRegisterEquipment"
-        android:text="REGISTRAR EQUIPO A INSTALAR"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"/>
-
-    <Button
-        android:id="@+id/btnRegisterSecondVisit"
-        android:text="REGISTRAR SEGUNDA VISITA"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"/>
-
-    <Button
-        android:id="@+id/btnRegisterRequests"
-        android:text="REGISTRAR SOLICITUDES"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"/>
-
+    <!-- Spinner de clientes -->
     <Spinner
         android:id="@+id/spinnerClients"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Campo para fecha -->
+    <EditText
+        android:id="@+id/etServiceDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Fecha del servicio (dd/mm/yyyy)"
+        android:inputType="date"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Spinner para tipo de servicio -->
+    <Spinner
+        android:id="@+id/spinnerServiceType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Campo para hora -->
+    <EditText
+        android:id="@+id/etServiceTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Hora del servicio (hh:mm)"
+        android:inputType="time"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Botón para guardar solicitud -->
+    <Button
+        android:id="@+id/btnSaveRequest"
+        android:text="Guardar Solicitud"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Botón para visualizar solicitudes -->
+    <Button
+        android:id="@+id/btnViewRequests"
+        android:text="Ver Solicitudes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"/>
 
 </LinearLayout>
