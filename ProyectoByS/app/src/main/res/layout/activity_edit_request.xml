@@ -38,8 +38,15 @@
     <Button
         android:id="@+id/btnSaveChanges"
         android:text="Guardar cambios"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+    <EditText
+        android:id="@+id/etServiceAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"/>
+        android:hint="Dirección de la solicitud"/>
+
 
 </LinearLayout>

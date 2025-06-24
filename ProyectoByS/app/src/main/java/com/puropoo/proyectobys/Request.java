@@ -5,13 +5,15 @@ public class Request {
     private String serviceType;
     private String serviceDate;
     private String serviceTime;
+    private String serviceAddress;
 
     // Constructor
-    public Request(int id, String serviceType, String serviceDate, String serviceTime) {
+    public Request(int id, String serviceType, String serviceDate, String serviceTime, String serviceAddress) {
         this.id = id;
         this.serviceType = serviceType;
         this.serviceDate = serviceDate;
         this.serviceTime = serviceTime;
+        this.serviceAddress = serviceAddress;
     }
 
     // Getters
@@ -30,4 +32,13 @@ public class Request {
     public String getServiceTime() {
         return serviceTime;
     }
+
+    public String getClientCedula() {
+        return String.valueOf(id);  // Getter para la cédula del cliente
+    }
+
+    public String getServiceAddress() {
+        return serviceAddress;  // Añadido para la dirección
+    }
+
 }

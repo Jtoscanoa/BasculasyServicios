@@ -1,6 +1,6 @@
 package com.puropoo.proyectobys;
 
-public class Client {
+public class Client{
     public final int id;
     public String name, cedula, phone, address, serviceType;
 
@@ -20,5 +20,9 @@ public class Client {
 
     public String getCedula() {
         return cedula;
+    }
+
+    public String getAddress() {
+        return address;  // Getter para la dirección
     }
 }

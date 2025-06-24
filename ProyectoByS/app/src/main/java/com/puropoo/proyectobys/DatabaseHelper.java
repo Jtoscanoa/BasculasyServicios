@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.content.Context;
 import android.database.Cursor;
-
+import com.puropoo.proyectobys.Client;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,24 +48,22 @@ public class DatabaseHelper {
                 new String[]{String.valueOf(requestId)},  // Argumento para la condición WHERE
                 null, null, null);
 
-        if (cursor != null) {
-            cursor.moveToFirst();
-
-            // Crear y devolver el objeto Request
+        if (cursor != null && cursor.moveToFirst()) {
             Request request = new Request(
                     cursor.getInt(cursor.getColumnIndex("id")),
                     cursor.getString(cursor.getColumnIndex("serviceType")),
                     cursor.getString(cursor.getColumnIndex("serviceDate")),
-                    cursor.getString(cursor.getColumnIndex("serviceTime"))
+                    cursor.getString(cursor.getColumnIndex("serviceTime")),
+                    cursor.getString(cursor.getColumnIndex("serviceAddress"))  // Asegúrate de agregar esta línea
             );
-
             cursor.close();
             db.close();
             return request;
         } else {
             db.close();
-            return null;  // Si no se encuentra la solicitud
+            return null;
         }
+
     }
 
     public int deleteClient(int id) {
@@ -82,29 +80,35 @@ public class DatabaseHelper {
     // Obtener todas las solicitudes
     public List<Request> getAllRequests() {
         List<Request> list = new ArrayList<>();
-        SQLiteDatabase db = helper.getReadableDatabase();  // Usa el helper para obtener la base de datos en modo lectura
-        Cursor c = db.rawQuery("SELECT * FROM requests", null);  // Realiza una consulta para obtener todas las solicitudes
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM requests", null);
+
         while (c.moveToNext()) {
+            // Modificado para incluir el parámetro serviceAddress
             Request request = new Request(
                     c.getInt(c.getColumnIndex("id")),
                     c.getString(c.getColumnIndex("serviceType")),
                     c.getString(c.getColumnIndex("serviceDate")),
-                    c.getString(c.getColumnIndex("serviceTime"))
+                    c.getString(c.getColumnIndex("serviceTime")),
+                    c.getString(c.getColumnIndex("serviceAddress")) // Asumiendo que tienes esta columna en la base de datos
             );
             list.add(request);
         }
+
         c.close();
         db.close();
-        return list;  // Devuelve la lista de todas las solicitudes
+        return list;
     }
 
-    // Método para eliminar una solicitud
+
+    // Método para eliminar solicitud
     public int deleteRequest(int id) {
-        SQLiteDatabase db = helper.getWritableDatabase();  // Obtener base de datos en modo escritura
-        int rows = db.delete("requests", "id = ?", new String[]{String.valueOf(id)});  // Eliminar la solicitud
-        db.close();  // Cerrar la base de datos
-        return rows;  // Retornar el número de filas eliminadas
+        SQLiteDatabase db = helper.getWritableDatabase();
+        int rows = db.delete("requests", "id = ?", new String[]{String.valueOf(id)});
+        db.close();
+        return rows;
     }
+
 
     // Obtener todos los clientes
     public List<Client> getAllClients() {
@@ -128,28 +132,30 @@ public class DatabaseHelper {
         return list;  // Devolver la lista de clientes
     }
 
-    public int updateRequest(int requestId, String newServiceType, String newServiceDate, String newServiceTime) {
-        SQLiteDatabase db = helper.getWritableDatabase();  // Obtener la base de datos en modo escritura
+    public int updateRequest(int requestId, String newServiceType, String newServiceDate, String newServiceTime, String newServiceAddress) {
+        SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("serviceType", newServiceType);  // Actualizar el tipo de servicio
-        values.put("serviceDate", newServiceDate);  // Actualizar la fecha
-        values.put("serviceTime", newServiceTime);  // Actualizar la hora
+        values.put("serviceType", newServiceType);
+        values.put("serviceDate", newServiceDate);
+        values.put("serviceTime", newServiceTime);
+        values.put("serviceAddress", newServiceAddress);  // Actualizamos solo la dirección de la solicitud
 
         // Actualizar la solicitud con el ID proporcionado
         int rowsUpdated = db.update("requests", values, "id = ?", new String[]{String.valueOf(requestId)});
         db.close();
-        return rowsUpdated;  // Devuelve el número de filas actualizadas
+        return rowsUpdated;
     }
 
-    public long insertRequest(String serviceType, String serviceDate, String serviceTime, String clientCedula) {
-        SQLiteDatabase db = helper.getWritableDatabase();  // Obtener la base de datos en modo escritura
 
-        // Verificar si ya existe una solicitud con la misma fecha, hora y cliente
+
+    public long insertRequest(String serviceType, String serviceDate, String serviceTime, String clientCedula, String serviceAddress) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        // Verificar si ya existe una solicitud con el mismo cliente, en la misma fecha y hora
         String query = "SELECT 1 FROM requests WHERE serviceDate = ? AND serviceTime = ? AND clientCedula = ?";
         Cursor cursor = db.rawQuery(query, new String[]{serviceDate, serviceTime, clientCedula});
 
         if (cursor.moveToFirst()) {
-            // Si ya existe una solicitud con la misma fecha, hora y cliente
             cursor.close();
             db.close();
             return -1; // Indicar que la inserción no fue exitosa
@@ -160,13 +166,39 @@ public class DatabaseHelper {
         cv.put("serviceType", serviceType);
         cv.put("serviceDate", serviceDate);
         cv.put("serviceTime", serviceTime);
-        cv.put("clientCedula", clientCedula);  // Asegúrate de almacenar la cédula del cliente también
+        cv.put("clientCedula", clientCedula);  // Guardar la cédula del cliente
+        cv.put("serviceAddress", serviceAddress);  // Guardar la dirección de la solicitud
 
         long id = db.insert("requests", null, cv);
         cursor.close();
         db.close();
-        return id;  // Devuelve el ID de la solicitud insertada
+        return id;
     }
 
+
+
+    public Client getClientByCedula(String cedula) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cursor = db.query("clients", new String[] {"id", "name", "cedula", "phone", "address", "serviceType"},
+                "cedula = ?", new String[] { cedula }, null, null, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            Client client = new Client(
+                    cursor.getInt(cursor.getColumnIndex("id")),
+                    cursor.getString(cursor.getColumnIndex("name")),
+                    cursor.getString(cursor.getColumnIndex("cedula")),
+                    cursor.getString(cursor.getColumnIndex("phone")),
+                    cursor.getString(cursor.getColumnIndex("address")),
+                    cursor.getString(cursor.getColumnIndex("serviceType"))
+            );
+            cursor.close();
+            db.close();
+            return client;
+        }
+
+        cursor.close();
+        db.close();
+        return null;  // Si no se encuentra el cliente
+    }
 
 }

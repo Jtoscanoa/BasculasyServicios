@@ -32,4 +32,34 @@
         android:text="Hora"
         android:textSize="16sp"/>
 
+    <TextView
+        android:id="@+id/tvClientName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nombre del Cliente"
+        android:textSize="16sp"
+        android:paddingEnd="8dp" />
+
+    <TextView
+        android:id="@+id/tvClientAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dirección del Cliente"
+        android:textSize="16sp"
+        android:paddingEnd="8dp" />
+
+    <Button
+        android:id="@+id/btnDeleteRequest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Eliminar" />
+
+    <EditText
+        android:id="@+id/etServiceAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Dirección de la solicitud" />
+
+
+
 </LinearLayout>

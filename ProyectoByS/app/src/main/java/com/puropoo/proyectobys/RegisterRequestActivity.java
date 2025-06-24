@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class RegisterRequestActivity extends AppCompatActivity {
 
     Spinner spinnerClients, spinnerServiceType;
-    EditText etServiceDate, etServiceTime;
+    EditText etServiceDate, etServiceTime, etServiceAddress;
     Button btnSaveRequest, btnViewRequests;
     DatabaseHelper db;
     List<Client> clientsList;
@@ -35,6 +35,8 @@ public class RegisterRequestActivity extends AppCompatActivity {
         etServiceTime = findViewById(R.id.etServiceTime);
         btnSaveRequest = findViewById(R.id.btnSaveRequest);
         btnViewRequests = findViewById(R.id.btnViewRequests);
+        etServiceAddress = findViewById(R.id.etServiceAddress); // Vincula el EditText para la dirección
+
 
         db = new DatabaseHelper(this);
 
@@ -69,6 +71,7 @@ public class RegisterRequestActivity extends AppCompatActivity {
         String serviceTime = etServiceTime.getText().toString();
         String serviceType = spinnerServiceType.getSelectedItem().toString();
         String clientCedula = clientsList.get(spinnerClients.getSelectedItemPosition()).getCedula();  // Obtener la cédula del cliente seleccionado
+        String newServiceAddress = etServiceAddress.getText().toString();
 
         // Validación de fecha
         if (!isDateValid(serviceDate)) {
@@ -89,12 +92,15 @@ public class RegisterRequestActivity extends AppCompatActivity {
         }
 
         // Guardar solicitud
-        long id = db.insertRequest(serviceType, serviceDate, serviceTime, clientCedula);
+        // Obtener la cédula del cliente seleccionado
+// Llamar al método para guardar la solicitud con la dirección también
+        long id = db.insertRequest(serviceType, serviceDate, serviceTime, clientCedula, newServiceAddress);
         if (id != -1) {
             Toast.makeText(this, "Solicitud guardada correctamente", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(this, "Ya existe una solicitud para este cliente en esta fecha y hora", Toast.LENGTH_LONG).show();
         }
+
     }
 
 
@@ -116,6 +122,10 @@ public class RegisterRequestActivity extends AppCompatActivity {
 
     private boolean isTimeValid(String serviceTime) {
         try {
+            // Verificación de formato (HH:mm)
+            if (!serviceTime.matches("^(0[6-9]|1[0-7]):[0-5][0-9]$")) {
+                return false;
+            }
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
             Date time = sdf.parse(serviceTime);
 
@@ -130,6 +140,7 @@ public class RegisterRequestActivity extends AppCompatActivity {
             return false;
         }
     }
+
 
 
 }

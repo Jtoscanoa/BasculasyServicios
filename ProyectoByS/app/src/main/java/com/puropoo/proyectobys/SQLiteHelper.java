@@ -23,17 +23,22 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "name TEXT, role TEXT, phone TEXT, age INTEGER, payment REAL)");
 
-        // Crear tabla 'requests'
+        // Crear tabla 'requests' con la nueva columna 'serviceAddress'
         db.execSQL("CREATE TABLE IF NOT EXISTS requests (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "serviceType TEXT, " +
                 "serviceDate TEXT, " +
-                "serviceTime TEXT)");
+                "serviceTime TEXT, " +
+                "clientCedula TEXT, " + // Asegurarnos de tener la cédula del cliente
+                "serviceAddress TEXT);"); // Columna para la dirección de la solicitud
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Si necesitas upgrade de BD
+        // Si hay un cambio en la estructura de la base de datos
+        if (oldVersion < 2) {
+            db.execSQL("ALTER TABLE requests ADD COLUMN serviceAddress TEXT;");
+        }
     }
 
     // Insertar miembro del equipo
