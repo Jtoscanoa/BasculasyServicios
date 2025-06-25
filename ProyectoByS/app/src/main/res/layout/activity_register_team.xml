@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,28 +11,21 @@
         android:layout_height="wrap_content"
         android:hint="Seleccione la solicitud" />
 
-    <!-- Spinner para seleccionar el rol del técnico -->
-    <Spinner
-        android:id="@+id/spinnerTechnicianRole"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Seleccione el rol" />
-
-    <!-- EditText para ingresar el nombre del técnico -->
+    <!-- Nuevo: EditText para la cantidad de miembros -->
     <EditText
-        android:id="@+id/etTechnicianName"
+        android:id="@+id/etTeamMembersCount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nombre del técnico"
-        android:inputType="text" />
+        android:hint="Cantidad de miembros del equipo"
+        android:inputType="number"
+        android:layout_marginTop="16dp" />
 
-    <!-- EditText para ingresar el teléfono del técnico -->
-    <EditText
-        android:id="@+id/etTechnicianPhone"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/btnRegisterMembers"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Teléfono del técnico"
-        android:inputType="phone" />
+        android:text="Registrar Integrantes" />
+
 
     <!-- Botón para guardar el equipo -->
     <Button
@@ -41,5 +33,4 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Guardar equipo" />
-
 </LinearLayout>

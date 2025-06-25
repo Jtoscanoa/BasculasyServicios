@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.content.Context;
 import android.database.Cursor;
-import com.puropoo.proyectobys.Client;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class DatabaseHelper {
         SQLiteDatabase db = helper.getReadableDatabase();  // Utilizando helper para obtener la base de datos
         Cursor c = db.rawQuery(
                 "SELECT 1 FROM clients WHERE cedula = ?",
-                new String[]{ cedula }
+                new String[]{cedula}
         );
         boolean exists = c.moveToFirst();
         c.close();
@@ -39,11 +39,12 @@ public class DatabaseHelper {
         db.close();
         return id;
     }
+
     public Request getRequestById(int requestId) {
         SQLiteDatabase db = helper.getReadableDatabase();  // Cambiar a helper.getReadableDatabase()
         Cursor cursor = db.query(
                 "requests",    // Nombre de la tabla
-                new String[] {"id", "serviceType", "serviceDate", "serviceTime"}, // Columnas a seleccionar
+                new String[]{"id", "serviceType", "serviceDate", "serviceTime"}, // Columnas a seleccionar
                 "id = ?",      // Condición WHERE
                 new String[]{String.valueOf(requestId)},  // Argumento para la condición WHERE
                 null, null, null);
@@ -101,7 +102,6 @@ public class DatabaseHelper {
     }
 
 
-
     // Método para eliminar solicitud
     public int deleteRequest(int id) {
         SQLiteDatabase db = helper.getWritableDatabase();
@@ -148,7 +148,6 @@ public class DatabaseHelper {
     }
 
 
-
     public long insertRequest(String serviceType, String serviceDate, String serviceTime, String clientCedula, String serviceAddress) {
         SQLiteDatabase db = helper.getWritableDatabase();
 
@@ -177,12 +176,10 @@ public class DatabaseHelper {
     }
 
 
-
-
     public Client getClientByCedula(String cedula) {
         SQLiteDatabase db = helper.getReadableDatabase();
-        Cursor cursor = db.query("clients", new String[] {"id", "name", "cedula", "phone", "address", "serviceType"},
-                "cedula = ?", new String[] { cedula }, null, null, null);
+        Cursor cursor = db.query("clients", new String[]{"id", "name", "cedula", "phone", "address", "serviceType"},
+                "cedula = ?", new String[]{cedula}, null, null, null);
 
         if (cursor != null && cursor.moveToFirst()) {
             Client client = new Client(
@@ -220,19 +217,38 @@ public class DatabaseHelper {
 
 
     // Método para insertar un miembro del equipo técnico
-    public long insertTeamMember(String technicianName, String technicianRole, String technicianPhone, String clientCedula) {
+    public long insertTeamMember(String technicianName, String technicianRole, String technicianPhone, String clientCedula, int teamMembersCount) {
         SQLiteDatabase db = helper.getWritableDatabase();  // Usamos el helper para la base de datos
 
         ContentValues values = new ContentValues();
-        values.put("name", technicianName);
-        values.put("role", technicianRole);
-        values.put("phone", technicianPhone);
-        values.put("clientCedula", clientCedula);  // Guardamos la cédula del cliente asociada al equipo
+        values.put("name", technicianName);  // Nombre del técnico
+        values.put("role", technicianRole);  // Rol del técnico
+        values.put("phone", technicianPhone);  // Teléfono del técnico
+        values.put("clientCedula", clientCedula);  // Cédula del cliente
+        values.put("team_members_count", teamMembersCount);  // Aquí guardamos el número de miembros del equipo
 
         long id = db.insert("team_members", null, values);  // Insertamos en la tabla 'team_members'
         db.close();  // Cerramos la base de datos
-        return id;   // Retornamos el id generado del nuevo miembro del equipo
+        return id;  // Retornamos el id generado del nuevo miembro del equipo
     }
 
+
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        if (oldVersion < 2) {
+            // Agregar la columna "technician_phone" si no existe
+            db.execSQL("ALTER TABLE team_members ADD COLUMN technician_phone TEXT");
+        }
+    }
+
+
+    //Método para verificar si el número de teléfono ya está registrado
+    public boolean isPhoneNumberRegistered(String phoneNumber) {
+        SQLiteDatabase db = helper.getReadableDatabase();  // Usamos el helper para obtener la base de datos
+        Cursor cursor = db.rawQuery("SELECT 1 FROM team_members WHERE technician_phone = ?", new String[]{phoneNumber});
+        boolean isRegistered = cursor.moveToFirst();
+        cursor.close();
+        db.close();
+        return isRegistered;
+    }
 
 }

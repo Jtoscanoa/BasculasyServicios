@@ -1,5 +1,6 @@
 package com.puropoo.proyectobys;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -16,8 +17,8 @@ import java.util.List;
 public class RegisterTeamActivity extends AppCompatActivity {
 
     Spinner spinnerRequests, spinnerTechnicianRole;
-    EditText etTechnicianName, etTechnicianPhone;
-    Button btnSaveTeam;
+    Button btnSaveTeam, btnRegisterMembers;
+    EditText etTeamMembersCount;
 
     DatabaseHelper db;
     List<Request> requestsList;
@@ -29,21 +30,33 @@ public class RegisterTeamActivity extends AppCompatActivity {
 
         // Inicializamos los Spinners y EditTexts
         spinnerRequests = findViewById(R.id.spinnerRequests);
-        spinnerTechnicianRole = findViewById(R.id.spinnerTechnicianRole);  // Usar Spinner para los roles
-        etTechnicianName = findViewById(R.id.etTechnicianName);
-        etTechnicianPhone = findViewById(R.id.etTechnicianPhone);
+        etTeamMembersCount = findViewById(R.id.etTeamMembersCount);
         btnSaveTeam = findViewById(R.id.btnSaveTeam);
+        btnRegisterMembers = findViewById(R.id.btnRegisterMembers);
 
         db = new DatabaseHelper(this);
 
         // Cargar las solicitudes en el spinner
         loadRequestsIntoSpinner();
 
-        // Configurar roles de técnicos/pintores en el spinner
-        ArrayAdapter<CharSequence> roleAdapter = ArrayAdapter.createFromResource(this,
-                R.array.technician_roles, android.R.layout.simple_spinner_item);
-        roleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerTechnicianRole.setAdapter(roleAdapter);
+        btnRegisterMembers.setOnClickListener(v -> {
+            // Obtener el número de miembros del equipo
+            String teamMembersCountStr = etTeamMembersCount.getText().toString().trim();
+            int teamMembersCount = 0;
+
+            if (!teamMembersCountStr.isEmpty()) {
+                teamMembersCount = Integer.parseInt(teamMembersCountStr);
+            }
+
+            // Verificar que el valor sea mayor que 0
+            if (teamMembersCount > 0) {
+                Intent intent = new Intent(RegisterTeamActivity.this, RegisterMembersActivity.class);
+                intent.putExtra("teamMembersCount", teamMembersCount);  // Pasar la cantidad de miembros
+                startActivity(intent);
+            } else {
+                Toast.makeText(RegisterTeamActivity.this, "Por favor ingresa un número válido de miembros", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         // Guardar el equipo técnico
         btnSaveTeam.setOnClickListener(v -> saveTeam());
@@ -66,12 +79,17 @@ public class RegisterTeamActivity extends AppCompatActivity {
 
     private void saveTeam() {
         // Validar campos
-        String technicianName = etTechnicianName.getText().toString().trim();
-        String technicianRole = spinnerTechnicianRole.getSelectedItem().toString();  // Usar el Spinner para obtener el rol
-        String technicianPhone = etTechnicianPhone.getText().toString().trim();
+        String teamMembersCountStr = etTeamMembersCount.getText().toString().trim();
+        int teamMembersCount = 0;
+
+        // Verificar si el campo está vacío y asignar el valor
+        if (!teamMembersCountStr.isEmpty()) {
+            teamMembersCount = Integer.parseInt(teamMembersCountStr);
+        }
+
         int selectedRequestPosition = spinnerRequests.getSelectedItemPosition();
 
-        if (technicianName.isEmpty() || technicianRole.isEmpty() || technicianPhone.isEmpty() || selectedRequestPosition == -1) {
+        if (selectedRequestPosition == -1 || teamMembersCount == 0) {
             Toast.makeText(this, "Por favor, complete todos los campos.", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -80,8 +98,8 @@ public class RegisterTeamActivity extends AppCompatActivity {
         Request selectedRequest = requestsList.get(selectedRequestPosition);
         String clientCedula = db.getClientCedulaForRequest(selectedRequest.getId());
 
-        // Insertar el miembro del equipo
-        long id = db.insertTeamMember(technicianName, technicianRole, technicianPhone, clientCedula);
+        // Insertar el miembro del equipo con la cantidad de miembros
+        long id = db.insertTeamMember("No asignado", "Rol no asignado", "", clientCedula, teamMembersCount);
 
         if (id != -1) {
             Toast.makeText(this, "Miembro del equipo registrado correctamente", Toast.LENGTH_LONG).show();
@@ -91,9 +109,8 @@ public class RegisterTeamActivity extends AppCompatActivity {
         }
     }
 
+
+
     private void clearFields() {
-        // Limpiar los campos de entrada
-        etTechnicianName.setText("");
-        etTechnicianPhone.setText("");
     }
 }

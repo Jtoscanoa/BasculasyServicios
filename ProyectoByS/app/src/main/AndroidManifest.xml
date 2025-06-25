@@ -44,6 +44,8 @@
         <activity android:name=".RegisterRequestActivity" />
         <activity android:name=".ViewRequestsActivity"></activity>
         <activity android:name=".EditRequestActivity"></activity>
-
+        <activity android:name=".RegisterMembersActivity">
+            <!-- Puedes agregar algún filtro de intent si es necesario -->
+        </activity>
     </application>
 </manifest>

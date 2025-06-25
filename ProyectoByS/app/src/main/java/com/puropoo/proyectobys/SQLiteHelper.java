@@ -18,10 +18,15 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "name TEXT, cedula TEXT, phone TEXT, address TEXT, serviceType TEXT)");
 
-        // Crear tabla 'team_members'
-        db.execSQL("CREATE TABLE IF NOT EXISTS team_members (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "name TEXT, role TEXT, phone TEXT, age INTEGER, payment REAL)");
+        // Crear la tabla 'team_members' con la columna 'clientCedula'
+        String CREATE_TEAM_MEMBERS_TABLE = "CREATE TABLE IF NOT EXISTS team_members (" +
+                "id INTEGER PRIMARY KEY," +
+                "technician_role TEXT," +
+                "technician_name TEXT," +
+                "technician_phone TEXT," +
+                "client_cedula TEXT," +  // Aquí agregamos la columna clientCedula
+                "team_members_count INTEGER)";
+        db.execSQL(CREATE_TEAM_MEMBERS_TABLE);
 
         // Crear tabla 'requests' con la nueva columna 'serviceAddress'
         db.execSQL("CREATE TABLE IF NOT EXISTS requests (" +
@@ -35,11 +40,12 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Si la base de datos ya tiene datos, y la nueva columna no existe
-        if (oldVersion < 2) {
-            db.execSQL("ALTER TABLE requests ADD COLUMN serviceAddress TEXT;");
+        if (oldVersion < 2) {  // Asegúrate de actualizar la versión de la base de datos
+            // Agregar la columna 'clientCedula'
+            db.execSQL("ALTER TABLE team_members ADD COLUMN clientCedula TEXT");
         }
     }
+
 
 
     // Insertar miembro del equipo
