@@ -1,73 +1,99 @@
 package com.puropoo.proyectobys;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
-import android.widget.*;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RegisterTeamActivity extends AppCompatActivity {
 
-    EditText editName, editPhone, editAge, editPayment;
-    Spinner spinnerRole;
-    Button btnSave;
-    SQLiteHelper dbHelper;
+    Spinner spinnerRequests, spinnerTechnicianRole;
+    EditText etTechnicianName, etTechnicianPhone;
+    Button btnSaveTeam;
+
+    DatabaseHelper db;
+    List<Request> requestsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_team);
+        setContentView(R.layout.activity_register_team);  // Asegúrate de tener este layout
 
-        editName = findViewById(R.id.editName);
-        spinnerRole = findViewById(R.id.spinnerRole);
-        editPhone = findViewById(R.id.editPhone);
-        editAge = findViewById(R.id.editAge);
-        editPayment = findViewById(R.id.editPayment);
-        btnSave = findViewById(R.id.btnSave);
+        // Inicializamos los Spinners y EditTexts
+        spinnerRequests = findViewById(R.id.spinnerRequests);
+        spinnerTechnicianRole = findViewById(R.id.spinnerTechnicianRole);  // Usar Spinner para los roles
+        etTechnicianName = findViewById(R.id.etTechnicianName);
+        etTechnicianPhone = findViewById(R.id.etTechnicianPhone);
+        btnSaveTeam = findViewById(R.id.btnSaveTeam);
 
-        dbHelper = new SQLiteHelper(this);
+        db = new DatabaseHelper(this);
 
-        // Configurar Spinner con opciones
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_spinner_item,
-                new String[]{"Seleccione cargo", "Pintor", "Técnico"}
-        );
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerRole.setAdapter(adapter);
+        // Cargar las solicitudes en el spinner
+        loadRequestsIntoSpinner();
 
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        // Configurar roles de técnicos/pintores en el spinner
+        ArrayAdapter<CharSequence> roleAdapter = ArrayAdapter.createFromResource(this,
+                R.array.technician_roles, android.R.layout.simple_spinner_item);
+        roleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerTechnicianRole.setAdapter(roleAdapter);
 
-                String role = spinnerRole.getSelectedItem().toString();
+        // Guardar el equipo técnico
+        btnSaveTeam.setOnClickListener(v -> saveTeam());
+    }
 
-                // Validación de campos obligatorios
-                if (role.equals("Seleccione cargo") ||
-                        TextUtils.isEmpty(editName.getText()) ||
-                        TextUtils.isEmpty(editPhone.getText()) ||
-                        TextUtils.isEmpty(editAge.getText()) ||
-                        TextUtils.isEmpty(editPayment.getText())) {
+    // Método para cargar las solicitudes en el Spinner
+    private void loadRequestsIntoSpinner() {
+        // Obtener todas las solicitudes
+        requestsList = db.getAllRequests();
+        List<String> requestNames = new ArrayList<>();
+        for (Request request : requestsList) {
+            // Formato: "Nombre del cliente - Fecha"
+            requestNames.add(request.getServiceType() + " - " + request.getServiceDate());
+        }
+        // Crear el adaptador para el Spinner
+        ArrayAdapter<String> requestAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, requestNames);
+        requestAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerRequests.setAdapter(requestAdapter);
+    }
 
-                    Toast.makeText(RegisterTeamActivity.this, "Debe completar todos los campos.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+    private void saveTeam() {
+        // Validar campos
+        String technicianName = etTechnicianName.getText().toString().trim();
+        String technicianRole = spinnerTechnicianRole.getSelectedItem().toString();  // Usar el Spinner para obtener el rol
+        String technicianPhone = etTechnicianPhone.getText().toString().trim();
+        int selectedRequestPosition = spinnerRequests.getSelectedItemPosition();
 
-                String name = editName.getText().toString();
-                String phone = editPhone.getText().toString();
-                int age = Integer.parseInt(editAge.getText().toString());
-                double payment = Double.parseDouble(editPayment.getText().toString());
+        if (technicianName.isEmpty() || technicianRole.isEmpty() || technicianPhone.isEmpty() || selectedRequestPosition == -1) {
+            Toast.makeText(this, "Por favor, complete todos los campos.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-                // Guardar en BD
-                boolean inserted = dbHelper.insertTeamMember(name, role, phone, age, payment);
+        // Obtener la solicitud seleccionada
+        Request selectedRequest = requestsList.get(selectedRequestPosition);
+        String clientCedula = db.getClientCedulaForRequest(selectedRequest.getId());
 
-                if (inserted) {
-                    Toast.makeText(RegisterTeamActivity.this, "Equipo técnico registrado correctamente.", Toast.LENGTH_SHORT).show();
-                    finish();
-                } else {
-                    Toast.makeText(RegisterTeamActivity.this, "Error al registrar el equipo técnico.", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        // Insertar el miembro del equipo
+        long id = db.insertTeamMember(technicianName, technicianRole, technicianPhone, clientCedula);
+
+        if (id != -1) {
+            Toast.makeText(this, "Miembro del equipo registrado correctamente", Toast.LENGTH_LONG).show();
+            clearFields();  // Limpiar los campos después de registrar
+        } else {
+            Toast.makeText(this, "Error al registrar el miembro del equipo", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void clearFields() {
+        // Limpiar los campos de entrada
+        etTechnicianName.setText("");
+        etTechnicianPhone.setText("");
     }
 }

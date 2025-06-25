@@ -203,4 +203,36 @@ public class DatabaseHelper {
         return null;  // Si no se encuentra el cliente
     }
 
+    // Método para obtener la cédula del cliente asociado a una solicitud
+    public String getClientCedulaForRequest(int requestId) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT clientCedula FROM requests WHERE id = ?", new String[]{String.valueOf(requestId)});
+
+        String clientCedula = null;
+        if (cursor != null && cursor.moveToFirst()) {
+            clientCedula = cursor.getString(cursor.getColumnIndex("clientCedula"));
+        }
+
+        cursor.close();
+        db.close();
+        return clientCedula;
+    }
+
+
+    // Método para insertar un miembro del equipo técnico
+    public long insertTeamMember(String technicianName, String technicianRole, String technicianPhone, String clientCedula) {
+        SQLiteDatabase db = helper.getWritableDatabase();  // Usamos el helper para la base de datos
+
+        ContentValues values = new ContentValues();
+        values.put("name", technicianName);
+        values.put("role", technicianRole);
+        values.put("phone", technicianPhone);
+        values.put("clientCedula", clientCedula);  // Guardamos la cédula del cliente asociada al equipo
+
+        long id = db.insert("team_members", null, values);  // Insertamos en la tabla 'team_members'
+        db.close();  // Cerramos la base de datos
+        return id;   // Retornamos el id generado del nuevo miembro del equipo
+    }
+
+
 }

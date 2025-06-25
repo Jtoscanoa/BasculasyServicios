@@ -5,6 +5,12 @@
         <item>Servicio de Mantenimiento</item>
         <item>Servicio de Instalación</item>
     </string-array>
+    <array name="technician_roles">
+        <item>Técnico</item>
+        <item>Pintor</item>
+        <item>Soldador</item>
+        <!-- Agrega más roles si es necesario -->
+    </array>
 
 
 </resources>

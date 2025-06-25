@@ -1,54 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:padding="16dp">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <!-- Spinner para seleccionar la solicitud -->
+    <Spinner
+        android:id="@+id/spinnerRequests"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:hint="Seleccione la solicitud" />
 
-        <EditText
-            android:id="@+id/editName"
-            android:hint="Nombre"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+    <!-- Spinner para seleccionar el rol del técnico -->
+    <Spinner
+        android:id="@+id/spinnerTechnicianRole"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Seleccione el rol" />
 
-        <Spinner
-            android:id="@+id/spinnerRole"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"/>
+    <!-- EditText para ingresar el nombre del técnico -->
+    <EditText
+        android:id="@+id/etTechnicianName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nombre del técnico"
+        android:inputType="text" />
 
-        <EditText
-            android:id="@+id/editPhone"
-            android:hint="Teléfono"
-            android:inputType="phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+    <!-- EditText para ingresar el teléfono del técnico -->
+    <EditText
+        android:id="@+id/etTechnicianPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Teléfono del técnico"
+        android:inputType="phone" />
 
-        <EditText
-            android:id="@+id/editAge"
-            android:hint="Edad"
-            android:inputType="number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+    <!-- Botón para guardar el equipo -->
+    <Button
+        android:id="@+id/btnSaveTeam"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Guardar equipo" />
 
-        <EditText
-            android:id="@+id/editPayment"
-            android:hint="Pago"
-            android:inputType="numberDecimal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <Button
-            android:id="@+id/btnSave"
-            android:text="Guardar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"/>
-
-    </LinearLayout>
-</ScrollView>
+</LinearLayout>
