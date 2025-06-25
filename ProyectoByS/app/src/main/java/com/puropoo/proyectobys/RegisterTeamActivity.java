@@ -16,7 +16,7 @@ import java.util.List;
 
 public class RegisterTeamActivity extends AppCompatActivity {
 
-    Spinner spinnerRequests, spinnerTechnicianRole;
+    Spinner spinnerRequests;
     Button btnSaveTeam, btnRegisterMembers;
     EditText etTeamMembersCount;
 
@@ -96,21 +96,31 @@ public class RegisterTeamActivity extends AppCompatActivity {
 
         // Obtener la solicitud seleccionada
         Request selectedRequest = requestsList.get(selectedRequestPosition);
-        String clientCedula = db.getClientCedulaForRequest(selectedRequest.getId());
 
-        // Insertar el miembro del equipo con la cantidad de miembros
+        // Verificar si ya hay técnicos asignados a esta solicitud
+        if (isTeamAssignedToRequest(selectedRequest.getId())) {
+            Toast.makeText(this, "Ya se han asignado técnicos a esta solicitud.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Insertar los técnicos si no hay ninguno asignado
         long id = db.insertTeamMember("No asignado", "Rol no asignado", "", teamMembersCount);
 
         if (id != -1) {
-            Toast.makeText(this, "Miembro del equipo registrado correctamente", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Miembros del equipo registrados correctamente", Toast.LENGTH_LONG).show();
             clearFields();  // Limpiar los campos después de registrar
         } else {
-            Toast.makeText(this, "Error al registrar el miembro del equipo", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Error al registrar los miembros del equipo", Toast.LENGTH_LONG).show();
         }
     }
 
-
+    // Verificar si ya se han asignado técnicos a la solicitud
+    private boolean isTeamAssignedToRequest(int requestId) {
+        return db.isTeamAssignedToRequest(requestId); // Usar el método con el tipo correcto
+    }
 
     private void clearFields() {
+        etTeamMembersCount.setText("");
+        spinnerRequests.setSelection(0);
     }
 }

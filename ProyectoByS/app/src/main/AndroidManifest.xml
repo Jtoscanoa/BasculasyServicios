@@ -47,5 +47,8 @@
         <activity android:name=".RegisterMembersActivity">
             <!-- Puedes agregar algún filtro de intent si es necesario -->
         </activity>
+        <activity android:name=".RegisterMaintenanceRequirementsActivity">
+            <!-- Puedes agregar otros filtros de intent si es necesario -->
+        </activity>
     </application>
 </manifest>

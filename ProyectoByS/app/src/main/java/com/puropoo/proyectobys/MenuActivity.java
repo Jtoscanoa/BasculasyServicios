@@ -32,6 +32,12 @@ public class MenuActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        // Configura el botón de "Registrar Requerimientos de Mantenimiento"
+        btnRegisterRequirements.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuActivity.this, RegisterMaintenanceRequirementsActivity.class);  // Asegúrate de que el nombre de la actividad es correcto
+            startActivity(intent);
+        });
+
         // Otros botones (sin cambios)
         btnRegisterClient.setOnClickListener(v -> {
             Intent intent = new Intent(MenuActivity.this, MainActivity.class);
@@ -46,11 +52,6 @@ public class MenuActivity extends AppCompatActivity {
         // Otros botones (registrar equipo, etc.)
         btnRegisterTeam.setOnClickListener(v -> {
             Intent intent = new Intent(MenuActivity.this, RegisterTeamActivity.class);
-            startActivity(intent);
-        });
-
-        btnRegisterRequirements.setOnClickListener(v -> {
-            Intent intent = new Intent(MenuActivity.this, RegisterRequirementsActivity.class);
             startActivity(intent);
         });
 

@@ -251,4 +251,25 @@ public class DatabaseHelper {
         return isRegistered;
     }
 
+
+    // Método para verificar si ya se han asignado técnicos a una solicitud
+    public boolean isTeamAssignedToRequest(int requestId) {
+        SQLiteDatabase db = helper.getReadableDatabase(); // Usar el helper para obtener la base de datos
+        Cursor cursor = db.rawQuery("SELECT * FROM team WHERE request_id = ?", new String[]{String.valueOf(requestId)});
+        boolean hasTeamAssigned = cursor.getCount() > 0;
+        cursor.close();
+        db.close();
+        return hasTeamAssigned;
+    }
+    public boolean insertMaintenanceRequirements(String serviceName, String requirements) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("serviceName", serviceName);
+        values.put("requirements", requirements);
+
+        long id = db.insert("maintenance_requirements", null, values);
+        db.close();
+        return id != -1;  // Retorna true si la inserción fue exitosa
+    }
+
 }

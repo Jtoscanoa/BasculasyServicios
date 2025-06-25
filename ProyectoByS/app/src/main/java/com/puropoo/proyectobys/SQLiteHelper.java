@@ -11,6 +11,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         super(context, "mydatabase.db", null, 1);
     }
 
+    // Definir el nombre y la versión de la base de datos
+    private static final String DATABASE_NAME = "service_db";
+    private static final int DATABASE_VERSION = 1;
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         // Crear tabla 'clients'
@@ -35,14 +39,25 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 "serviceTime TEXT, " +
                 "clientCedula TEXT, " + // Asegurarnos de tener la cédula del cliente
                 "serviceAddress TEXT);"); // Columna para la dirección de la solicitud
+
+        // Crear tabla 'team' (falta esta tabla)
+        db.execSQL("CREATE TABLE IF NOT EXISTS team (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "request_id INTEGER, " + // Relación con la solicitud
+                "technician_name TEXT, " +
+                "technician_role TEXT, " +
+                "technician_phone TEXT);");
+
     }
 
+    // Método para actualizar la base de datos
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (oldVersion < 2) {  // Asegúrate de actualizar la versión de la base de datos
-            // Agregar la columna 'clientCedula'
-            db.execSQL("ALTER TABLE team_members ADD COLUMN clientCedula TEXT");
-        }
+        // Aquí se manejan los cambios de versión de la base de datos
+        db.execSQL("DROP TABLE IF EXISTS clients");
+        db.execSQL("DROP TABLE IF EXISTS requests");
+        db.execSQL("DROP TABLE IF EXISTS team");
+        onCreate(db);
     }
 
 }
