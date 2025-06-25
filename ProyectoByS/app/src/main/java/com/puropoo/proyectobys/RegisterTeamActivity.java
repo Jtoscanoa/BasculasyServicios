@@ -99,7 +99,7 @@ public class RegisterTeamActivity extends AppCompatActivity {
         String clientCedula = db.getClientCedulaForRequest(selectedRequest.getId());
 
         // Insertar el miembro del equipo con la cantidad de miembros
-        long id = db.insertTeamMember("No asignado", "Rol no asignado", "", clientCedula, teamMembersCount);
+        long id = db.insertTeamMember("No asignado", "Rol no asignado", "", teamMembersCount);
 
         if (id != -1) {
             Toast.makeText(this, "Miembro del equipo registrado correctamente", Toast.LENGTH_LONG).show();

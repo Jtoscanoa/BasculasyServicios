@@ -217,20 +217,20 @@ public class DatabaseHelper {
 
 
     // Método para insertar un miembro del equipo técnico
-    public long insertTeamMember(String technicianName, String technicianRole, String technicianPhone, String clientCedula, int teamMembersCount) {
-        SQLiteDatabase db = helper.getWritableDatabase();  // Usamos el helper para la base de datos
+    public long insertTeamMember(String technicianName, String technicianRole, String technicianPhone, int teamMembersCount) {
+        SQLiteDatabase db = helper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put("name", technicianName);  // Nombre del técnico
-        values.put("role", technicianRole);  // Rol del técnico
-        values.put("phone", technicianPhone);  // Teléfono del técnico
-        values.put("clientCedula", clientCedula);  // Cédula del cliente
-        values.put("team_members_count", teamMembersCount);  // Aquí guardamos el número de miembros del equipo
+        values.put("technician_name", technicianName);  // Nombre del técnico
+        values.put("technician_role", technicianRole);  // Rol del técnico
+        values.put("technician_phone", technicianPhone);  // Teléfono del técnico
+        values.put("team_members_count", teamMembersCount);  // Número de miembros del equipo
 
         long id = db.insert("team_members", null, values);  // Insertamos en la tabla 'team_members'
         db.close();  // Cerramos la base de datos
         return id;  // Retornamos el id generado del nuevo miembro del equipo
     }
+
 
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

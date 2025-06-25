@@ -24,7 +24,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 "technician_role TEXT," +
                 "technician_name TEXT," +
                 "technician_phone TEXT," +
-                "client_cedula TEXT," +  // Aquí agregamos la columna clientCedula
                 "team_members_count INTEGER)";
         db.execSQL(CREATE_TEAM_MEMBERS_TABLE);
 
@@ -46,19 +45,4 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         }
     }
 
-
-
-    // Insertar miembro del equipo
-    public boolean insertTeamMember(String name, String role, String phone, int age, double payment) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("name", name);
-        values.put("role", role);
-        values.put("phone", phone);
-        values.put("age", age);
-        values.put("payment", payment);
-
-        long result = db.insert("team_members", null, values);
-        return result != -1;
-    }
 }

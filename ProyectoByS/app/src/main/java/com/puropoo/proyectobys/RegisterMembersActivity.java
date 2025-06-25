@@ -116,8 +116,18 @@ public class RegisterMembersActivity extends AppCompatActivity {
                 // Si el teléfono ya está registrado, mostrar un mensaje pero permitir registrar de nuevo
                 Toast.makeText(this, "El teléfono " + technicianPhone + " ya está registrado, pero puede ser registrado nuevamente.", Toast.LENGTH_SHORT).show();
             } else {
+                // Convertir el valor de pago a long, en lugar de int
+                long payment = 0;
+                try {
+                    payment = Long.parseLong(technicianPayment);  // Usa Long.parseLong() en lugar de Integer.parseInt()
+                } catch (NumberFormatException e) {
+                    Toast.makeText(this, "Error al ingresar el pago. Asegúrese de que sea un número válido.", Toast.LENGTH_SHORT).show();
+                    success = false;
+                    break;
+                }
+
                 // Guardar técnico en la base de datos
-                long id = db.insertTeamMember(technicianName, technicianRole, technicianPhone, "", Integer.parseInt(technicianPayment));
+                long id = db.insertTeamMember(technicianName, technicianRole, technicianPhone, Integer.parseInt(technicianAge));
                 if (id == -1) {
                     success = false;  // Si el guardado falla, no continuar
                     break;
@@ -135,4 +145,6 @@ public class RegisterMembersActivity extends AppCompatActivity {
             Toast.makeText(this, "Error al guardar los técnicos. Intente nuevamente.", Toast.LENGTH_SHORT).show();
         }
     }
+
+
 }
