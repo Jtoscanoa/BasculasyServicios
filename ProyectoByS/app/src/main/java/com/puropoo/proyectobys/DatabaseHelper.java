@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -272,5 +273,41 @@ public class DatabaseHelper {
         db.close();
         return id != -1;  // Retorna true si la inserción fue exitosa
     }
+
+    public String getRequirementsForService(String serviceName) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT requirements FROM maintenance_requirements WHERE serviceName = ?", new String[]{serviceName});
+
+        String requirements = null;
+        if (cursor != null && cursor.moveToFirst()) {
+            requirements = cursor.getString(cursor.getColumnIndex("requirements"));
+        }
+        cursor.close();
+        db.close();
+        return requirements;
+    }
+
+    public boolean updateMaintenanceRequirements(String serviceName, String requirements) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("requirements", requirements);
+
+        // Log para verificar los valores
+        Log.d("DatabaseHelper", "Actualizando requerimientos para el servicio: " + serviceName);
+        Log.d("DatabaseHelper", "Nuevos requerimientos: " + requirements);
+
+        int rowsUpdated = db.update("maintenance_requirements", values, "serviceName = ?", new String[]{serviceName});
+        db.close();
+
+        if (rowsUpdated > 0) {
+            Log.d("DatabaseHelper", "Requerimientos actualizados correctamente");
+        } else {
+            Log.d("DatabaseHelper", "No se actualizó ningún requerimiento");
+        }
+
+        return rowsUpdated > 0;
+    }
+
+
 
 }

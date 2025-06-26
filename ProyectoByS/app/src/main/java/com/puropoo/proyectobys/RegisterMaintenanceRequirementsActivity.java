@@ -18,20 +18,22 @@ public class RegisterMaintenanceRequirementsActivity extends AppCompatActivity {
 
     private Spinner spinnerServices;
     private EditText etRequirements;
-    private Button btnSaveRequirements;
+    private Button btnSaveRequirements, btnEditRequirements;
 
     private DatabaseHelper db;
     private List<Request> maintenanceRequests;
+
+    private boolean isEditing = false;  // Estado para saber si estamos editando
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_maintenance_requirements);
 
-
         spinnerServices = findViewById(R.id.spinnerServices);
         etRequirements = findViewById(R.id.etRequirements);
         btnSaveRequirements = findViewById(R.id.btnSaveRequirements);
+        btnEditRequirements = findViewById(R.id.btnEditRequirements);
 
         db = new DatabaseHelper(this);
 
@@ -39,31 +41,45 @@ public class RegisterMaintenanceRequirementsActivity extends AppCompatActivity {
         loadMaintenanceServices();
 
         btnSaveRequirements.setOnClickListener(v -> saveRequirements());
+        btnEditRequirements.setOnClickListener(v -> toggleEditing());
     }
 
     // Método para cargar los servicios de mantenimiento en el Spinner
     private void loadMaintenanceServices() {
         maintenanceRequests = db.getAllRequests();  // Obtener todos los servicios de mantenimiento
         List<String> serviceNames = new ArrayList<>();
-
         for (Request request : maintenanceRequests) {
             // Filtrar solo los servicios de mantenimiento
             if (request.getServiceType() != null && request.getServiceType().toLowerCase().contains("mantenimiento")) {
                 serviceNames.add(request.getServiceType() + " - " + request.getServiceDate());
             }
         }
-
-        // Log para depurar y verificar que la lista de servicios contiene los valores correctos
-        Log.d("Spinner", "Servicios cargados: " + serviceNames.size());  // Esto te permitirá ver cuántos servicios se están agregando
-
-        if (serviceNames.isEmpty()) {
-            Toast.makeText(this, "No se encontraron servicios de mantenimiento", Toast.LENGTH_SHORT).show();
-        }
-
         // Crear el adaptador para el Spinner
         ArrayAdapter<String> serviceAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, serviceNames);
         serviceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerServices.setAdapter(serviceAdapter);
+
+        // Cargar los requerimientos existentes para el servicio seleccionado (si existen)
+        String selectedService = spinnerServices.getSelectedItem().toString();
+        loadExistingRequirements(selectedService);
+    }
+
+    // Método para cargar los requerimientos existentes en el campo de texto
+    // Método para cargar los requerimientos existentes en el campo de texto
+    private void loadExistingRequirements(String selectedService) {
+        // Buscar los requerimientos para el servicio seleccionado
+        String requirements = db.getRequirementsForService(selectedService);
+
+        // Agregar un Log para depurar si estamos obteniendo correctamente los requerimientos
+        Log.d("LoadExistingRequirements", "Servicio seleccionado: " + selectedService);
+        Log.d("LoadExistingRequirements", "Requerimientos encontrados: " + requirements);
+
+        // Si hay requerimientos guardados, los mostramos en el campo de texto
+        if (requirements != null && !requirements.isEmpty()) {
+            etRequirements.setText(requirements);  // Establecer el texto en el campo de texto
+        } else {
+            Log.d("LoadExistingRequirements", "No se encontraron requerimientos para el servicio seleccionado");
+        }
     }
 
 
@@ -81,8 +97,18 @@ public class RegisterMaintenanceRequirementsActivity extends AppCompatActivity {
         // Obtener el servicio seleccionado
         String selectedService = spinnerServices.getSelectedItem().toString();
 
-        // Guardar los requerimientos en la base de datos
-        boolean isSaved = db.insertMaintenanceRequirements(selectedService, requirements);
+        // Verificar si los requerimientos ya existen para este servicio
+        String existingRequirements = db.getRequirementsForService(selectedService);
+
+        boolean isSaved;
+
+        if (existingRequirements != null) {
+            // Si ya existen, actualizar los requerimientos
+            isSaved = db.updateMaintenanceRequirements(selectedService, requirements);
+        } else {
+            // Si no existen, insertar los nuevos requerimientos
+            isSaved = db.insertMaintenanceRequirements(selectedService, requirements);
+        }
 
         if (isSaved) {
             Toast.makeText(this, "Requerimientos guardados correctamente", Toast.LENGTH_SHORT).show();
@@ -92,9 +118,37 @@ public class RegisterMaintenanceRequirementsActivity extends AppCompatActivity {
         }
     }
 
+
+
     // Método para limpiar los campos
     private void clearFields() {
         etRequirements.setText("");
         spinnerServices.setSelection(0);  // Seleccionar el primer servicio
     }
+
+    // Método para habilitar y deshabilitar la edición
+    private void toggleEditing() {
+        if (isEditing) {
+            // Deshabilitar la edición y cambiar el texto del botón
+            etRequirements.setEnabled(false);
+            btnEditRequirements.setText("Editar Requerimientos");
+        } else {
+            // Habilitar la edición y cambiar el texto del botón
+            etRequirements.setEnabled(true);
+            btnEditRequirements.setText("Guardar Cambios");
+        }
+        isEditing = !isEditing;  // Cambiar el estado
+    }
+
+    // Método onResume() para recargar los requerimientos cuando la actividad se vuelve a mostrar
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Obtener el servicio seleccionado
+        String selectedService = spinnerServices.getSelectedItem().toString();
+        loadExistingRequirements(selectedService);
+    }
+
+
 }

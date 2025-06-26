@@ -48,6 +48,13 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 "technician_role TEXT, " +
                 "technician_phone TEXT);");
 
+        // Crear la tabla 'maintenance_requirements'
+        String CREATE_MAINTENANCE_REQUIREMENTS_TABLE = "CREATE TABLE IF NOT EXISTS maintenance_requirements (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "serviceName TEXT, " +
+                "requirements TEXT)";
+        db.execSQL(CREATE_MAINTENANCE_REQUIREMENTS_TABLE);
+
     }
 
     // Método para actualizar la base de datos
