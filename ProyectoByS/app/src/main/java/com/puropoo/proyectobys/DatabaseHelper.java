@@ -85,13 +85,13 @@ public class DatabaseHelper {
         Cursor c = db.rawQuery("SELECT id, serviceType, serviceDate, serviceTime, clientCedula, serviceAddress FROM requests", null);
 
         while (c.moveToNext()) {
-            // Puedes agregar un campo `serviceAddress` en el constructor de la clase `Request` si es necesario
+            // Asegúrate de que 'serviceType' contenga los valores correctos
             Request request = new Request(
                     c.getInt(c.getColumnIndex("id")),
                     c.getString(c.getColumnIndex("serviceType")),
                     c.getString(c.getColumnIndex("serviceDate")),
                     c.getString(c.getColumnIndex("serviceTime")),
-                    c.getString(c.getColumnIndex("serviceAddress"))  // Obtener el valor de serviceAddress
+                    c.getString(c.getColumnIndex("serviceAddress"))
             );
             list.add(request);
         }
@@ -100,6 +100,7 @@ public class DatabaseHelper {
         db.close();
         return list;
     }
+
 
 
     // Método para eliminar solicitud

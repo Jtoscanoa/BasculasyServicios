@@ -1,6 +1,7 @@
 package com.puropoo.proyectobys;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -44,17 +45,27 @@ public class RegisterMaintenanceRequirementsActivity extends AppCompatActivity {
     private void loadMaintenanceServices() {
         maintenanceRequests = db.getAllRequests();  // Obtener todos los servicios de mantenimiento
         List<String> serviceNames = new ArrayList<>();
+
         for (Request request : maintenanceRequests) {
             // Filtrar solo los servicios de mantenimiento
-            if (request.getServiceType().equalsIgnoreCase("Mantenimiento")) {
+            if (request.getServiceType() != null && request.getServiceType().toLowerCase().contains("mantenimiento")) {
                 serviceNames.add(request.getServiceType() + " - " + request.getServiceDate());
             }
         }
+
+        // Log para depurar y verificar que la lista de servicios contiene los valores correctos
+        Log.d("Spinner", "Servicios cargados: " + serviceNames.size());  // Esto te permitirá ver cuántos servicios se están agregando
+
+        if (serviceNames.isEmpty()) {
+            Toast.makeText(this, "No se encontraron servicios de mantenimiento", Toast.LENGTH_SHORT).show();
+        }
+
         // Crear el adaptador para el Spinner
         ArrayAdapter<String> serviceAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, serviceNames);
         serviceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerServices.setAdapter(serviceAdapter);
     }
+
 
     // Método para guardar los requerimientos
     private void saveRequirements() {
