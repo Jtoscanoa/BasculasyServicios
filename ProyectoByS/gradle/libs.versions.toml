@@ -1,6 +1,6 @@
 [versions]
 lottie = "6.6.6"
-agp = "8.3.2"
+agp = "8.1.4"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
