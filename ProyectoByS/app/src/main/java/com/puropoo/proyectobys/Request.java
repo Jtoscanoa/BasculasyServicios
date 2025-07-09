@@ -6,6 +6,7 @@ public class Request {
     private String serviceDate;
     private String serviceTime;
     private String serviceAddress;
+    private String clientCedula;
 
     // Constructor
     public Request(int id, String serviceType, String serviceDate, String serviceTime, String serviceAddress) {
@@ -14,6 +15,16 @@ public class Request {
         this.serviceDate = serviceDate;
         this.serviceTime = serviceTime;
         this.serviceAddress = serviceAddress;
+    }
+
+    // Constructor with clientCedula
+    public Request(int id, String serviceType, String serviceDate, String serviceTime, String serviceAddress, String clientCedula) {
+        this.id = id;
+        this.serviceType = serviceType;
+        this.serviceDate = serviceDate;
+        this.serviceTime = serviceTime;
+        this.serviceAddress = serviceAddress;
+        this.clientCedula = clientCedula;
     }
 
     // Getters
@@ -34,7 +45,7 @@ public class Request {
     }
 
     public String getClientCedula() {
-        return String.valueOf(id);  // Getter para la cédula del cliente
+        return clientCedula;  // Return the actual clientCedula field
     }
 
     public String getServiceAddress() {

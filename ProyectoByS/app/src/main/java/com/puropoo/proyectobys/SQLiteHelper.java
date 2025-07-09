@@ -55,6 +55,14 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 "requirements TEXT)";
         db.execSQL(CREATE_MAINTENANCE_REQUIREMENTS_TABLE);
 
+        // Crear la tabla 'equipo_instalar'
+        String CREATE_EQUIPO_INSTALAR_TABLE = "CREATE TABLE IF NOT EXISTS equipo_instalar (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "request_id INTEGER, " +
+                "equipo_nombre TEXT, " +
+                "clientCedula TEXT)";
+        db.execSQL(CREATE_EQUIPO_INSTALAR_TABLE);
+
     }
 
     // Método para actualizar la base de datos
