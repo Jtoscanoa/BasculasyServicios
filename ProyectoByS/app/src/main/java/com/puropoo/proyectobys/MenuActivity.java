@@ -11,6 +11,7 @@ public class MenuActivity extends AppCompatActivity {
     Button btnRegisterClient, btnViewClients, btnRegisterTeam;
     Button btnRegisterRequirements, btnRegisterEquipment, btnRegisterSecondVisit;
     Button btnRegisterRequests;  // Nuevo botón para "Registrar Solicitudes"
+    Button btnGuardarEquipoAInstalar;  // Nuevo botón para "Guardar Equipo a Instalar"
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,7 @@ public class MenuActivity extends AppCompatActivity {
         btnRegisterEquipment = findViewById(R.id.btnRegisterEquipment);
         btnRegisterSecondVisit = findViewById(R.id.btnRegisterSecondVisit);
         btnRegisterRequests = findViewById(R.id.btnRegisterRequests);  // Botón para "Registrar Solicitudes"
+        btnGuardarEquipoAInstalar = findViewById(R.id.btnGuardarEquipoAInstalar);  // Botón para "Guardar Equipo a Instalar"
 
         // Configura el botón de "Registrar Solicitudes"
         btnRegisterRequests.setOnClickListener(v -> {
@@ -62,6 +64,12 @@ public class MenuActivity extends AppCompatActivity {
 
         btnRegisterSecondVisit.setOnClickListener(v -> {
             Intent intent = new Intent(MenuActivity.this, RegisterSecondVisitActivity.class);
+            startActivity(intent);
+        });
+
+        // Configura el botón de "Guardar Equipo a Instalar"
+        btnGuardarEquipoAInstalar.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuActivity.this, GuardarEquipoAInstalarActivity.class);
             startActivity(intent);
         });
     }

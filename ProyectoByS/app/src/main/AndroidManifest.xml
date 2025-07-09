@@ -50,5 +50,8 @@
         <activity android:name=".RegisterMaintenanceRequirementsActivity">
             <!-- Puedes agregar otros filtros de intent si es necesario -->
         </activity>
+        <activity android:name=".GuardarEquipoAInstalarActivity">
+            <!-- Nueva actividad para guardar equipo a instalar -->
+        </activity>
     </application>
 </manifest>
