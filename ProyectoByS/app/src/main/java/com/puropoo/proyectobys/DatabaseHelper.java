@@ -420,6 +420,42 @@ public class DatabaseHelper {
         return equipoNombre;
     }
 
+    // Obtener servicios técnicos futuros (mantenimiento y reparación)
+    public List<Request> getFutureTechnicalServices() {
+        List<Request> list = new ArrayList<>();
+        SQLiteDatabase db = helper.getReadableDatabase();
+        
+        // Obtener fecha actual en formato yyyy-MM-dd
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+        String today = sdf.format(new java.util.Date());
+        
+        String query = "SELECT id, serviceType, serviceDate, serviceTime, clientCedula, serviceAddress " +
+                       "FROM requests WHERE (LOWER(serviceType) LIKE LOWER('%mantenimiento%') OR " +
+                       "LOWER(serviceType) LIKE LOWER('%reparac%') OR " +
+                       "LOWER(serviceType) LIKE LOWER('%técnic%') OR " +
+                       "LOWER(serviceType) LIKE LOWER('%tecnic%')) AND " +
+                       "serviceDate >= ? " +
+                       "ORDER BY serviceDate, serviceTime";
+        
+        Cursor c = db.rawQuery(query, new String[]{today});
+
+        while (c.moveToNext()) {
+            Request request = new Request(
+                    c.getInt(c.getColumnIndex("id")),
+                    c.getString(c.getColumnIndex("serviceType")),
+                    c.getString(c.getColumnIndex("serviceDate")),
+                    c.getString(c.getColumnIndex("serviceTime")),
+                    c.getString(c.getColumnIndex("serviceAddress")),
+                    c.getString(c.getColumnIndex("clientCedula"))
+            );
+            list.add(request);
+        }
+
+        c.close();
+        db.close();
+        return list;
+    }
+
 
 
 }

@@ -53,5 +53,8 @@
         <activity android:name=".GuardarEquipoAInstalarActivity">
             <!-- Nueva actividad para guardar equipo a instalar -->
         </activity>
+        <activity android:name=".RemoteSupportActivity">
+            <!-- Nueva actividad para registrar soporte técnico remoto -->
+        </activity>
     </application>
 </manifest>

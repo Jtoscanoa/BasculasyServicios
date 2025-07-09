@@ -12,6 +12,7 @@ public class MenuActivity extends AppCompatActivity {
     Button btnRegisterRequirements, btnRegisterEquipment, btnRegisterSecondVisit;
     Button btnRegisterRequests;  // Nuevo botón para "Registrar Solicitudes"
     Button btnGuardarEquipoAInstalar;  // Nuevo botón para "Guardar Equipo a Instalar"
+    Button btnRemoteSupport;  // Nuevo botón para "Soporte Técnico Remoto"
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,7 @@ public class MenuActivity extends AppCompatActivity {
         btnRegisterSecondVisit = findViewById(R.id.btnRegisterSecondVisit);
         btnRegisterRequests = findViewById(R.id.btnRegisterRequests);  // Botón para "Registrar Solicitudes"
         btnGuardarEquipoAInstalar = findViewById(R.id.btnGuardarEquipoAInstalar);  // Botón para "Guardar Equipo a Instalar"
+        btnRemoteSupport = findViewById(R.id.btnRemoteSupport);  // Botón para "Soporte Técnico Remoto"
 
         // Configura el botón de "Registrar Solicitudes"
         btnRegisterRequests.setOnClickListener(v -> {
@@ -70,6 +72,12 @@ public class MenuActivity extends AppCompatActivity {
         // Configura el botón de "Guardar Equipo a Instalar"
         btnGuardarEquipoAInstalar.setOnClickListener(v -> {
             Intent intent = new Intent(MenuActivity.this, GuardarEquipoAInstalarActivity.class);
+            startActivity(intent);
+        });
+
+        // Configura el botón de "Soporte Técnico Remoto"
+        btnRemoteSupport.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuActivity.this, RemoteSupportActivity.class);
             startActivity(intent);
         });
     }

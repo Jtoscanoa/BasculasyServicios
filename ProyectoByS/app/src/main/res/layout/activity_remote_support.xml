@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:text="Registrar Soporte Técnico Remoto"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="24dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!-- Spinner para seleccionar servicios técnicos futuros -->
+    <TextView
+        android:text="Seleccionar Servicio Técnico:"
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Spinner
+        android:id="@+id/spinnerTechnicalServices"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Sección de solo lectura con información del servicio -->
+    <TextView
+        android:text="Información del Servicio:"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@android:drawable/edit_text"
+        android:padding="12dp"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:text="Cédula del Cliente:"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tvClientCedula"
+            android:text="No seleccionado"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="Fecha y Hora del Servicio:"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tvServiceDateTime"
+            android:text="No seleccionado"
+            android:textSize="14sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <!-- Campo para Medio (requerido) -->
+    <TextView
+        android:text="Medio * (requerido):"
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/etMedio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ej: Zoom, Meet, WhatsApp, etc."
+        android:inputType="text"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Campo para Link (opcional) -->
+    <TextView
+        android:text="Link (opcional):"
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/etLink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enlace del medio de comunicación"
+        android:inputType="textUri"
+        android:layout_marginBottom="24dp"/>
+
+    <!-- Botón para ver servicios remotos -->
+    <Button
+        android:id="@+id/btnVerServiciosRemotos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ver Servicios Remotos"
+        android:textSize="16sp"/>
+
+</LinearLayout>
