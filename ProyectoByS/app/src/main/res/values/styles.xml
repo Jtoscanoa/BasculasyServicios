@@ -2,7 +2,7 @@
     <!-- Tema base de toda la aplicación -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- aquí puedes poner tus colores, etc. -->
-        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:fontFamily">@font/sansation_regular</item>
         <item name="android:textColor">@color/text_primary</item>
     </style>
 
@@ -12,18 +12,39 @@
         <item name="android:windowBackground">@android:color/white</item>
     </style>
     
-    <!-- Typography Styles -->
+    <!-- Figma Typography Styles -->
+    <style name="TextAppearance.Figma.Header" parent="android:TextAppearance">
+        <item name="android:fontFamily">@font/sansation_regular</item>
+        <item name="android:textSize">32sp</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:gravity">center</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+    
+    <style name="TextAppearance.Figma.InputLabel" parent="android:TextAppearance">
+        <item name="android:fontFamily">@font/sansation_light</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
+    
+    <style name="TextAppearance.Figma.ButtonText" parent="android:TextAppearance">
+        <item name="android:fontFamily">@font/sansation_regular</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/text_on_button</item>
+    </style>
+    
+    <!-- Original Typography Styles (preserved for compatibility) -->
     <style name="TextAppearance.Sansation" parent="android:TextAppearance">
-        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:fontFamily">@font/sansation_regular</item>
         <item name="android:textColor">@color/text_primary</item>
     </style>
     
     <style name="TextAppearance.SansationLight" parent="android:TextAppearance">
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:fontFamily">@font/sansation_light</item>
         <item name="android:textColor">@color/text_secondary</item>
     </style>
     
-    <style name="TextAppearance.Title" parent="TextAppearance.Sansation">
+    <style name="TextAppearance.Title" parent="TextAppearance.Figma.Header">
         <item name="android:textSize">24sp</item>
         <item name="android:textStyle">bold</item>
     </style>
@@ -33,18 +54,26 @@
         <item name="android:textStyle">bold</item>
     </style>
     
-    <style name="TextAppearance.Body" parent="TextAppearance.SansationLight">
+    <style name="TextAppearance.Body" parent="TextAppearance.Figma.InputLabel">
         <item name="android:textSize">16sp</item>
     </style>
     
-    <!-- Button Styles -->
+    <!-- Figma Button Style -->
+    <style name="FigmaButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/figma_button_selector</item>
+        <item name="android:textAppearance">@style/TextAppearance.Figma.ButtonText</item>
+        <item name="android:width">215dp</item>
+        <item name="android:height">72dp</item>
+        <item name="android:elevation">4dp</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:layout_marginBottom">16dp</item>
+    </style>
+    
+    <!-- Original Button Style (preserved for compatibility) -->
     <style name="ButtonStyle" parent="Widget.AppCompat.Button">
-        <item name="android:background">@drawable/button_selector</item>
-        <item name="android:textColor">@color/text_on_button</item>
-        <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:minHeight">48dp</item>
+        <item name="android:background">@drawable/figma_button_selector</item>
+        <item name="android:textAppearance">@style/TextAppearance.Figma.ButtonText</item>
+        <item name="android:minHeight">72dp</item>
         <item name="android:paddingLeft">16dp</item>
         <item name="android:paddingRight">16dp</item>
         <item name="android:paddingTop">12dp</item>
@@ -52,4 +81,13 @@
         <item name="android:elevation">4dp</item>
         <item name="android:stateListAnimator">@null</item>
     </style>
+    
+    <!-- Figma Input Field Style -->
+    <style name="FigmaInputStyle" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/figma_input_selector</item>
+        <item name="android:textAppearance">@style/TextAppearance.Figma.InputLabel</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:layout_marginBottom">16dp</item>
+    </style>
+    
 </resources>

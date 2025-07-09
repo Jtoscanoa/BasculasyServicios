@@ -7,7 +7,7 @@
 
     <TextView
         android:text="Registrar Soporte Técnico Remoto"
-        style="@style/TextAppearance.Title"
+        style="@style/TextAppearance.Figma.Header"
         android:layout_marginBottom="24dp"
         android:gravity="center"
         android:layout_width="match_parent"
@@ -16,7 +16,7 @@
     <!-- Spinner para seleccionar servicios técnicos futuros -->
     <TextView
         android:text="Seleccionar Servicio Técnico:"
-        style="@style/TextAppearance.Body"
+        style="@style/TextAppearance.Figma.InputLabel"
         android:layout_marginBottom="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -30,7 +30,8 @@
     <!-- Sección de solo lectura con información del servicio -->
     <TextView
         android:text="Información del Servicio:"
-        style="@style/TextAppearance.Subtitle"
+        style="@style/TextAppearance.Figma.Header"
+        android:textSize="24sp"
         android:layout_marginBottom="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -39,13 +40,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@android:drawable/edit_text"
+        android:background="@drawable/figma_input_field"
         android:padding="12dp"
         android:layout_marginBottom="16dp">
 
         <TextView
             android:text="Cédula del Cliente:"
-            style="@style/TextAppearance.Body"
+            style="@style/TextAppearance.Figma.InputLabel"
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -53,14 +54,14 @@
         <TextView
             android:id="@+id/tvClientCedula"
             android:text="No seleccionado"
-            style="@style/TextAppearance.Body"
+            style="@style/TextAppearance.Figma.InputLabel"
             android:layout_marginBottom="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <TextView
             android:text="Fecha y Hora del Servicio:"
-            style="@style/TextAppearance.Body"
+            style="@style/TextAppearance.Figma.InputLabel"
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -68,7 +69,7 @@
         <TextView
             android:id="@+id/tvServiceDateTime"
             android:text="No seleccionado"
-            style="@style/TextAppearance.Body"
+            style="@style/TextAppearance.Figma.InputLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -77,7 +78,7 @@
     <!-- Campo para Medio (requerido) -->
     <TextView
         android:text="Medio * (requerido):"
-        style="@style/TextAppearance.Body"
+        style="@style/TextAppearance.Figma.InputLabel"
         android:layout_marginBottom="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -87,14 +88,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Ej: Zoom, Meet, WhatsApp, etc."
-        style="@style/TextAppearance.Body"
+        style="@style/FigmaInputStyle"
         android:inputType="text"
         android:layout_marginBottom="16dp"/>
 
     <!-- Campo para Link (opcional) -->
     <TextView
         android:text="Link (opcional):"
-        style="@style/TextAppearance.Body"
+        style="@style/TextAppearance.Figma.InputLabel"
         android:layout_marginBottom="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -104,16 +105,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enlace del medio de comunicación"
-        style="@style/TextAppearance.Body"
+        style="@style/FigmaInputStyle"
         android:inputType="textUri"
         android:layout_marginBottom="24dp"/>
 
     <!-- Botón para ver servicios remotos -->
     <Button
         android:id="@+id/btnVerServiciosRemotos"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="215dp"
+        android:layout_height="72dp"
+        android:layout_gravity="center_horizontal"
         android:text="Ver Servicios Remotos"
-        style="@style/ButtonStyle"/>
+        style="@style/FigmaButtonStyle"/>
 
 </LinearLayout>

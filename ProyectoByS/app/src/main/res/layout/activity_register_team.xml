@@ -2,14 +2,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:text="Registrar Equipo Técnico"
+        style="@style/TextAppearance.Figma.Header"
+        android:layout_marginBottom="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <!-- Spinner para seleccionar la solicitud -->
     <Spinner
         android:id="@+id/spinnerRequests"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Seleccione la solicitud" />
+        android:hint="Seleccione la solicitud"
+        android:layout_marginBottom="16dp" />
 
     <!-- Nuevo: EditText para la cantidad de miembros -->
     <EditText
@@ -17,23 +26,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Cantidad de miembros del equipo"
-        style="@style/TextAppearance.Body"
+        style="@style/FigmaInputStyle"
         android:inputType="number"
         android:layout_marginTop="16dp" />
 
     <Button
         android:id="@+id/btnRegisterMembers"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="215dp"
+        android:layout_height="72dp"
         android:text="Registrar Integrantes"
-        style="@style/ButtonStyle" />
-
+        style="@style/FigmaButtonStyle" />
 
     <!-- Botón para guardar el equipo -->
     <Button
         android:id="@+id/btnSaveTeam"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="215dp"
+        android:layout_height="72dp"
         android:text="Guardar equipo"
-        style="@style/ButtonStyle" />
+        style="@style/FigmaButtonStyle" />
 </LinearLayout>

@@ -9,7 +9,7 @@
 
     <TextView
         android:text="Menú Principal"
-        style="@style/TextAppearance.Title"
+        style="@style/TextAppearance.Figma.Header"
         android:layout_marginBottom="32dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -17,17 +17,17 @@
     <Button
         android:id="@+id/btnRegisterClient"
         android:text="REGISTRAR CLIENTES"
-        style="@style/ButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/FigmaButtonStyle"
+        android:layout_width="215dp"
+        android:layout_height="72dp"
         android:layout_marginBottom="16dp"/>
 
     <Button
         android:id="@+id/btnViewClients"
         android:text="VISUALIZAR CLIENTES"
-        style="@style/ButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/FigmaButtonStyle"
+        android:layout_width="215dp"
+        android:layout_height="72dp"
         android:visibility="gone"
         android:layout_marginBottom="16dp"/>
 
@@ -36,59 +36,59 @@
     <Button
         android:id="@+id/btnRegisterTeam"
         android:text="REGISTRAR EQUIPO TÉCNICO"
-        style="@style/ButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/FigmaButtonStyle"
+        android:layout_width="215dp"
+        android:layout_height="72dp"
         android:layout_marginBottom="16dp"/>
 
     <Button
         android:id="@+id/btnRegisterRequirements"
         android:text="REGISTRAR REQUERIMIENTOS DE MANTENIMIENTO"
-        style="@style/ButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/FigmaButtonStyle"
+        android:layout_width="215dp"
+        android:layout_height="72dp"
         android:layout_marginBottom="16dp"/>
 
     <Button
         android:id="@+id/btnRegisterEquipment"
         android:text="REGISTRAR EQUIPO A INSTALAR"
-        style="@style/ButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/FigmaButtonStyle"
+        android:layout_width="215dp"
+        android:layout_height="72dp"
         android:visibility="gone"
         android:layout_marginBottom="16dp"/>
 
     <Button
         android:id="@+id/btnRegisterSecondVisit"
         android:text="REGISTRAR SEGUNDA VISITA"
-        style="@style/ButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/FigmaButtonStyle"
+        android:layout_width="215dp"
+        android:layout_height="72dp"
         android:visibility="gone"
         android:layout_marginBottom="16dp"/>
 
     <Button
         android:id="@+id/btnRegisterRequests"
         android:text="REGISTRAR SOLICITUDES"
-        style="@style/ButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/FigmaButtonStyle"
+        android:layout_width="215dp"
+        android:layout_height="72dp"
         android:layout_marginBottom="16dp"/>
 
     <Button
         android:id="@+id/btnGuardarEquipoAInstalar"
         android:text="Guardar Equipo a Instalar"
-        style="@style/ButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/FigmaButtonStyle"
+        android:layout_width="215dp"
+        android:layout_height="72dp"
         android:layout_marginBottom="16dp"/>
 
     <Button
         android:id="@+id/btnRemoteSupport"
         android:text="SOPORTE TÉCNICO REMOTO"
-        style="@style/ButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/FigmaButtonStyle"
+        android:layout_width="215dp"
+        android:layout_height="72dp"
         android:layout_marginBottom="16dp"/>
 
     <Spinner

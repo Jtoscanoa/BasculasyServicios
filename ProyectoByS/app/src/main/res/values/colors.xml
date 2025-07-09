@@ -3,7 +3,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     
-    <!-- Gradient button colors -->
+    <!-- Figma gradient colors -->
+    <color name="figma_gradient_start">#FFB7B7</color>
+    <color name="figma_gradient_end">#BD3F3F</color>
+    
+    <!-- Original gradient button colors -->
     <color name="button_gradient_start">#4CAF50</color>
     <color name="button_gradient_end">#2E7D32</color>
     <color name="button_gradient_pressed_start">#3CAF50</color>

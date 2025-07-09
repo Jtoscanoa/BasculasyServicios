@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Tipo de servicio"
-        style="@style/TextAppearance.Body"
+        style="@style/TextAppearance.Figma.InputLabel"
         android:paddingEnd="8dp"/>
 
     <TextView
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Fecha"
-        style="@style/TextAppearance.Body"
+        style="@style/TextAppearance.Figma.InputLabel"
         android:paddingEnd="8dp"/>
 
     <TextView
@@ -30,14 +30,14 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Hora"
-        style="@style/TextAppearance.Body"/>
+        style="@style/TextAppearance.Figma.InputLabel"/>
 
     <TextView
         android:id="@+id/tvClientName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nombre del Cliente"
-        style="@style/TextAppearance.Body"
+        style="@style/TextAppearance.Figma.InputLabel"
         android:paddingEnd="8dp" />
 
     <TextView
@@ -45,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Dirección del Cliente"
-        style="@style/TextAppearance.Body"
+        style="@style/TextAppearance.Figma.InputLabel"
         android:paddingEnd="8dp" />
 
     <Button

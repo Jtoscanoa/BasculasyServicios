@@ -13,51 +13,54 @@
         <EditText
             android:id="@+id/etName"
             android:hint="Nombre"
-            style="@style/TextAppearance.Body"
+            style="@style/FigmaInputStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <EditText
             android:id="@+id/etCedula"
             android:hint="Cédula"
-            style="@style/TextAppearance.Body"
+            style="@style/FigmaInputStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <EditText
             android:id="@+id/etPhone"
             android:hint="Teléfono (10 dígitos)"
-            style="@style/TextAppearance.Body"
+            style="@style/FigmaInputStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <EditText
             android:id="@+id/etAddress"
             android:hint="Dirección"
-            style="@style/TextAppearance.Body"
+            style="@style/FigmaInputStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <Button
             android:id="@+id/btnRegister"
             android:text="Registrar Cliente"
-            style="@style/ButtonStyle"
+            style="@style/FigmaButtonStyle"
             android:layout_marginTop="16dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_width="215dp"
+            android:layout_height="72dp"
+            android:layout_gravity="center_horizontal"/>
 
         <!-- Nuevo: Listado de clientes -->
         <TextView
             android:layout_marginTop="24dp"
             android:text="Clientes registrados"
-            style="@style/TextAppearance.Subtitle"
+            style="@style/TextAppearance.Figma.Header"
+            android:textSize="24sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <Button
             android:id="@+id/btnViewEditClients"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="215dp"
+            android:layout_height="72dp"
             android:text="Visualizar/Editar Clientes"
-            style="@style/ButtonStyle"
+            style="@style/FigmaButtonStyle"
             android:layout_marginTop="16dp"
+            android:layout_gravity="center_horizontal"
             android:onClick="goToViewEditClients"/>
 
 
