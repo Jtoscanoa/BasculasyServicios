@@ -346,6 +346,39 @@ public class DatabaseHelper {
         return list;
     }
 
+    // Obtener solicitudes de instalación próximas (desde hoy en adelante)
+    public List<Request> getUpcomingInstallRequests() {
+        List<Request> list = new ArrayList<>();
+        SQLiteDatabase db = helper.getReadableDatabase();
+        
+        // Obtener fecha actual en formato yyyy-MM-dd
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+        String today = sdf.format(new java.util.Date());
+        
+        String query = "SELECT id, serviceType, serviceDate, serviceTime, clientCedula, serviceAddress " +
+                       "FROM requests WHERE LOWER(serviceType) LIKE LOWER('%Instalac%') AND " +
+                       "serviceDate >= ? " +
+                       "ORDER BY serviceDate, serviceTime";
+        
+        Cursor c = db.rawQuery(query, new String[]{today});
+
+        while (c.moveToNext()) {
+            Request request = new Request(
+                    c.getInt(c.getColumnIndex("id")),
+                    c.getString(c.getColumnIndex("serviceType")),
+                    c.getString(c.getColumnIndex("serviceDate")),
+                    c.getString(c.getColumnIndex("serviceTime")),
+                    c.getString(c.getColumnIndex("serviceAddress")),
+                    c.getString(c.getColumnIndex("clientCedula"))
+            );
+            list.add(request);
+        }
+
+        c.close();
+        db.close();
+        return list;
+    }
+
     // Insertar equipo a instalar
     public long insertEquipoInstalar(int requestId, String equipoNombre, String clientCedula) {
         SQLiteDatabase db = helper.getWritableDatabase();

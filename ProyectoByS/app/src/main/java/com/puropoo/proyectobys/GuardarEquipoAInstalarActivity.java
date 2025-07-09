@@ -9,8 +9,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.material.snackbar.Snackbar;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class GuardarEquipoAInstalarActivity extends AppCompatActivity {
@@ -45,19 +49,33 @@ public class GuardarEquipoAInstalarActivity extends AppCompatActivity {
     }
 
     private void loadInstallationServices() {
-        installationRequests = db.getInstallationRequestsFromToday();
+        installationRequests = db.getUpcomingInstallRequests();
         
         if (installationRequests.isEmpty()) {
-            Toast.makeText(this, "No hay servicios de instalación programados desde hoy", Toast.LENGTH_LONG).show();
+            Snackbar.make(findViewById(android.R.id.content), 
+                "No hay servicios de instalación programados", 
+                Snackbar.LENGTH_LONG).show();
             return;
         }
 
-        // Crear lista de strings para el spinner
+        // Crear lista de strings para el spinner con formato "cedula - dd/MM/yyyy - HH:mm"
         List<String> spinnerItems = new ArrayList<>();
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+        
         for (Request request : installationRequests) {
-            String item = "Cédula: " + request.getClientCedula() + 
-                         " | Fecha: " + request.getServiceDate() + 
-                         " | Hora: " + request.getServiceTime();
+            String formattedDate = request.getServiceDate();
+            
+            // Convertir fecha de yyyy-MM-dd a dd/MM/yyyy
+            try {
+                Date date = inputFormat.parse(request.getServiceDate());
+                formattedDate = outputFormat.format(date);
+            } catch (ParseException e) {
+                // Si no se puede parsear, usar la fecha original
+                formattedDate = request.getServiceDate();
+            }
+            
+            String item = request.getClientCedula() + " - " + formattedDate + " - " + request.getServiceTime();
             spinnerItems.add(item);
         }
 
