@@ -8,7 +8,7 @@
 
     <TextView
         android:text="Registrar Solicitud"
-        style="@style/TextAppearance.Title"
+        style="@style/TextAppearance.Figma.Header"
         android:layout_marginBottom="32dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Fecha del servicio (dd/mm/yyyy)"
-        style="@style/TextAppearance.Body"
+        style="@style/FigmaInputStyle"
         android:inputType="date"
         android:layout_marginBottom="16dp"/>
 
@@ -43,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Hora del servicio (hh:mm)"
-        style="@style/TextAppearance.Body"
+        style="@style/FigmaInputStyle"
         android:inputType="time"
         android:layout_marginBottom="16dp"/>
 
@@ -52,25 +52,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Dirección del servicio"
-        style="@style/TextAppearance.Body"
+        style="@style/FigmaInputStyle"
         android:inputType="text" />
 
     <!-- Botón para guardar solicitud -->
     <Button
         android:id="@+id/btnSaveRequest"
         android:text="Guardar Solicitud"
-        style="@style/ButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/FigmaButtonStyle"
+        android:layout_width="215dp"
+        android:layout_height="72dp"
         android:layout_marginBottom="16dp"/>
 
     <!-- Botón para visualizar solicitudes -->
     <Button
         android:id="@+id/btnViewRequests"
         android:text="Ver Solicitudes"
-        style="@style/ButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/FigmaButtonStyle"
+        android:layout_width="215dp"
+        android:layout_height="72dp"
         android:visibility="gone"
         android:layout_marginBottom="16dp"/>
 
