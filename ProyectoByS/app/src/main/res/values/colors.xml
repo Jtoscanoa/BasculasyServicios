@@ -2,4 +2,15 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    
+    <!-- Gradient button colors -->
+    <color name="button_gradient_start">#4CAF50</color>
+    <color name="button_gradient_end">#2E7D32</color>
+    <color name="button_gradient_pressed_start">#3CAF50</color>
+    <color name="button_gradient_pressed_end">#1E6D22</color>
+    
+    <!-- Typography colors -->
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    <color name="text_on_button">#FFFFFF</color>
 </resources>

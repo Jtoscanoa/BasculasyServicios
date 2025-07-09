@@ -7,8 +7,7 @@
 
     <TextView
         android:text="Solicitudes Registradas"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        style="@style/TextAppearance.Title"
         android:layout_marginBottom="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

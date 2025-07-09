@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Using system sans-serif light as fallback for Sansation Light -->
+    <font android:fontStyle="normal" android:fontWeight="300" android:font="sans-serif-light" />
+</font-family>

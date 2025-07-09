@@ -17,6 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Cantidad de miembros del equipo"
+        style="@style/TextAppearance.Body"
         android:inputType="number"
         android:layout_marginTop="16dp" />
 
@@ -24,7 +25,8 @@
         android:id="@+id/btnRegisterMembers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Registrar Integrantes" />
+        android:text="Registrar Integrantes"
+        style="@style/ButtonStyle" />
 
 
     <!-- Botón para guardar el equipo -->
@@ -32,5 +34,6 @@
         android:id="@+id/btnSaveTeam"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Guardar equipo" />
+        android:text="Guardar equipo"
+        style="@style/ButtonStyle" />
 </LinearLayout>

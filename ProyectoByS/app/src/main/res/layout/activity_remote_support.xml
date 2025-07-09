@@ -7,8 +7,7 @@
 
     <TextView
         android:text="Registrar Soporte Técnico Remoto"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        style="@style/TextAppearance.Title"
         android:layout_marginBottom="24dp"
         android:gravity="center"
         android:layout_width="match_parent"
@@ -17,7 +16,7 @@
     <!-- Spinner para seleccionar servicios técnicos futuros -->
     <TextView
         android:text="Seleccionar Servicio Técnico:"
-        android:textSize="16sp"
+        style="@style/TextAppearance.Body"
         android:layout_marginBottom="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -31,8 +30,7 @@
     <!-- Sección de solo lectura con información del servicio -->
     <TextView
         android:text="Información del Servicio:"
-        android:textSize="16sp"
-        android:textStyle="bold"
+        style="@style/TextAppearance.Subtitle"
         android:layout_marginBottom="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -47,7 +45,7 @@
 
         <TextView
             android:text="Cédula del Cliente:"
-            android:textSize="14sp"
+            style="@style/TextAppearance.Body"
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -55,14 +53,14 @@
         <TextView
             android:id="@+id/tvClientCedula"
             android:text="No seleccionado"
-            android:textSize="14sp"
+            style="@style/TextAppearance.Body"
             android:layout_marginBottom="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <TextView
             android:text="Fecha y Hora del Servicio:"
-            android:textSize="14sp"
+            style="@style/TextAppearance.Body"
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -70,7 +68,7 @@
         <TextView
             android:id="@+id/tvServiceDateTime"
             android:text="No seleccionado"
-            android:textSize="14sp"
+            style="@style/TextAppearance.Body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -79,7 +77,7 @@
     <!-- Campo para Medio (requerido) -->
     <TextView
         android:text="Medio * (requerido):"
-        android:textSize="16sp"
+        style="@style/TextAppearance.Body"
         android:layout_marginBottom="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -89,13 +87,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Ej: Zoom, Meet, WhatsApp, etc."
+        style="@style/TextAppearance.Body"
         android:inputType="text"
         android:layout_marginBottom="16dp"/>
 
     <!-- Campo para Link (opcional) -->
     <TextView
         android:text="Link (opcional):"
-        android:textSize="16sp"
+        style="@style/TextAppearance.Body"
         android:layout_marginBottom="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -105,6 +104,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enlace del medio de comunicación"
+        style="@style/TextAppearance.Body"
         android:inputType="textUri"
         android:layout_marginBottom="24dp"/>
 
@@ -114,6 +114,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Ver Servicios Remotos"
-        android:textSize="16sp"/>
+        style="@style/ButtonStyle"/>
 
 </LinearLayout>

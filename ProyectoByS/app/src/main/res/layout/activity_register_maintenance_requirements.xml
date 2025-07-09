@@ -18,6 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:hint="Ingrese los requerimientos del mantenimiento"
+        style="@style/TextAppearance.Body"
         android:layout_marginBottom="16dp"
         android:scrollbars="vertical"
         android:gravity="top|start"
@@ -28,7 +29,8 @@
         android:id="@+id/btnSaveRequirements"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Guardar Requerimientos"/>
+        android:text="Guardar Requerimientos"
+        style="@style/ButtonStyle"/>
 
     <!-- Botón para editar los requerimientos -->
     <Button
@@ -36,6 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Editar Requerimientos"
+        style="@style/ButtonStyle"
         android:layout_marginTop="16dp"/>
 
 </LinearLayout>

@@ -8,8 +8,7 @@
 
     <TextView
         android:text="Guardar Equipo a Instalar"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        style="@style/TextAppearance.Title"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,7 +16,7 @@
 
     <TextView
         android:text="Seleccionar Servicio de Instalación:"
-        android:textSize="16sp"
+        style="@style/TextAppearance.Body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"/>
@@ -30,7 +29,7 @@
 
     <TextView
         android:text="Nombre del Equipo:"
-        android:textSize="16sp"
+        style="@style/TextAppearance.Body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"/>
@@ -38,6 +37,7 @@
     <EditText
         android:id="@+id/etEquipoNombre"
         android:hint="Ingresar equipo a instalar"
+        style="@style/TextAppearance.Body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"/>
@@ -45,6 +45,7 @@
     <Button
         android:id="@+id/btnGuardar"
         android:text="Guardar"
+        style="@style/ButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
