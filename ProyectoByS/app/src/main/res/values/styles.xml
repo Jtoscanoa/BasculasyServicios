@@ -2,7 +2,7 @@
     <!-- Tema base de toda la aplicación -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- aquí puedes poner tus colores, etc. -->
-        <item name="android:fontFamily">@font/sansation</item>
+        <item name="android:fontFamily">sans-serif</item>
         <item name="android:textColor">@color/text_primary</item>
     </style>
 
@@ -14,12 +14,12 @@
     
     <!-- Typography Styles -->
     <style name="TextAppearance.Sansation" parent="android:TextAppearance">
-        <item name="android:fontFamily">@font/sansation</item>
+        <item name="android:fontFamily">sans-serif</item>
         <item name="android:textColor">@color/text_primary</item>
     </style>
     
     <style name="TextAppearance.SansationLight" parent="android:TextAppearance">
-        <item name="android:fontFamily">@font/sansation_light</item>
+        <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:textColor">@color/text_secondary</item>
     </style>
     
@@ -41,7 +41,7 @@
     <style name="ButtonStyle" parent="Widget.AppCompat.Button">
         <item name="android:background">@drawable/button_selector</item>
         <item name="android:textColor">@color/text_on_button</item>
-        <item name="android:fontFamily">@font/sansation</item>
+        <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">16sp</item>
         <item name="android:minHeight">48dp</item>
