@@ -35,10 +35,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnRegister"
             android:text="Registrar Cliente"
-            style="@style/FigmaButtonStyle"
+            style="@style/Widget.ProyectoByS.OutlinedButton"
             android:layout_marginTop="16dp"
             android:layout_width="215dp"
             android:layout_height="72dp"
