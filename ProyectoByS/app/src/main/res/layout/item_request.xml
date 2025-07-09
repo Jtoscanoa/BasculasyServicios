@@ -12,8 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Tipo de servicio"
-        android:paddingEnd="8dp"
-        android:textSize="16sp"/>
+        style="@style/TextAppearance.Body"
+        android:paddingEnd="8dp"/>
 
     <TextView
         android:id="@+id/tvServiceDate"
@@ -21,8 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Fecha"
-        android:paddingEnd="8dp"
-        android:textSize="16sp"/>
+        style="@style/TextAppearance.Body"
+        android:paddingEnd="8dp"/>
 
     <TextView
         android:id="@+id/tvServiceTime"
@@ -30,14 +30,14 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Hora"
-        android:textSize="16sp"/>
+        style="@style/TextAppearance.Body"/>
 
     <TextView
         android:id="@+id/tvClientName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nombre del Cliente"
-        android:textSize="16sp"
+        style="@style/TextAppearance.Body"
         android:paddingEnd="8dp" />
 
     <TextView
@@ -45,27 +45,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Dirección del Cliente"
-        android:textSize="16sp"
+        style="@style/TextAppearance.Body"
         android:paddingEnd="8dp" />
 
     <Button
         android:id="@+id/btnDeleteRequest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Eliminar" />
+        android:text="Eliminar"
+        style="@style/ButtonStyle" />
 
     <EditText
         android:id="@+id/etServiceAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Dirección de la solicitud" />
+        android:hint="Dirección de la solicitud"
+        style="@style/TextAppearance.Body" />
 
     <TextView
         android:id="@+id/tvServiceAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Dirección del servicio"
-        android:textSize="16sp"
+        style="@style/TextAppearance.Body"
         android:paddingEnd="8dp" />
 
 

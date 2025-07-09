@@ -13,27 +13,32 @@
         <EditText
             android:id="@+id/etName"
             android:hint="Nombre"
+            style="@style/TextAppearance.Body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <EditText
             android:id="@+id/etCedula"
             android:hint="Cédula"
+            style="@style/TextAppearance.Body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <EditText
             android:id="@+id/etPhone"
             android:hint="Teléfono (10 dígitos)"
+            style="@style/TextAppearance.Body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <EditText
             android:id="@+id/etAddress"
             android:hint="Dirección"
+            style="@style/TextAppearance.Body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <Button
             android:id="@+id/btnRegister"
             android:text="Registrar Cliente"
+            style="@style/ButtonStyle"
             android:layout_marginTop="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -42,8 +47,7 @@
         <TextView
             android:layout_marginTop="24dp"
             android:text="Clientes registrados"
-            android:textSize="18sp"
-            android:textStyle="bold"
+            style="@style/TextAppearance.Subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -52,6 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Visualizar/Editar Clientes"
+            style="@style/ButtonStyle"
             android:layout_marginTop="16dp"
             android:onClick="goToViewEditClients"/>
 
