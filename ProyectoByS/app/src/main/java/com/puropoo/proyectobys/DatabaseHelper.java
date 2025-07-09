@@ -356,7 +356,7 @@ public class DatabaseHelper {
         String today = sdf.format(new java.util.Date());
         
         String query = "SELECT id, serviceType, serviceDate, serviceTime, clientCedula, serviceAddress " +
-                       "FROM requests WHERE serviceType LIKE '%Instalac%' AND " +
+                       "FROM requests WHERE LOWER(serviceType) LIKE LOWER('%Instalac%') AND " +
                        "serviceDate >= ? " +
                        "ORDER BY serviceDate, serviceTime";
         
