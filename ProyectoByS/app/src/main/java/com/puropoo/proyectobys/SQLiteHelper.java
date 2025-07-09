@@ -7,13 +7,20 @@ import android.content.ContentValues;
 
 public class SQLiteHelper extends SQLiteOpenHelper {
 
-    public SQLiteHelper(Context context) {
-        super(context, "mydatabase.db", null, 1);
-    }
-
     // Definir el nombre y la versión de la base de datos
     private static final String DATABASE_NAME = "service_db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
+    
+    // Definir constante SQL para crear la tabla equipo_instalar
+    private static final String CREATE_EQUIPO_INSTALAR_TABLE = "CREATE TABLE IF NOT EXISTS equipo_instalar (" +
+            "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "request_id INTEGER, " +
+            "equipo_nombre TEXT, " +
+            "clientCedula TEXT)";
+
+    public SQLiteHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -56,11 +63,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_MAINTENANCE_REQUIREMENTS_TABLE);
 
         // Crear la tabla 'equipo_instalar'
-        String CREATE_EQUIPO_INSTALAR_TABLE = "CREATE TABLE IF NOT EXISTS equipo_instalar (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "request_id INTEGER, " +
-                "equipo_nombre TEXT, " +
-                "clientCedula TEXT)";
         db.execSQL(CREATE_EQUIPO_INSTALAR_TABLE);
 
     }
@@ -68,11 +70,12 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     // Método para actualizar la base de datos
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Aquí se manejan los cambios de versión de la base de datos
-        db.execSQL("DROP TABLE IF EXISTS clients");
-        db.execSQL("DROP TABLE IF EXISTS requests");
-        db.execSQL("DROP TABLE IF EXISTS team");
-        onCreate(db);
+        // Manejar la actualización de versión 1 a 2
+        if (oldVersion < 2) {
+            // Crear la tabla 'equipo_instalar' para la actualización de versión 1 a 2
+            db.execSQL("DROP TABLE IF EXISTS equipo_instalar");
+            db.execSQL(CREATE_EQUIPO_INSTALAR_TABLE);
+        }
     }
 
 }
