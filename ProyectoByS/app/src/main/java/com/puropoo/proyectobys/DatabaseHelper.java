@@ -45,7 +45,7 @@ public class DatabaseHelper {
         SQLiteDatabase db = helper.getReadableDatabase();  // Cambiar a helper.getReadableDatabase()
         Cursor cursor = db.query(
                 "requests",    // Nombre de la tabla
-                new String[]{"id", "serviceType", "serviceDate", "serviceTime"}, // Columnas a seleccionar
+                new String[]{"id", "serviceType", "serviceDate", "serviceTime", "serviceAddress", "clientCedula"}, // Columnas a seleccionar
                 "id = ?",      // Condición WHERE
                 new String[]{String.valueOf(requestId)},  // Argumento para la condición WHERE
                 null, null, null);
@@ -56,7 +56,8 @@ public class DatabaseHelper {
                     cursor.getString(cursor.getColumnIndex("serviceType")),
                     cursor.getString(cursor.getColumnIndex("serviceDate")),
                     cursor.getString(cursor.getColumnIndex("serviceTime")),
-                    cursor.getString(cursor.getColumnIndex("serviceAddress"))  // Asegúrate de agregar esta línea
+                    cursor.getString(cursor.getColumnIndex("serviceAddress")),
+                    cursor.getString(cursor.getColumnIndex("clientCedula"))
             );
             cursor.close();
             db.close();
@@ -92,7 +93,8 @@ public class DatabaseHelper {
                     c.getString(c.getColumnIndex("serviceType")),
                     c.getString(c.getColumnIndex("serviceDate")),
                     c.getString(c.getColumnIndex("serviceTime")),
-                    c.getString(c.getColumnIndex("serviceAddress"))
+                    c.getString(c.getColumnIndex("serviceAddress")),
+                    c.getString(c.getColumnIndex("clientCedula"))
             );
             list.add(request);
         }
@@ -306,6 +308,83 @@ public class DatabaseHelper {
         }
 
         return rowsUpdated > 0;
+    }
+
+    // Métodos para manejo de equipo a instalar
+
+    // Obtener solicitudes de instalación con fecha mayor o igual a hoy
+    public List<Request> getInstallationRequestsFromToday() {
+        List<Request> list = new ArrayList<>();
+        SQLiteDatabase db = helper.getReadableDatabase();
+        
+        // Obtener fecha actual en formato dd/MM/yyyy
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
+        String today = sdf.format(new java.util.Date());
+        
+        String query = "SELECT id, serviceType, serviceDate, serviceTime, clientCedula, serviceAddress " +
+                       "FROM requests WHERE serviceType = 'Instalación' AND " +
+                       "DATE(substr(serviceDate, 7, 4) || '-' || substr(serviceDate, 4, 2) || '-' || substr(serviceDate, 1, 2)) >= " +
+                       "DATE(substr(?, 7, 4) || '-' || substr(?, 4, 2) || '-' || substr(?, 1, 2)) " +
+                       "ORDER BY serviceDate, serviceTime";
+        
+        Cursor c = db.rawQuery(query, new String[]{today, today, today});
+
+        while (c.moveToNext()) {
+            Request request = new Request(
+                    c.getInt(c.getColumnIndex("id")),
+                    c.getString(c.getColumnIndex("serviceType")),
+                    c.getString(c.getColumnIndex("serviceDate")),
+                    c.getString(c.getColumnIndex("serviceTime")),
+                    c.getString(c.getColumnIndex("serviceAddress")),
+                    c.getString(c.getColumnIndex("clientCedula"))
+            );
+            list.add(request);
+        }
+
+        c.close();
+        db.close();
+        return list;
+    }
+
+    // Insertar equipo a instalar
+    public long insertEquipoInstalar(int requestId, String equipoNombre, String clientCedula) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("request_id", requestId);
+        values.put("equipo_nombre", equipoNombre);
+        values.put("clientCedula", clientCedula);
+
+        long id = db.insert("equipo_instalar", null, values);
+        db.close();
+        return id;
+    }
+
+    // Actualizar equipo a instalar
+    public int updateEquipoInstalar(int requestId, String equipoNombre) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("equipo_nombre", equipoNombre);
+
+        int rowsUpdated = db.update("equipo_instalar", values, "request_id = ?", 
+                                  new String[]{String.valueOf(requestId)});
+        db.close();
+        return rowsUpdated;
+    }
+
+    // Verificar si ya existe equipo para una solicitud
+    public String getEquipoByRequestId(int requestId) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT equipo_nombre FROM equipo_instalar WHERE request_id = ?", 
+                                   new String[]{String.valueOf(requestId)});
+
+        String equipoNombre = null;
+        if (cursor != null && cursor.moveToFirst()) {
+            equipoNombre = cursor.getString(cursor.getColumnIndex("equipo_nombre"));
+        }
+
+        cursor.close();
+        db.close();
+        return equipoNombre;
     }
 
 
