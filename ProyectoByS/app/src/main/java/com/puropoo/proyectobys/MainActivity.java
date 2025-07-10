@@ -12,6 +12,7 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText etName, etCedula, etPhone, etAddress;
     private Button btnRegister;
+    private Button btnRegisterSecondVisit;
     private DatabaseHelper dbHelper;
 
     @Override
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         etPhone       = findViewById(R.id.etPhone);
         etAddress     = findViewById(R.id.etAddress);
         btnRegister   = findViewById(R.id.btnRegister);
+        btnRegisterSecondVisit = findViewById(R.id.btnRegisterSecondVisit);
 
         // 2) Crea tu helper de base de datos
         dbHelper = new DatabaseHelper(this);
@@ -81,6 +83,12 @@ public class MainActivity extends AppCompatActivity {
         btnViewEditClients.setOnClickListener(v -> {
             // Redirige a la actividad que muestra la lista de clientes
             Intent intent = new Intent(MainActivity.this, ClientsListActivity.class);
+            startActivity(intent);
+        });
+
+        // Configurar el clic del botón "Registrar Segunda Visita"
+        btnRegisterSecondVisit.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, RegisterSecondVisitActivity.class);
             startActivity(intent);
         });
 

@@ -63,6 +63,14 @@
             android:layout_gravity="center_horizontal"
             android:onClick="goToViewEditClients"/>
 
+        <Button
+            android:id="@+id/btnRegisterSecondVisit"
+            android:layout_width="215dp"
+            android:layout_height="72dp"
+            android:text="Registrar Segunda Visita"
+            style="@style/FigmaButtonStyle"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center_horizontal"/>
 
         <ListView
             android:id="@+id/lvClients"
