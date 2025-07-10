@@ -52,7 +52,8 @@ github_tool = Tool(
 # Initialize the agent (using a real LLM from Hugging Face Hub)
 llm = HuggingFaceEndpoint(
     repo_id="google/gemma-3-12b",
-    model_kwargs={"temperature": 0.5, "max_length": 500},
+    temperature=0.5,
+    max_length=500,
     huggingfacehub_api_token=os.environ.get("HUGGINGFACEHUB_API_TOKEN")
 )
 
