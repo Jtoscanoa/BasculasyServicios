@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="#FFFFFF">
 
     <TextView
         android:text="Registrar Soporte Técnico Remoto"
@@ -13,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <!-- Spinner para seleccionar servicios técnicos futuros -->
     <TextView
         android:text="Seleccionar Servicio Técnico:"
         style="@style/TextAppearance.Body"
@@ -27,7 +27,6 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"/>
 
-    <!-- Sección de solo lectura con información del servicio -->
     <TextView
         android:text="Información del Servicio:"
         style="@style/TextAppearance.Subtitle"
@@ -71,10 +70,8 @@
             style="@style/TextAppearance.Body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-
     </LinearLayout>
 
-    <!-- Campo para Medio (requerido) -->
     <TextView
         android:text="Medio * (requerido):"
         style="@style/TextAppearance.Body"
@@ -91,7 +88,6 @@
         android:inputType="text"
         android:layout_marginBottom="16dp"/>
 
-    <!-- Campo para Link (opcional) -->
     <TextView
         android:text="Link (opcional):"
         style="@style/TextAppearance.Body"
@@ -108,12 +104,12 @@
         android:inputType="textUri"
         android:layout_marginBottom="24dp"/>
 
-    <!-- Botón para ver servicios remotos -->
     <Button
         android:id="@+id/btnVerServiciosRemotos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Ver Servicios Remotos"
-        style="@style/ButtonStyle"/>
+        android:background="@drawable/button_border_red"
+        android:textColor="#000000"/>
 
 </LinearLayout>

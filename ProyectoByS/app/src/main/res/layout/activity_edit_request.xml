@@ -3,7 +3,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="#FFFFFF">
 
     <TextView
         android:text="Modificar Solicitud"
@@ -39,10 +40,11 @@
     <Button
         android:id="@+id/btnSaveChanges"
         android:text="Guardar cambios"
-        style="@style/ButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
+        android:background="@drawable/button_border_red"
+        android:textColor="#000000"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"/>
 
     <EditText
         android:id="@+id/etServiceAddress"
@@ -50,6 +52,5 @@
         android:layout_height="wrap_content"
         android:hint="Dirección de la solicitud"
         style="@style/TextAppearance.Body"/>
-
 
 </LinearLayout>

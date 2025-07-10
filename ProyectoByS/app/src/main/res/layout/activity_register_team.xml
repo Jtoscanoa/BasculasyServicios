@@ -2,16 +2,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="#FFFFFF">
 
-    <!-- Spinner para seleccionar la solicitud -->
     <Spinner
         android:id="@+id/spinnerRequests"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Seleccione la solicitud" />
 
-    <!-- Nuevo: EditText para la cantidad de miembros -->
     <EditText
         android:id="@+id/etTeamMembersCount"
         android:layout_width="match_parent"
@@ -23,17 +22,20 @@
 
     <Button
         android:id="@+id/btnRegisterMembers"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Registrar Integrantes"
-        style="@style/ButtonStyle" />
+        android:background="@drawable/button_border_red"
+        android:textColor="#000000"
+        android:layout_marginTop="16dp"/>
 
-
-    <!-- Botón para guardar el equipo -->
     <Button
         android:id="@+id/btnSaveTeam"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Guardar equipo"
-        style="@style/ButtonStyle" />
+        android:background="@drawable/button_border_red"
+        android:textColor="#000000"
+        android:layout_marginTop="16dp"/>
+
 </LinearLayout>
