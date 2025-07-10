@@ -3,7 +3,7 @@ from github import Github
 import requests
 from langchain.tools import Tool
 from langchain.agents import initialize_agent
-from langchain.llms import HuggingFaceHub  # Import HuggingFaceHub
+from langchain_community.llms import HuggingFaceHub  # Import HuggingFaceHub
 
 # Your GitHub Personal Access Token (PAT) - Store this securely!  Ideally use environment variables
 github_token = os.environ.get("GITHUB_TOKEN") # Get from environment variable
