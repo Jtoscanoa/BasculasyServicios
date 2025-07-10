@@ -53,9 +53,10 @@ github_tool = Tool(
 llm = HuggingFaceEndpoint(
     repo_id="google/gemma-3-12b",
     temperature=0.5,
-    model_kwargs={"max_new_tokens": 500},  # Use max_new_tokens, not max_length
+    max_new_tokens=500,  # ✅ Directly pass here
     huggingfacehub_api_token=os.environ.get("HUGGINGFACEHUB_API_TOKEN")
 )
+
 
 agent = initialize_agent(
     tools=[github_tool],
