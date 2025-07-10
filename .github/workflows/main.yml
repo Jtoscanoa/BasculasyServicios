@@ -22,5 +22,5 @@ jobs:
 
       - name: Run LangChain Agent
         env:
-          GITHUB_TOKEN: ${{ secrets.<your_secret_name> }} # Use a secret for your GitHub PAT
+          GITHUB_TOKEN: ${{ secrets.PAT }} # Use a secret for your GitHub PAT
         run: python agent.py
