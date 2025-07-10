@@ -6,7 +6,7 @@ from langchain.agents import initialize_agent, AgentType
 from langchain_huggingface import HuggingFaceEndpoint
 
 # Your GitHub Personal Access Token (PAT) - Store this securely!  Ideally use environment variables
-github_token = os.environ.get("PAT") # Get from environment variable
+github_token = os.environ.get("GITHUB_TOKEN") # Get from environment variable
 
 # LM Studio API Endpoint and Model Path - ADJUST THESE IF DIFFERENT
 api_url = "http://127.0.0.1:1234/v1"  # Your LM Studio API endpoint
@@ -53,9 +53,10 @@ github_tool = Tool(
 llm = HuggingFaceEndpoint(
     repo_id="google/gemma-3-12b",
     temperature=0.5,
-    model_kwargs={"max_length": 500},
+    model_kwargs={"max_new_tokens": 500},
     huggingfacehub_api_token=os.environ.get("HUGGINGFACEHUB_API_TOKEN")
 )
+
 agent = initialize_agent(
     tools=[github_tool],
     llm=llm,
