@@ -2,7 +2,7 @@ name: Auto Code Generation & PR Creation
 
 on:
   schedule:
-    - cron: '0 9 * * *' # Run at 9 AM every day (adjust as needed)
+    - cron: '0 8 * * *' # Run at 9 AM every day (adjust as needed)
 
 jobs:
   generate_and_pr:
