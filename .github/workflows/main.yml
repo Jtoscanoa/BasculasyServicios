@@ -2,7 +2,8 @@ name: Auto Code Generation & PR Creation
 
 on:
   schedule:
-    - cron: '0 8 * * *' # Run at 9 AM every day (adjust as needed)
+    - cron: '0 8 * * *' # Run at 8:12 AM UTC (3:12 AM Colombia time)
+  workflow_dispatch: # Allows manual triggering from the Actions tab
 
 jobs:
   generate_and_pr:
@@ -21,5 +22,5 @@ jobs:
 
       - name: Run LangChain Agent
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT }} # Use a secret for your GitHub PAT
+          GITHUB_TOKEN: ${{ secrets.<your_secret_name> }} # Use a secret for your GitHub PAT
         run: python agent.py
