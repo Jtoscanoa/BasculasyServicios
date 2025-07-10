@@ -5,97 +5,105 @@
     android:gravity="center_horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp">
+    android:padding="24dp"
+    android:background="#FFFFFF">
 
     <TextView
         android:text="Menú Principal"
         style="@style/TextAppearance.Title"
         android:layout_marginBottom="32dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/btnRegisterClient"
         android:text="REGISTRAR CLIENTES"
-        style="@style/ButtonStyle"
+        android:background="@drawable/button_border_red"
+        android:textColor="#000000"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp" />
 
     <Button
         android:id="@+id/btnViewClients"
         android:text="VISUALIZAR CLIENTES"
-        style="@style/ButtonStyle"
+        android:background="@drawable/button_border_red"
+        android:textColor="#000000"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        android:layout_marginBottom="16dp"/>
-
-    <!-- NUEVOS BOTONES -->
+        android:layout_marginBottom="16dp" />
 
     <Button
         android:id="@+id/btnRegisterTeam"
         android:text="REGISTRAR EQUIPO TÉCNICO"
-        style="@style/ButtonStyle"
+        android:background="@drawable/button_border_red"
+        android:textColor="#000000"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp" />
 
     <Button
         android:id="@+id/btnRegisterRequirements"
         android:text="REGISTRAR REQUERIMIENTOS DE MANTENIMIENTO"
-        style="@style/ButtonStyle"
+        android:background="@drawable/button_border_red"
+        android:textColor="#000000"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp" />
 
     <Button
         android:id="@+id/btnRegisterEquipment"
         android:text="REGISTRAR EQUIPO A INSTALAR"
-        style="@style/ButtonStyle"
+        android:background="@drawable/button_border_red"
+        android:textColor="#000000"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp" />
 
     <Button
         android:id="@+id/btnRegisterSecondVisit"
         android:text="REGISTRAR SEGUNDA VISITA"
-        style="@style/ButtonStyle"
+        android:background="@drawable/button_border_red"
+        android:textColor="#000000"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp" />
 
     <Button
         android:id="@+id/btnRegisterRequests"
         android:text="REGISTRAR SOLICITUDES"
-        style="@style/ButtonStyle"
+        android:background="@drawable/button_border_red"
+        android:textColor="#000000"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp" />
 
     <Button
         android:id="@+id/btnGuardarEquipoAInstalar"
         android:text="Guardar Equipo a Instalar"
-        style="@style/ButtonStyle"
+        android:background="@drawable/button_border_red"
+        android:textColor="#000000"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp" />
 
     <Button
         android:id="@+id/btnRemoteSupport"
         android:text="SOPORTE TÉCNICO REMOTO"
-        style="@style/ButtonStyle"
+        android:background="@drawable/button_border_red"
+        android:textColor="#000000"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp" />
 
     <Spinner
         android:id="@+id/spinnerClients"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp" />
 
 </LinearLayout>
