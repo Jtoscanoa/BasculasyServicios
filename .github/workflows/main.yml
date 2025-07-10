@@ -1,6 +1,10 @@
 name: Auto Code Generation & PR Creation
 
 on:
+  push:
+    branches: [ "Último-funcional" ]
+  pull_request:
+    branches: [ "Último-funcional" ]
   schedule:
     - cron: '0 8 * * *' # Run at 8:12 AM UTC (3:12 AM Colombia time)
   workflow_dispatch: # Allows manual triggering from the Actions tab
