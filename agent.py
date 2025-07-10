@@ -2,8 +2,8 @@ import os
 from github import Github
 import requests
 from langchain.tools import Tool
-from langchain.agents import initialize_agent
-from langchain_huggingface import HuggingFaceEndpoint  # Import HuggingFaceHub
+from langchain.agents import initialize_agent, AgentType
+from langchain_huggingface import HuggingFaceEndpoint
 
 # Your GitHub Personal Access Token (PAT) - Store this securely!  Ideally use environment variables
 github_token = os.environ.get("PAT") # Get from environment variable
@@ -50,22 +50,20 @@ github_tool = Tool(
 )
 
 # Initialize the agent (using a real LLM from Hugging Face Hub)
-llm = HuggingFaceHub(repo_id="google/gemma-3-12b", model_kwargs={"temperature": 0.5, "max_length": 500}) # Replace with your desired model
+llm = HuggingFaceEndpoint(
+    repo_id="google/gemma-3-12b",
+    model_kwargs={"temperature": 0.5, "max_length": 500},
+    huggingfacehub_api_token=os.environ.get("HUGGINGFACEHUB_API_TOKEN")
+)
 
 agent = initialize_agent(
     tools=[github_tool],
-    llm=llm,  # Use the real LLM
+    llm=llm,
     agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
-    verbose=True  # Set to True for debugging
+    verbose=True
 )
 
 # Run the agent with a task (using our custom text generation function)
 task = "Generate a function in Python that calculates the factorial of a number and create a pull request."
 result = agent.run(task)
 print(result)
-
-llm = HuggingFaceEndpoint(
-    repo_id="google/gemma-3-12b",
-    model_kwargs={"temperature": 0.5, "max_length": 500},
-    huggingfacehub_api_token=os.environ.get("HUGGINGFACEHUB_API_TOKEN")
-)
