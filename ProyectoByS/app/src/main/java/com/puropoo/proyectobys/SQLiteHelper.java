@@ -9,7 +9,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     // Definir el nombre y la versión de la base de datos
     private static final String DATABASE_NAME = "service_db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     
     // Definir constante SQL para crear la tabla equipo_instalar
     private static final String CREATE_EQUIPO_INSTALAR_TABLE = "CREATE TABLE IF NOT EXISTS equipo_instalar (" +
@@ -17,6 +17,15 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             "request_id INTEGER, " +
             "equipo_nombre TEXT, " +
             "clientCedula TEXT)";
+
+    // Definir constante SQL para crear la tabla second_visits
+    private static final String CREATE_SECOND_VISITS_TABLE = "CREATE TABLE IF NOT EXISTS second_visits (" +
+            "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "service_request_id INTEGER, " +
+            "service_type TEXT, " +
+            "visit_date TEXT, " +
+            "visit_time TEXT, " +
+            "client_cedula TEXT)";
 
     public SQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -65,6 +74,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         // Crear la tabla 'equipo_instalar'
         db.execSQL(CREATE_EQUIPO_INSTALAR_TABLE);
 
+        // Crear la tabla 'second_visits'
+        db.execSQL(CREATE_SECOND_VISITS_TABLE);
+
     }
 
     // Método para actualizar la base de datos
@@ -75,6 +87,12 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             // Crear la tabla 'equipo_instalar' para la actualización de versión 1 a 2
             db.execSQL("DROP TABLE IF EXISTS equipo_instalar");
             db.execSQL(CREATE_EQUIPO_INSTALAR_TABLE);
+        }
+        
+        // Manejar la actualización de versión 2 a 3
+        if (oldVersion < 3) {
+            // Crear la tabla 'second_visits' para la actualización de versión 2 a 3
+            db.execSQL(CREATE_SECOND_VISITS_TABLE);
         }
     }
 
