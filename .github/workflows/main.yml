@@ -22,10 +22,10 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install langchain langchain-community PyGithub requests
-          pip install -U langchain-huggingface
+          pip install langchain langchain-community langchain-huggingface PyGithub requests
 
       - name: Run LangChain Agent
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }} # Use a secret for your GitHub PAT
+          HUGGINGFACEHUB_API_TOKEN: ${{ secrets.PAT }}
         run: python agent.py

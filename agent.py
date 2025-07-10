@@ -63,3 +63,9 @@ agent = initialize_agent(
 task = "Generate a function in Python that calculates the factorial of a number and create a pull request."
 result = agent.run(task)
 print(result)
+
+llm = HuggingFaceEndpoint(
+    repo_id="google/gemma-3-12b",
+    model_kwargs={"temperature": 0.5, "max_length": 500},
+    huggingfacehub_api_token=os.environ.get("HUGGINGFACEHUB_API_TOKEN")
+)
