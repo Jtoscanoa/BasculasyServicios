@@ -23,6 +23,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install langchain langchain-community PyGithub requests
+          pip install -U langchain-huggingface
 
       - name: Run LangChain Agent
         env:
