@@ -1,7 +1,8 @@
 import os
 from github import Github
 import requests
-from langchain.tools import Tool  # Import Tool from langchain.tools
+from langchain.tools import Tool
+from langchain.agents import initialize_agent  # Import initialize_agent
 
 # Your GitHub Personal Access Token (PAT) - Store this securely!  Ideally use environment variables
 github_token = os.environ.get("GITHUB_TOKEN") # Get from environment variable
