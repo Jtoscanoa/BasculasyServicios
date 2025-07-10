@@ -1,0 +1,26 @@
+name: Auto Code Generation & PR Creation
+
+on:
+  schedule:
+    - cron: '0 8 * * *' # Run at 8:12 AM UTC (3:12 AM Colombia time)
+  workflow_dispatch: # Allows manual triggering from the Actions tab
+
+jobs:
+  generate_and_pr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          pip install langchain PyGithub requests
+
+      - name: Run LangChain Agent
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }} # Use a secret for your GitHub PAT
+        run: python agent.py
