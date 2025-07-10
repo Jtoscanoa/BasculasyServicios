@@ -456,6 +456,100 @@ public class DatabaseHelper {
         return list;
     }
 
+    // ===== MÉTODOS PARA SEGUNDA VISITA =====
+
+    // Obtener todas las solicitudes de mantenimiento para el spinner
+    public List<Request> getMaintenanceRequests() {
+        List<Request> list = new ArrayList<>();
+        SQLiteDatabase db = helper.getReadableDatabase();
+        
+        String query = "SELECT id, serviceType, serviceDate, serviceTime, clientCedula, serviceAddress " +
+                       "FROM requests WHERE LOWER(serviceType) LIKE LOWER('%mantenimiento%') " +
+                       "ORDER BY serviceDate, serviceTime";
+        
+        Cursor c = db.rawQuery(query, null);
+
+        while (c.moveToNext()) {
+            Request request = new Request(
+                    c.getInt(c.getColumnIndex("id")),
+                    c.getString(c.getColumnIndex("serviceType")),
+                    c.getString(c.getColumnIndex("serviceDate")),
+                    c.getString(c.getColumnIndex("serviceTime")),
+                    c.getString(c.getColumnIndex("serviceAddress")),
+                    c.getString(c.getColumnIndex("clientCedula"))
+            );
+            list.add(request);
+        }
+
+        c.close();
+        db.close();
+        return list;
+    }
+
+    // Insertar nueva segunda visita
+    public long insertSecondVisit(int requestId, String visitDate, String visitTime) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("request_id", requestId);
+        values.put("visit_date", visitDate);
+        values.put("visit_time", visitTime);
+
+        long id = db.insert("second_visit", null, values);
+        db.close();
+        return id;
+    }
+
+    // Actualizar segunda visita existente
+    public int updateSecondVisit(int requestId, String visitDate, String visitTime) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("visit_date", visitDate);
+        values.put("visit_time", visitTime);
+
+        int rowsUpdated = db.update("second_visit", values, "request_id = ?", 
+                                  new String[]{String.valueOf(requestId)});
+        db.close();
+        return rowsUpdated;
+    }
+
+    // Eliminar segunda visita
+    public int deleteSecondVisit(int requestId) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        int rowsDeleted = db.delete("second_visit", "request_id = ?", 
+                                  new String[]{String.valueOf(requestId)});
+        db.close();
+        return rowsDeleted;
+    }
+
+    // Verificar si existe una segunda visita para una solicitud
+    public boolean hasSecondVisit(int requestId) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT 1 FROM second_visit WHERE request_id = ?", 
+                                   new String[]{String.valueOf(requestId)});
+
+        boolean exists = cursor.moveToFirst();
+        cursor.close();
+        db.close();
+        return exists;
+    }
+
+    // Obtener datos de segunda visita por request_id
+    public String[] getSecondVisitData(int requestId) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT visit_date, visit_time FROM second_visit WHERE request_id = ?", 
+                                   new String[]{String.valueOf(requestId)});
+
+        String[] data = null;
+        if (cursor != null && cursor.moveToFirst()) {
+            data = new String[2];
+            data[0] = cursor.getString(cursor.getColumnIndex("visit_date"));
+            data[1] = cursor.getString(cursor.getColumnIndex("visit_time"));
+        }
+
+        cursor.close();
+        db.close();
+        return data;
+    }
 
 
 }
