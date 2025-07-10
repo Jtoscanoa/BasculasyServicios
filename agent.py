@@ -1,6 +1,7 @@
 import os
 from github import Github
 import requests
+from langchain.tools import Tool  # Import Tool from langchain.tools
 
 # Your GitHub Personal Access Token (PAT) - Store this securely!  Ideally use environment variables
 github_token = os.environ.get("GITHUB_TOKEN") # Get from environment variable
@@ -46,11 +47,11 @@ github_tool = Tool(
     description="Useful for creating pull requests on GitHub. Input should be the repository name, branch name, commit message, title and body of the PR.",
 )
 
-# Initialize the agent (using a dummy LLM since we're bypassing it)
+# Initialize the agent (using a dummy LLM since we’re bypassing it)
 dummy_llm = type('DummyLLM', (object,), {'generate': lambda x: "This is a placeholder."})() # Dummy class to avoid errors.
 agent = initialize_agent(
     tools=[github_tool],
-    llm=dummy_llm,  # Use a dummy LLM since we're bypassing it
+    llm=dummy_llm,  # Use a dummy LLM since we’re bypassing it
     agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
     verbose=True  # Set to True for debugging
 )
