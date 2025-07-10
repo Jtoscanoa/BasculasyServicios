@@ -2,7 +2,8 @@ import os
 from github import Github
 import requests
 from langchain.tools import Tool
-from langchain.agents import initialize_agent, AgentType  # Import AgentType
+from langchain.agents import initialize_agent
+from langchain.llms import HuggingFaceHub  # Import HuggingFaceHub
 
 # Your GitHub Personal Access Token (PAT) - Store this securely!  Ideally use environment variables
 github_token = os.environ.get("GITHUB_TOKEN") # Get from environment variable
@@ -48,11 +49,12 @@ github_tool = Tool(
     description="Useful for creating pull requests on GitHub. Input should be the repository name, branch name, commit message, title and body of the PR.",
 )
 
-# Initialize the agent (using a dummy LLM since we’re bypassing it)
-dummy_llm = type('DummyLLM', (object,), {'generate': lambda x: "This is a placeholder."})() # Dummy class to avoid errors.
+# Initialize the agent (using a real LLM from Hugging Face Hub)
+llm = HuggingFaceHub(repo_id="google/gemma-3-12b", model_kwargs={"temperature": 0.5, "max_length": 500}) # Replace with your desired model
+
 agent = initialize_agent(
     tools=[github_tool],
-    llm=dummy_llm,  # Use a dummy LLM since we’re bypassing it
+    llm=llm,  # Use the real LLM
     agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
     verbose=True  # Set to True for debugging
 )
