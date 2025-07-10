@@ -64,7 +64,6 @@
         style="@style/FigmaButtonStyle"
         android:layout_width="215dp"
         android:layout_height="72dp"
-        android:visibility="gone"
         android:layout_marginBottom="16dp"/>
 
     <Button
