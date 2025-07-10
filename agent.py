@@ -66,5 +66,5 @@ agent = initialize_agent(
 
 # Run the agent with a task (using our custom text generation function)
 task = "Generate a function in Python that calculates the factorial of a number and create a pull request."
-result = agent.run(task)
+result = agent.invoke(task)
 print(result)
