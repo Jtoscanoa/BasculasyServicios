@@ -22,7 +22,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install langchain PyGithub requests
+          pip install langchain langchain-community PyGithub requests
 
       - name: Run LangChain Agent
         env:
