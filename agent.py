@@ -2,10 +2,10 @@ import os
 from github import Github
 import requests
 from langchain.tools import Tool
-from langchain.agents import initialize_agent  # Import initialize_agent
+from langchain.agents import initialize_agent, AgentType  # Import AgentType
 
 # Your GitHub Personal Access Token (PAT) - Store this securely!  Ideally use environment variables
-github_token = os.environ.get("PAT") # Get from environment variable
+github_token = os.environ.get("GITHUB_TOKEN") # Get from environment variable
 
 # LM Studio API Endpoint and Model Path - ADJUST THESE IF DIFFERENT
 api_url = "http://127.0.0.1:1234/v1"  # Your LM Studio API endpoint
