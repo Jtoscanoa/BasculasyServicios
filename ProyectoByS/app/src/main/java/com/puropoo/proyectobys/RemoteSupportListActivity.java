@@ -76,12 +76,14 @@ public class RemoteSupportListActivity extends AppCompatActivity {
         String formattedDate = formatDate(support.getSupportDate());
 
         // Crear TextViews
+        TextView tvServiceNumber = createTextView("Servicio #: " + support.getRequestId(), true);
         TextView tvDate = createTextView("Fecha: " + formattedDate, true);
         TextView tvTime = createTextView("Hora: " + support.getSupportTime(), true);
         TextView tvClient = createTextView("Cliente: " + support.getClientCedula(), true);
         TextView tvMedium = createTextView("Medio: " + support.getMedium(), false);
         
         // Agregar link solo si existe
+        cardContent.addView(tvServiceNumber);
         cardContent.addView(tvDate);
         cardContent.addView(tvTime);
         cardContent.addView(tvClient);
