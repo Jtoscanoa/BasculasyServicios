@@ -9,7 +9,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     // Definir el nombre y la versión de la base de datos
     private static final String DATABASE_NAME = "service_db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     
     // Definir constante SQL para crear la tabla equipo_instalar
     private static final String CREATE_EQUIPO_INSTALAR_TABLE = "CREATE TABLE IF NOT EXISTS equipo_instalar (" +
@@ -25,6 +25,16 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             "service_type TEXT, " +
             "visit_date TEXT, " +
             "visit_time TEXT, " +
+            "client_cedula TEXT)";
+
+    // Definir constante SQL para crear la tabla remote_support
+    private static final String CREATE_REMOTE_SUPPORT_TABLE = "CREATE TABLE IF NOT EXISTS remote_support (" +
+            "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "request_id INTEGER, " +
+            "support_date TEXT, " +
+            "support_time TEXT, " +
+            "medium TEXT, " +
+            "link TEXT, " +
             "client_cedula TEXT)";
 
     public SQLiteHelper(Context context) {
@@ -77,6 +87,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         // Crear la tabla 'second_visits'
         db.execSQL(CREATE_SECOND_VISITS_TABLE);
 
+        // Crear la tabla 'remote_support'
+        db.execSQL(CREATE_REMOTE_SUPPORT_TABLE);
+
     }
 
     // Método para actualizar la base de datos
@@ -93,6 +106,12 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         if (oldVersion < 3) {
             // Crear la tabla 'second_visits' para la actualización de versión 2 a 3
             db.execSQL(CREATE_SECOND_VISITS_TABLE);
+        }
+        
+        // Manejar la actualización de versión 3 a 4
+        if (oldVersion < 4) {
+            // Crear la tabla 'remote_support' para la actualización de versión 3 a 4
+            db.execSQL(CREATE_REMOTE_SUPPORT_TABLE);
         }
     }
 

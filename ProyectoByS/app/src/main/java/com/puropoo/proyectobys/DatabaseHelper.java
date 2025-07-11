@@ -561,6 +561,107 @@ public class DatabaseHelper {
         return hasSecondVisit;
     }
 
+    // Métodos para manejo de soporte remoto
+
+    // Insertar soporte remoto
+    public long insertRemoteSupport(int requestId, String supportDate, String supportTime, 
+                                   String medium, String link, String clientCedula) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("request_id", requestId);
+        values.put("support_date", supportDate);
+        values.put("support_time", supportTime);
+        values.put("medium", medium);
+        values.put("link", link);
+        values.put("client_cedula", clientCedula);
+
+        long id = db.insert("remote_support", null, values);
+        db.close();
+        return id;
+    }
+
+    // Actualizar soporte remoto
+    public int updateRemoteSupport(int requestId, String supportDate, String supportTime, 
+                                  String medium, String link) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("support_date", supportDate);
+        values.put("support_time", supportTime);
+        values.put("medium", medium);
+        values.put("link", link);
+
+        int rowsUpdated = db.update("remote_support", values, "request_id = ?", 
+                                  new String[]{String.valueOf(requestId)});
+        db.close();
+        return rowsUpdated;
+    }
+
+    // Obtener soporte remoto por ID de solicitud
+    public RemoteSupport getRemoteSupportByRequestId(int requestId) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM remote_support WHERE request_id = ?", 
+                                   new String[]{String.valueOf(requestId)});
+
+        RemoteSupport remoteSupport = null;
+        if (cursor != null && cursor.moveToFirst()) {
+            remoteSupport = new RemoteSupport(
+                    cursor.getInt(cursor.getColumnIndex("id")),
+                    cursor.getInt(cursor.getColumnIndex("request_id")),
+                    cursor.getString(cursor.getColumnIndex("support_date")),
+                    cursor.getString(cursor.getColumnIndex("support_time")),
+                    cursor.getString(cursor.getColumnIndex("medium")),
+                    cursor.getString(cursor.getColumnIndex("link")),
+                    cursor.getString(cursor.getColumnIndex("client_cedula"))
+            );
+        }
+
+        cursor.close();
+        db.close();
+        return remoteSupport;
+    }
+
+    // Verificar si existe soporte remoto para un servicio
+    public boolean hasRemoteSupport(int requestId) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT 1 FROM remote_support WHERE request_id = ?", 
+                                   new String[]{String.valueOf(requestId)});
+
+        boolean hasSupport = cursor.moveToFirst();
+        cursor.close();
+        db.close();
+        return hasSupport;
+    }
+
+    // Obtener todos los servicios con soporte remoto
+    public List<RemoteSupport> getAllRemoteSupports() {
+        List<RemoteSupport> list = new ArrayList<>();
+        SQLiteDatabase db = helper.getReadableDatabase();
+        
+        String query = "SELECT rs.*, r.serviceDate, r.serviceTime " +
+                       "FROM remote_support rs " +
+                       "JOIN requests r ON rs.request_id = r.id " +
+                       "ORDER BY rs.support_date DESC, rs.support_time DESC";
+        
+        Cursor cursor = db.rawQuery(query, null);
+
+        while (cursor.moveToNext()) {
+            RemoteSupport remoteSupport = new RemoteSupport(
+                    cursor.getInt(cursor.getColumnIndex("id")),
+                    cursor.getInt(cursor.getColumnIndex("request_id")),
+                    cursor.getString(cursor.getColumnIndex("support_date")),
+                    cursor.getString(cursor.getColumnIndex("support_time")),
+                    cursor.getString(cursor.getColumnIndex("medium")),
+                    cursor.getString(cursor.getColumnIndex("link")),
+                    cursor.getString(cursor.getColumnIndex("client_cedula"))
+            );
+            list.add(remoteSupport);
+        }
+
+        cursor.close();
+        db.close();
+        return list;
+    }
+
 
 
 }

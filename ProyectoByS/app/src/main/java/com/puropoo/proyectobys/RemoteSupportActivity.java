@@ -21,14 +21,15 @@ import java.util.List;
 public class RemoteSupportActivity extends AppCompatActivity {
 
     private Spinner spinnerTechnicalServices;
-    private TextView tvClientCedula;
-    private TextView tvServiceDateTime;
     private EditText etMedio;
     private EditText etLink;
-    private Button btnVerServiciosRemotos;
+    private Button btnSave;
+    private Button btnViewRemoteServices;
 
     private DatabaseHelper db;
     private List<Request> technicalServices;
+    private Request selectedRequest;
+    private RemoteSupport existingRemoteSupport;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +51,10 @@ public class RemoteSupportActivity extends AppCompatActivity {
 
     private void initializeViews() {
         spinnerTechnicalServices = findViewById(R.id.spinnerTechnicalServices);
-        tvClientCedula = findViewById(R.id.tvClientCedula);
-        tvServiceDateTime = findViewById(R.id.tvServiceDateTime);
         etMedio = findViewById(R.id.etMedio);
         etLink = findViewById(R.id.etLink);
-        btnVerServiciosRemotos = findViewById(R.id.btnVerServiciosRemotos);
+        btnSave = findViewById(R.id.btnSave);
+        btnViewRemoteServices = findViewById(R.id.btnViewRemoteServices);
     }
 
     private void loadTechnicalServices() {
@@ -84,7 +84,8 @@ public class RemoteSupportActivity extends AppCompatActivity {
                 formattedDate = request.getServiceDate();
             }
             
-            String item = request.getServiceType() + " - " + formattedDate + " - " + request.getServiceTime();
+            // Formato: Cédula - Fecha - Hora
+            String item = request.getClientCedula() + " - " + formattedDate + " - " + request.getServiceTime();
             spinnerItems.add(item);
         }
 
@@ -113,51 +114,52 @@ public class RemoteSupportActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 0) { // Ignorar la opción "Seleccione un servicio"
-                    Request selectedRequest = technicalServices.get(position - 1);
-                    updateServiceInfo(selectedRequest);
+                    selectedRequest = technicalServices.get(position - 1);
+                    loadExistingRemoteSupport();
                 } else {
-                    clearServiceInfo();
+                    selectedRequest = null;
+                    clearForm();
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                clearServiceInfo();
+                selectedRequest = null;
+                clearForm();
             }
         });
 
-        // Listener para el botón
-        btnVerServiciosRemotos.setOnClickListener(v -> validateAndProceed());
+        // Listener para el botón guardar
+        btnSave.setOnClickListener(v -> saveRemoteSupport());
+        
+        // Listener para el botón ver servicios remotos
+        btnViewRemoteServices.setOnClickListener(v -> {
+            Intent intent = new Intent(RemoteSupportActivity.this, RemoteSupportListActivity.class);
+            startActivity(intent);
+        });
     }
 
-    private void updateServiceInfo(Request request) {
-        tvClientCedula.setText(request.getClientCedula());
-        
-        // Formatear fecha y hora
-        String formattedDate = request.getServiceDate();
-        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
-        
-        try {
-            Date date = inputFormat.parse(request.getServiceDate());
-            formattedDate = outputFormat.format(date);
-        } catch (ParseException e) {
-            // Si no se puede parsear, usar la fecha original
-            formattedDate = request.getServiceDate();
+    private void loadExistingRemoteSupport() {
+        if (selectedRequest != null) {
+            existingRemoteSupport = db.getRemoteSupportByRequestId(selectedRequest.getId());
+            
+            if (existingRemoteSupport != null) {
+                // Cargar datos existentes
+                etMedio.setText(existingRemoteSupport.getMedium());
+                etLink.setText(existingRemoteSupport.getLink() != null ? existingRemoteSupport.getLink() : "");
+                btnSave.setText("Editar");
+            } else {
+                // Limpiar campos para nuevo registro
+                etMedio.setText("");
+                etLink.setText("");
+                btnSave.setText("Guardar");
+            }
         }
-        
-        String dateTime = formattedDate + " a las " + request.getServiceTime();
-        tvServiceDateTime.setText(dateTime);
     }
 
-    private void clearServiceInfo() {
-        tvClientCedula.setText("No seleccionado");
-        tvServiceDateTime.setText("No seleccionado");
-    }
-
-    private void validateAndProceed() {
+    private void saveRemoteSupport() {
         // Validar que se haya seleccionado un servicio
-        if (spinnerTechnicalServices.getSelectedItemPosition() <= 0) {
+        if (selectedRequest == null) {
             Toast.makeText(this, "Por favor seleccione un servicio técnico", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -170,21 +172,36 @@ public class RemoteSupportActivity extends AppCompatActivity {
             return;
         }
 
-        // Si pasa todas las validaciones, navegar a la lista de servicios remotos
-        // Por ahora, mostrar un mensaje de éxito y simular la navegación
         String link = etLink.getText().toString().trim();
-        String successMessage = "Soporte remoto registrado exitosamente.\nMedio: " + medio;
-        if (!link.isEmpty()) {
-            successMessage += "\nLink: " + link;
+        
+        // Obtener fecha y hora actual
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+        Date now = new Date();
+        String currentDate = dateFormat.format(now);
+        String currentTime = timeFormat.format(now);
+
+        long result;
+        if (existingRemoteSupport != null) {
+            // Actualizar registro existente
+            result = db.updateRemoteSupport(selectedRequest.getId(), currentDate, currentTime, medio, link);
+            if (result > 0) {
+                Toast.makeText(this, "Soporte remoto actualizado exitosamente", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Error al actualizar el soporte remoto", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            // Insertar nuevo registro
+            result = db.insertRemoteSupport(selectedRequest.getId(), currentDate, currentTime, 
+                                          medio, link, selectedRequest.getClientCedula());
+            if (result > 0) {
+                Toast.makeText(this, "Soporte remoto guardado exitosamente", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Error al guardar el soporte remoto", Toast.LENGTH_SHORT).show();
+            }
         }
-        
-        Toast.makeText(this, successMessage, Toast.LENGTH_LONG).show();
-        
-        // TODO: Implementar navegación a la lista de servicios remotos
-        // Intent intent = new Intent(RemoteSupportActivity.this, RemoteServicesListActivity.class);
-        // startActivity(intent);
-        
-        // Por ahora, limpiar el formulario para permitir otro registro
+
+        // Limpiar formulario después de guardar
         clearForm();
     }
 
@@ -192,6 +209,8 @@ public class RemoteSupportActivity extends AppCompatActivity {
         spinnerTechnicalServices.setSelection(0);
         etMedio.setText("");
         etLink.setText("");
-        clearServiceInfo();
+        btnSave.setText("Guardar");
+        selectedRequest = null;
+        existingRemoteSupport = null;
     }
 }
