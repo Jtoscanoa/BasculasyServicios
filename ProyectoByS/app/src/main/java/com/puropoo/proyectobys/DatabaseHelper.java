@@ -255,6 +255,19 @@ public class DatabaseHelper {
         return isRegistered;
     }
 
+    // Obtener todos los teléfonos del equipo técnico
+    public List<String> getAllTeamPhones() {
+        List<String> phones = new ArrayList<>();
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT technician_phone FROM team_members WHERE technician_phone IS NOT NULL AND technician_phone != ''", null);
+        while (cursor.moveToNext()) {
+            phones.add(cursor.getString(cursor.getColumnIndex("technician_phone")));
+        }
+        cursor.close();
+        db.close();
+        return phones;
+    }
+
 
     // Método para verificar si ya se han asignado técnicos a una solicitud
     public boolean isTeamAssignedToRequest(int requestId) {
@@ -667,6 +680,94 @@ public class DatabaseHelper {
         cursor.close();
         db.close();
         return list;
+    }
+
+    // -------------------- SMS Notifications --------------------
+
+    public long insertSmsNotification(SmsNotification sms) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("request_id", sms.getRequestId());
+        values.put("recipient_type", sms.getRecipientType());
+        values.put("phone", sms.getPhone());
+        values.put("service_date", sms.getServiceDate());
+        values.put("service_time", sms.getServiceTime());
+        values.put("service_type", sms.getServiceType());
+        values.put("message", sms.getMessage());
+        values.put("scheduled_send", sms.getScheduledSend());
+        values.put("sent_time", sms.getSentTime());
+        long id = db.insert("sms_notifications", null, values);
+        db.close();
+        return id;
+    }
+
+    public void markSmsAsSent(int smsId, String sentTime) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("sent_time", sentTime);
+        db.update("sms_notifications", values, "id = ?", new String[]{String.valueOf(smsId)});
+        db.close();
+    }
+
+    public List<SmsNotification> getSmsNotifications(String recipientType, boolean sent) {
+        List<SmsNotification> list = new ArrayList<>();
+        SQLiteDatabase db = helper.getReadableDatabase();
+        String condition = sent ? "sent_time IS NOT NULL" : "sent_time IS NULL";
+        Cursor cursor = db.rawQuery(
+                "SELECT * FROM sms_notifications WHERE recipient_type = ? AND " + condition + " ORDER BY scheduled_send",
+                new String[]{recipientType});
+        while (cursor.moveToNext()) {
+            SmsNotification sms = new SmsNotification(
+                    cursor.getInt(cursor.getColumnIndex("id")),
+                    cursor.getInt(cursor.getColumnIndex("request_id")),
+                    cursor.getString(cursor.getColumnIndex("recipient_type")),
+                    cursor.getString(cursor.getColumnIndex("phone")),
+                    cursor.getString(cursor.getColumnIndex("service_date")),
+                    cursor.getString(cursor.getColumnIndex("service_time")),
+                    cursor.getString(cursor.getColumnIndex("service_type")),
+                    cursor.getString(cursor.getColumnIndex("message")),
+                    cursor.getString(cursor.getColumnIndex("scheduled_send")),
+                    cursor.getString(cursor.getColumnIndex("sent_time"))
+            );
+            list.add(sms);
+        }
+        cursor.close();
+        db.close();
+        return list;
+    }
+
+    public List<SmsNotification> getPendingSmsDue(String currentDateTime) {
+        List<SmsNotification> list = new ArrayList<>();
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT * FROM sms_notifications WHERE sent_time IS NULL AND scheduled_send <= ?",
+                new String[]{currentDateTime});
+        while (cursor.moveToNext()) {
+            SmsNotification sms = new SmsNotification(
+                    cursor.getInt(cursor.getColumnIndex("id")),
+                    cursor.getInt(cursor.getColumnIndex("request_id")),
+                    cursor.getString(cursor.getColumnIndex("recipient_type")),
+                    cursor.getString(cursor.getColumnIndex("phone")),
+                    cursor.getString(cursor.getColumnIndex("service_date")),
+                    cursor.getString(cursor.getColumnIndex("service_time")),
+                    cursor.getString(cursor.getColumnIndex("service_type")),
+                    cursor.getString(cursor.getColumnIndex("message")),
+                    cursor.getString(cursor.getColumnIndex("scheduled_send")),
+                    cursor.getString(cursor.getColumnIndex("sent_time"))
+            );
+            list.add(sms);
+        }
+        cursor.close();
+        db.close();
+        return list;
+    }
+
+    public void updateSmsMessage(int smsId, String message) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("message", message);
+        db.update("sms_notifications", values, "id = ?", new String[]{String.valueOf(smsId)});
+        db.close();
     }
 
 

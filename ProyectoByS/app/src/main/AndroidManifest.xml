@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.puropoo.proyectobys">
 
+    <uses-permission android:name="android.permission.SEND_SMS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -60,5 +62,6 @@
             <!-- Nueva actividad para listar servicios con soporte remoto -->
         </activity>
         <activity android:name=".MensajesSmsActivity" />
+        <activity android:name=".SmsManagementActivity" />
     </application>
 </manifest>
