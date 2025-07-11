@@ -21,7 +21,8 @@ public class RequestAdapter extends BaseAdapter {
     public RequestAdapter(Context context, List<Request> requests, DatabaseHelper db) {
         this.context = context;
         this.requests = requests;
-        this.db = new DatabaseHelper(context); // Crear la instancia de DatabaseHelper
+        // Use the instance provided by the caller instead of creating a new one
+        this.db = db;
     }
 
     @Override
