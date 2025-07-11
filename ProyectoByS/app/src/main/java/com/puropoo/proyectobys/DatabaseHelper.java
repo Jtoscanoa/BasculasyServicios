@@ -355,12 +355,17 @@ public class DatabaseHelper {
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
         String today = sdf.format(new java.util.Date());
         
+        // Make the query more flexible - look for any service type containing "install" (case-insensitive)
         String query = "SELECT id, serviceType, serviceDate, serviceTime, clientCedula, serviceAddress " +
-                       "FROM requests WHERE LOWER(serviceType) LIKE LOWER('%Instalac%') AND " +
+                       "FROM requests WHERE (LOWER(serviceType) LIKE '%install%' OR LOWER(serviceType) LIKE '%instalac%') AND " +
                        "serviceDate >= ? " +
                        "ORDER BY serviceDate, serviceTime";
         
+        android.util.Log.d("DatabaseHelper", "Query: " + query);
+        android.util.Log.d("DatabaseHelper", "Today: " + today);
+        
         Cursor c = db.rawQuery(query, new String[]{today});
+        android.util.Log.d("DatabaseHelper", "Cursor count: " + c.getCount());
 
         while (c.moveToNext()) {
             Request request = new Request(
@@ -372,10 +377,12 @@ public class DatabaseHelper {
                     c.getString(c.getColumnIndex("clientCedula"))
             );
             list.add(request);
+            android.util.Log.d("DatabaseHelper", "Found installation request: " + request.getServiceType());
         }
 
         c.close();
         db.close();
+        android.util.Log.d("DatabaseHelper", "Returning " + list.size() + " installation requests");
         return list;
     }
 

@@ -29,6 +29,20 @@
         android:layout_marginBottom="24dp"/>
 
     <TextView
+        android:id="@+id/tvNoServicesMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No hay servicios de instalación programados"
+        android:textSize="14sp"
+        android:textColor="#424242"
+        android:padding="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/message_background"
+        android:visibility="gone"
+        android:elevation="2dp"
+        android:gravity="center"/>
+
+    <TextView
         android:text="Nombre del Equipo:"
         style="@style/TextAppearance.Body"
         android:layout_width="match_parent"
