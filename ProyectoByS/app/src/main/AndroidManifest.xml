@@ -59,5 +59,6 @@
         <activity android:name=".RemoteSupportListActivity">
             <!-- Nueva actividad para listar servicios con soporte remoto -->
         </activity>
+        <activity android:name=".MensajesSmsActivity" />
     </application>
 </manifest>
