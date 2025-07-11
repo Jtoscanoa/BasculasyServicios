@@ -84,8 +84,8 @@ public class RemoteSupportActivity extends AppCompatActivity {
                 formattedDate = request.getServiceDate();
             }
             
-            // Formato: Cédula - Fecha - Hora
-            String item = request.getClientCedula() + " - " + formattedDate + " - " + request.getServiceTime();
+            // Formato: Número de servicio - Fecha - Hora
+            String item = request.getId() + " - " + formattedDate + " - " + request.getServiceTime();
             spinnerItems.add(item);
         }
 
