@@ -25,52 +25,7 @@
         android:id="@+id/spinnerTechnicalServices"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"/>
-
-    <TextView
-        android:text="Información del Servicio:"
-        style="@style/TextAppearance.Subtitle"
-        android:layout_marginBottom="8dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@android:drawable/edit_text"
-        android:padding="12dp"
-        android:layout_marginBottom="16dp">
-
-        <TextView
-            android:text="Cédula del Cliente:"
-            style="@style/TextAppearance.Body"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:id="@+id/tvClientCedula"
-            android:text="No seleccionado"
-            style="@style/TextAppearance.Body"
-            android:layout_marginBottom="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:text="Fecha y Hora del Servicio:"
-            style="@style/TextAppearance.Body"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:id="@+id/tvServiceDateTime"
-            android:text="No seleccionado"
-            style="@style/TextAppearance.Body"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
+        android:layout_marginBottom="24dp"/>
 
     <TextView
         android:text="Medio * (requerido):"
@@ -105,10 +60,19 @@
         android:layout_marginBottom="24dp"/>
 
     <Button
-        android:id="@+id/btnVerServiciosRemotos"
+        android:id="@+id/btnSave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ver Servicios Remotos"
+        android:text="Guardar"
+        android:background="@drawable/button_border_red"
+        android:textColor="#000000"
+        android:layout_marginBottom="16dp"/>
+
+    <Button
+        android:id="@+id/btnViewRemoteServices"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ver Servicios con Soporte Remoto"
         android:background="@drawable/button_border_red"
         android:textColor="#000000"/>
 

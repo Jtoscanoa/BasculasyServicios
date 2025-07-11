@@ -56,5 +56,8 @@
         <activity android:name=".RemoteSupportActivity">
             <!-- Nueva actividad para registrar soporte técnico remoto -->
         </activity>
+        <activity android:name=".RemoteSupportListActivity">
+            <!-- Nueva actividad para listar servicios con soporte remoto -->
+        </activity>
     </application>
 </manifest>
