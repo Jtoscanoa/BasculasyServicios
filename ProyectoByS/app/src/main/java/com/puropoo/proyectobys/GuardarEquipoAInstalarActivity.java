@@ -1,15 +1,16 @@
 package com.puropoo.proyectobys;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,10 +23,12 @@ public class GuardarEquipoAInstalarActivity extends AppCompatActivity {
     private Spinner spinnerServices;
     private EditText etEquipoNombre;
     private Button btnGuardar;
+    private TextView tvNoServicesMessage;
     private DatabaseHelper db;
     private List<Request> installationRequests;
     private int selectedRequestId = -1;
     private boolean isEditMode = false;
+    private static final String TAG = "GuardarEquipoActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,7 @@ public class GuardarEquipoAInstalarActivity extends AppCompatActivity {
         spinnerServices = findViewById(R.id.spinnerServices);
         etEquipoNombre = findViewById(R.id.etEquipoNombre);
         btnGuardar = findViewById(R.id.btnGuardar);
+        tvNoServicesMessage = findViewById(R.id.tvNoServicesMessage);
     }
 
     private void setupDatabase() {
@@ -49,14 +53,31 @@ public class GuardarEquipoAInstalarActivity extends AppCompatActivity {
     }
 
     private void loadInstallationServices() {
+        Log.d(TAG, "Loading installation services...");
+        
+        // First, let's check all requests to debug the issue
+        List<Request> allRequests = db.getAllRequests();
+        Log.d(TAG, "Total requests in database: " + allRequests.size());
+        
+        for (Request request : allRequests) {
+            Log.d(TAG, "Request: ID=" + request.getId() + ", ServiceType=" + request.getServiceType() + 
+                  ", Date=" + request.getServiceDate() + ", Time=" + request.getServiceTime() + 
+                  ", Client=" + request.getClientCedula());
+        }
+        
         installationRequests = db.getUpcomingInstallRequests();
+        Log.d(TAG, "Installation requests found: " + installationRequests.size());
         
         if (installationRequests.isEmpty()) {
-            Snackbar.make(findViewById(android.R.id.content), 
-                "No hay servicios de instalación programados", 
-                Snackbar.LENGTH_LONG).show();
+            Log.d(TAG, "No installation requests found, showing message");
+            tvNoServicesMessage.setVisibility(View.VISIBLE);
+            spinnerServices.setVisibility(View.GONE);
             return;
         }
+
+        // Hide the message and show the spinner
+        tvNoServicesMessage.setVisibility(View.GONE);
+        spinnerServices.setVisibility(View.VISIBLE);
 
         // Crear lista de strings para el spinner con formato "cedula - dd/MM/yyyy - HH:mm"
         List<String> spinnerItems = new ArrayList<>();
@@ -77,12 +98,15 @@ public class GuardarEquipoAInstalarActivity extends AppCompatActivity {
             
             String item = request.getClientCedula() + " - " + formattedDate + " - " + request.getServiceTime();
             spinnerItems.add(item);
+            Log.d(TAG, "Added spinner item: " + item);
         }
 
         // Configurar adaptador del spinner
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, spinnerItems);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerServices.setAdapter(adapter);
+        
+        Log.d(TAG, "Spinner configured with " + spinnerItems.size() + " items");
     }
 
     private void setupListeners() {
