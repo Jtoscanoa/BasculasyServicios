@@ -16,6 +16,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 
+import com.puropoo.proyectobys.SmsUtils;
+
 public class RegisterRequestActivity extends AppCompatActivity {
 
     Spinner spinnerClients, spinnerServiceType;
@@ -97,6 +99,8 @@ public class RegisterRequestActivity extends AppCompatActivity {
         long id = db.insertRequest(serviceType, serviceDate, serviceTime, clientCedula, newServiceAddress);
         if (id != -1) {
             Toast.makeText(this, "Solicitud guardada correctamente", Toast.LENGTH_LONG).show();
+            Request request = new Request((int) id, serviceType, serviceDate, serviceTime, newServiceAddress, clientCedula);
+            SmsUtils.scheduleSmsForRequest(this, request);
         } else {
             Toast.makeText(this, "Ya existe una solicitud para este cliente en esta fecha y hora", Toast.LENGTH_LONG).show();
         }

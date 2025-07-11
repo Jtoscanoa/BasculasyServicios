@@ -9,7 +9,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     // Definir el nombre y la versión de la base de datos
     private static final String DATABASE_NAME = "service_db";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
     
     // Definir constante SQL para crear la tabla equipo_instalar
     private static final String CREATE_EQUIPO_INSTALAR_TABLE = "CREATE TABLE IF NOT EXISTS equipo_instalar (" +
@@ -36,6 +36,19 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             "medium TEXT, " +
             "link TEXT, " +
             "client_cedula TEXT)";
+
+    // Tabla para notificaciones SMS
+    private static final String CREATE_SMS_NOTIFICATION_TABLE = "CREATE TABLE IF NOT EXISTS sms_notifications (" +
+            "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "request_id INTEGER, " +
+            "recipient_type TEXT, " +
+            "phone TEXT, " +
+            "service_date TEXT, " +
+            "service_time TEXT, " +
+            "service_type TEXT, " +
+            "message TEXT, " +
+            "scheduled_send TEXT, " +
+            "sent_time TEXT)";
 
     public SQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -90,6 +103,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         // Crear la tabla 'remote_support'
         db.execSQL(CREATE_REMOTE_SUPPORT_TABLE);
 
+        // Crear tabla para notificaciones SMS
+        db.execSQL(CREATE_SMS_NOTIFICATION_TABLE);
+
     }
 
     // Método para actualizar la base de datos
@@ -112,6 +128,11 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         if (oldVersion < 4) {
             // Crear la tabla 'remote_support' para la actualización de versión 3 a 4
             db.execSQL(CREATE_REMOTE_SUPPORT_TABLE);
+        }
+
+        // Manejar la actualización de versión 4 a 5
+        if (oldVersion < 5) {
+            db.execSQL(CREATE_SMS_NOTIFICATION_TABLE);
         }
     }
 
