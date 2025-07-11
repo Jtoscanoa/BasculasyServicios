@@ -223,11 +223,21 @@ public class RegisterSecondVisitActivity extends AppCompatActivity {
         }
 
         btnSaveSecondVisit.setEnabled(isValid);
+        
+        // Mostrar campos faltantes si hay alguno
+        if (!isValid && missingFields.length() > 0) {
+            String missingFieldsStr = missingFields.toString();
+            if (missingFieldsStr.endsWith(", ")) {
+                missingFieldsStr = missingFieldsStr.substring(0, missingFieldsStr.length() - 2);
+            }
+            // Solo mostrar el mensaje si es la primera vez que se valida o si el usuario intenta guardar
+            // Para evitar spam de mensajes mientras el usuario está completando el formulario
+        }
     }
 
     private void saveSecondVisit() {
-        if (selectedService == null) {
-            Toast.makeText(this, "Debe seleccionar un servicio de mantenimiento", Toast.LENGTH_SHORT).show();
+        // Validar campos antes de guardar
+        if (!validateFormForSave()) {
             return;
         }
 
@@ -270,6 +280,45 @@ public class RegisterSecondVisitActivity extends AppCompatActivity {
         } catch (Exception e) {
             Toast.makeText(this, "Error al procesar la segunda visita: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private boolean validateFormForSave() {
+        StringBuilder missingFields = new StringBuilder();
+
+        // Validar servicio seleccionado
+        if (selectedService == null) {
+            missingFields.append("Servicio de mantenimiento, ");
+        }
+
+        // Validar hora dentro del rango permitido
+        int currentHour = timePickerSecondVisit.getHour();
+        if (currentHour < 6 || currentHour > 19) {
+            missingFields.append("Hora válida (06:00-19:00), ");
+        }
+
+        // Validar que la fecha no sea pasada
+        Calendar selectedDate = Calendar.getInstance();
+        selectedDate.set(datePickerSecondVisit.getYear(), datePickerSecondVisit.getMonth(), datePickerSecondVisit.getDayOfMonth());
+        Calendar today = Calendar.getInstance();
+        today.set(Calendar.HOUR_OF_DAY, 0);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+        today.set(Calendar.MILLISECOND, 0);
+        
+        if (selectedDate.before(today)) {
+            missingFields.append("Fecha válida (hoy o futuro), ");
+        }
+
+        if (missingFields.length() > 0) {
+            String missingFieldsStr = missingFields.toString();
+            if (missingFieldsStr.endsWith(", ")) {
+                missingFieldsStr = missingFieldsStr.substring(0, missingFieldsStr.length() - 2);
+            }
+            Toast.makeText(this, "Faltan campos obligatorios: " + missingFieldsStr, Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        return true;
     }
 
     private void deleteSecondVisit() {
