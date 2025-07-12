@@ -21,19 +21,10 @@
         android:layout_marginTop="16dp" />
 
     <Button
-        android:id="@+id/btnRegisterMembers"
+        android:id="@+id/btnManageMembers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Registrar Integrantes"
-        android:background="@drawable/button_border_red"
-        android:textColor="#000000"
-        android:layout_marginTop="16dp"/>
-
-    <Button
-        android:id="@+id/btnSaveTeam"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Guardar equipo"
         android:background="@drawable/button_border_red"
         android:textColor="#000000"
         android:layout_marginTop="16dp"/>

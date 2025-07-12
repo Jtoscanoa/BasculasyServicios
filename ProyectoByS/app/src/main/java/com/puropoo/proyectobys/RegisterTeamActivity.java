@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.widget.AdapterView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,7 +18,7 @@ import java.util.List;
 public class RegisterTeamActivity extends AppCompatActivity {
 
     Spinner spinnerRequests;
-    Button btnSaveTeam, btnRegisterMembers;
+    Button btnManageMembers;
     EditText etTeamMembersCount;
 
     DatabaseHelper db;
@@ -31,35 +32,14 @@ public class RegisterTeamActivity extends AppCompatActivity {
         // Inicializamos los Spinners y EditTexts
         spinnerRequests = findViewById(R.id.spinnerRequests);
         etTeamMembersCount = findViewById(R.id.etTeamMembersCount);
-        btnSaveTeam = findViewById(R.id.btnSaveTeam);
-        btnRegisterMembers = findViewById(R.id.btnRegisterMembers);
+        btnManageMembers = findViewById(R.id.btnManageMembers);
 
         db = new DatabaseHelper(this);
 
         // Cargar las solicitudes en el spinner
         loadRequestsIntoSpinner();
 
-        btnRegisterMembers.setOnClickListener(v -> {
-            // Obtener el número de miembros del equipo
-            String teamMembersCountStr = etTeamMembersCount.getText().toString().trim();
-            int teamMembersCount = 0;
-
-            if (!teamMembersCountStr.isEmpty()) {
-                teamMembersCount = Integer.parseInt(teamMembersCountStr);
-            }
-
-            // Verificar que el valor sea mayor que 0
-            if (teamMembersCount > 0) {
-                Intent intent = new Intent(RegisterTeamActivity.this, RegisterMembersActivity.class);
-                intent.putExtra("teamMembersCount", teamMembersCount);  // Pasar la cantidad de miembros
-                startActivity(intent);
-            } else {
-                Toast.makeText(RegisterTeamActivity.this, "Por favor ingresa un número válido de miembros", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        // Guardar el equipo técnico
-        btnSaveTeam.setOnClickListener(v -> saveTeam());
+        btnManageMembers.setOnClickListener(v -> openMembersScreen());
     }
 
     // Método para cargar las solicitudes en el Spinner
@@ -75,43 +55,53 @@ public class RegisterTeamActivity extends AppCompatActivity {
         ArrayAdapter<String> requestAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, requestNames);
         requestAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerRequests.setAdapter(requestAdapter);
+
+        spinnerRequests.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
+                if (position >= 0 && position < requestsList.size()) {
+                    Request req = requestsList.get(position);
+                    boolean hasTeam = isTeamAssignedToRequest(req.getId());
+                    btnManageMembers.setText(hasTeam ? "Editar Integrantes" : "Registrar Integrantes");
+                    etTeamMembersCount.setEnabled(!hasTeam);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(android.widget.AdapterView<?> parent) {
+            }
+        });
     }
 
-    private void saveTeam() {
-        // Validar campos
-        String teamMembersCountStr = etTeamMembersCount.getText().toString().trim();
-        int teamMembersCount = 0;
-
-        // Verificar si el campo está vacío y asignar el valor
-        if (!teamMembersCountStr.isEmpty()) {
-            teamMembersCount = Integer.parseInt(teamMembersCountStr);
-        }
-
-        int selectedRequestPosition = spinnerRequests.getSelectedItemPosition();
-
-        if (selectedRequestPosition == -1 || teamMembersCount == 0) {
-            Toast.makeText(this, "Por favor, complete todos los campos.", Toast.LENGTH_SHORT).show();
+    private void openMembersScreen() {
+        int position = spinnerRequests.getSelectedItemPosition();
+        if (position == -1) {
+            Toast.makeText(this, "Seleccione una solicitud", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Obtener la solicitud seleccionada
-        Request selectedRequest = requestsList.get(selectedRequestPosition);
+        Request selectedRequest = requestsList.get(position);
+        boolean hasTeam = isTeamAssignedToRequest(selectedRequest.getId());
 
-        // Verificar si ya hay técnicos asignados a esta solicitud
-        if (isTeamAssignedToRequest(selectedRequest.getId())) {
-            Toast.makeText(this, "Ya se han asignado técnicos a esta solicitud.", Toast.LENGTH_SHORT).show();
-            return;
+        int membersCount = 0;
+        if (!hasTeam) {
+            String countStr = etTeamMembersCount.getText().toString().trim();
+            if (countStr.isEmpty()) {
+                Toast.makeText(this, "Ingrese la cantidad de miembros", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            membersCount = Integer.parseInt(countStr);
+            if (membersCount <= 0) {
+                Toast.makeText(this, "Cantidad inválida de miembros", Toast.LENGTH_SHORT).show();
+                return;
+            }
         }
 
-        // Insertar los técnicos si no hay ninguno asignado
-        long id = db.insertTeamMember("No asignado", "Rol no asignado", "", teamMembersCount);
-
-        if (id != -1) {
-            Toast.makeText(this, "Miembros del equipo registrados correctamente", Toast.LENGTH_LONG).show();
-            clearFields();  // Limpiar los campos después de registrar
-        } else {
-            Toast.makeText(this, "Error al registrar los miembros del equipo", Toast.LENGTH_LONG).show();
-        }
+        Intent intent = new Intent(this, RegisterMembersActivity.class);
+        intent.putExtra("requestId", selectedRequest.getId());
+        intent.putExtra("isEdit", hasTeam);
+        if (!hasTeam) intent.putExtra("teamMembersCount", membersCount);
+        startActivity(intent);
     }
 
     // Verificar si ya se han asignado técnicos a la solicitud
@@ -119,8 +109,4 @@ public class RegisterTeamActivity extends AppCompatActivity {
         return db.isTeamAssignedToRequest(requestId); // Usar el método con el tipo correcto
     }
 
-    private void clearFields() {
-        etTeamMembersCount.setText("");
-        spinnerRequests.setSelection(0);
-    }
 }
