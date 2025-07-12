@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -59,10 +58,11 @@ public class RemoteSupportActivity extends AppCompatActivity {
 
     private void loadTechnicalServices() {
         technicalServices = db.getFutureTechnicalServices();
-        
-        if (technicalServices.isEmpty()) {
-            // Si no hay servicios, agregar datos dummy para demostración
-            loadDummyData();
+
+        if (technicalServices == null || technicalServices.isEmpty()) {
+            Toast.makeText(this, "No hay servicios técnicos registrados", Toast.LENGTH_LONG).show();
+            finish();
+            return;
         }
 
         // Crear lista de strings para el spinner
@@ -95,18 +95,6 @@ public class RemoteSupportActivity extends AppCompatActivity {
         spinnerTechnicalServices.setAdapter(adapter);
     }
 
-    private void loadDummyData() {
-        // Agregar algunos datos dummy para demostración
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String futureDate1 = "2024-12-20";
-        String futureDate2 = "2024-12-25";
-        
-        Request dummyRequest1 = new Request(999, "Mantenimiento Preventivo", futureDate1, "10:00", "Dirección 123", "12345678");
-        Request dummyRequest2 = new Request(998, "Reparación Técnica", futureDate2, "14:30", "Dirección 456", "87654321");
-        
-        technicalServices.add(dummyRequest1);
-        technicalServices.add(dummyRequest2);
-    }
 
     private void setupListeners() {
         // Listener para el spinner

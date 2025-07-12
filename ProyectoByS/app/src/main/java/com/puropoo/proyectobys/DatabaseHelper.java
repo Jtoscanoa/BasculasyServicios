@@ -445,19 +445,21 @@ public class DatabaseHelper {
         List<Request> list = new ArrayList<>();
         SQLiteDatabase db = helper.getReadableDatabase();
         
-        // Obtener fecha actual en formato yyyy-MM-dd
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+        // Obtener fecha actual en formato dd/MM/yyyy (mismo formato que se almacena en la base de datos)
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
         String today = sdf.format(new java.util.Date());
-        
+
+        // Comparar las fechas convirtiendo el formato dd/MM/yyyy a yyyy-MM-dd dentro de la consulta
         String query = "SELECT id, serviceType, serviceDate, serviceTime, clientCedula, serviceAddress " +
                        "FROM requests WHERE (LOWER(serviceType) LIKE LOWER('%mantenimiento%') OR " +
                        "LOWER(serviceType) LIKE LOWER('%reparac%') OR " +
                        "LOWER(serviceType) LIKE LOWER('%técnic%') OR " +
                        "LOWER(serviceType) LIKE LOWER('%tecnic%')) AND " +
-                       "serviceDate >= ? " +
+                       "DATE(substr(serviceDate, 7, 4) || '-' || substr(serviceDate, 4, 2) || '-' || substr(serviceDate, 1, 2)) >= " +
+                       "DATE(substr(?, 7, 4) || '-' || substr(?, 4, 2) || '-' || substr(?, 1, 2)) " +
                        "ORDER BY serviceDate, serviceTime";
-        
-        Cursor c = db.rawQuery(query, new String[]{today});
+
+        Cursor c = db.rawQuery(query, new String[]{today, today, today});
 
         while (c.moveToNext()) {
             Request request = new Request(
