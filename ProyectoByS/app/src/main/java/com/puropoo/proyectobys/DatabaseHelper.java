@@ -278,6 +278,50 @@ public class DatabaseHelper {
         db.close();
         return hasTeamAssigned;
     }
+
+    // Insertar miembro del equipo asociado a una solicitud
+    public long insertTeamMemberForRequest(TeamMember member) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("request_id", member.getRequestId());
+        values.put("technician_name", member.getName());
+        values.put("technician_role", member.getRole());
+        values.put("technician_phone", member.getPhone());
+        values.put("technician_age", member.getAge());
+        values.put("technician_payment", member.getPayment());
+        long id = db.insert("team", null, values);
+        db.close();
+        return id;
+    }
+
+    // Obtener miembros del equipo por solicitud
+    public List<TeamMember> getTeamMembersForRequest(int requestId) {
+        List<TeamMember> list = new ArrayList<>();
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM team WHERE request_id = ?", new String[]{String.valueOf(requestId)});
+        while (cursor.moveToNext()) {
+            TeamMember m = new TeamMember(
+                    cursor.getInt(cursor.getColumnIndex("id")),
+                    requestId,
+                    cursor.getString(cursor.getColumnIndex("technician_name")),
+                    cursor.getString(cursor.getColumnIndex("technician_role")),
+                    cursor.getString(cursor.getColumnIndex("technician_phone")),
+                    cursor.getInt(cursor.getColumnIndex("technician_age")),
+                    cursor.getDouble(cursor.getColumnIndex("technician_payment"))
+            );
+            list.add(m);
+        }
+        cursor.close();
+        db.close();
+        return list;
+    }
+
+    // Eliminar miembros del equipo de una solicitud
+    public void deleteTeamMembersForRequest(int requestId) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        db.delete("team", "request_id = ?", new String[]{String.valueOf(requestId)});
+        db.close();
+    }
     public boolean insertMaintenanceRequirements(String serviceName, String requirements) {
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();

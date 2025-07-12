@@ -17,6 +17,8 @@ public class RegisterMembersActivity extends AppCompatActivity {
 
     LinearLayout layoutTeamMembers;
     int teamMembersCount;
+    int requestId;
+    boolean isEdit;
     DatabaseHelper db;
 
     @Override
@@ -25,69 +27,96 @@ public class RegisterMembersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register_members);
 
         layoutTeamMembers = findViewById(R.id.membersContainer);
-        teamMembersCount = getIntent().getIntExtra("teamMembersCount", 0);
         db = new DatabaseHelper(this);
 
-        if (teamMembersCount > 0) {
+        requestId = getIntent().getIntExtra("requestId", -1);
+        isEdit = getIntent().getBooleanExtra("isEdit", false);
+
+        if (isEdit) {
+            java.util.List<TeamMember> existing = db.getTeamMembersForRequest(requestId);
+            teamMembersCount = existing.size();
+            for (int i = 0; i < existing.size(); i++) {
+                TeamMember member = existing.get(i);
+                LinearLayout memberContainer = createMemberContainer(i, member);
+                layoutTeamMembers.addView(memberContainer);
+            }
+        } else {
+            teamMembersCount = getIntent().getIntExtra("teamMembersCount", 0);
             for (int i = 0; i < teamMembersCount; i++) {
-                // Crear contenedor para cada miembro
-                LinearLayout memberContainer = new LinearLayout(this);
-                memberContainer.setOrientation(LinearLayout.VERTICAL);
-                memberContainer.setPadding(0, 20, 0, 20);
-                memberContainer.setLayoutParams(new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT));
-
-                // Desplegable para seleccionar el rol
-                Spinner spinnerRole = new Spinner(this);
-                ArrayAdapter<String> roleAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new String[]{"Técnico", "Pintor", "Soldador"});
-                roleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinnerRole.setAdapter(roleAdapter);
-                memberContainer.addView(spinnerRole);
-
-                // Campo para ingresar el nombre
-                EditText etName = new EditText(this);
-                etName.setHint("Nombre del técnico " + (i + 1));
-                memberContainer.addView(etName);
-
-                // Campo para ingresar la edad
-                EditText etAge = new EditText(this);
-                etAge.setHint("Edad del técnico " + (i + 1));
-                etAge.setInputType(InputType.TYPE_CLASS_NUMBER);
-                memberContainer.addView(etAge);
-
-                // Campo para ingresar el número de teléfono
-                EditText etPhone = new EditText(this);
-                etPhone.setHint("Teléfono del técnico " + (i + 1));
-                etPhone.setInputType(InputType.TYPE_CLASS_PHONE);
-                memberContainer.addView(etPhone);
-
-                // Campo para ingresar el pago
-                EditText etPayment = new EditText(this);
-                etPayment.setHint("Pago del técnico " + (i + 1));
-                etPayment.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                memberContainer.addView(etPayment);
-
-                // Agregar el contenedor de este miembro al contenedor principal
+                LinearLayout memberContainer = createMemberContainer(i, null);
                 layoutTeamMembers.addView(memberContainer);
             }
         }
 
-        // Configurar el botón para guardar los miembros
         Button btnSaveMembers = findViewById(R.id.btnSaveMembers);
         btnSaveMembers.setOnClickListener(v -> saveMembers());
+    }
+
+    private LinearLayout createMemberContainer(int index, TeamMember prefill) {
+        LinearLayout memberContainer = new LinearLayout(this);
+        memberContainer.setOrientation(LinearLayout.VERTICAL);
+        memberContainer.setPadding(0, 20, 0, 20);
+        memberContainer.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+
+        Spinner spinnerRole = new Spinner(this);
+        ArrayAdapter<String> roleAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new String[]{"Técnico", "Pintor", "Soldador"});
+        roleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerRole.setAdapter(roleAdapter);
+        memberContainer.addView(spinnerRole);
+
+        EditText etName = new EditText(this);
+        etName.setHint("Nombre del técnico " + (index + 1));
+        memberContainer.addView(etName);
+
+        EditText etAge = new EditText(this);
+        etAge.setHint("Edad del técnico " + (index + 1));
+        etAge.setInputType(InputType.TYPE_CLASS_NUMBER);
+        memberContainer.addView(etAge);
+
+        EditText etPhone = new EditText(this);
+        etPhone.setHint("Teléfono del técnico " + (index + 1));
+        etPhone.setInputType(InputType.TYPE_CLASS_PHONE);
+        memberContainer.addView(etPhone);
+
+        EditText etPayment = new EditText(this);
+        etPayment.setHint("Pago del técnico " + (index + 1));
+        etPayment.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        memberContainer.addView(etPayment);
+
+        if (prefill != null) {
+            int pos = roleAdapter.getPosition(prefill.getRole());
+            if (pos >= 0) spinnerRole.setSelection(pos);
+            etName.setText(prefill.getName());
+            etAge.setText(String.valueOf(prefill.getAge()));
+            etPhone.setText(prefill.getPhone());
+            etPayment.setText(String.valueOf(prefill.getPayment()));
+        }
+
+        return memberContainer;
     }
 
     private void saveMembers() {
         boolean allFieldsValid = true;
         boolean success = true;
+
+        if (isEdit) {
+            db.deleteTeamMembersForRequest(requestId);
+        }
+
         for (int i = 0; i < layoutTeamMembers.getChildCount(); i++) {
             LinearLayout memberContainer = (LinearLayout) layoutTeamMembers.getChildAt(i);
 
-            String technicianRole = "", technicianName = "", technicianPhone = "", technicianAge = "", technicianPayment = "";
+            Spinner spinnerRole = (Spinner) memberContainer.getChildAt(0);
+            String technicianRole = spinnerRole.getSelectedItem().toString();
 
-            // Obtener los campos de cada miembro
-            for (int j = 0; j < memberContainer.getChildCount(); j++) {
+            String technicianName = "";
+            String technicianPhone = "";
+            String technicianAge = "";
+            String technicianPayment = "";
+
+            for (int j = 1; j < memberContainer.getChildCount(); j++) {
                 View childView = memberContainer.getChildAt(j);
                 if (childView instanceof EditText) {
                     EditText etField = (EditText) childView;
@@ -111,27 +140,26 @@ public class RegisterMembersActivity extends AppCompatActivity {
                 break;  // Si algún campo está vacío, no continuar con el guardado
             }
 
-            // Comprobar si el teléfono ya existe en la base de datos
-            if (db.isPhoneNumberRegistered(technicianPhone)) {
-                // Si el teléfono ya está registrado, mostrar un mensaje pero permitir registrar de nuevo
-                Toast.makeText(this, "El teléfono " + technicianPhone + " ya está registrado, pero puede ser registrado nuevamente.", Toast.LENGTH_SHORT).show();
-            } else {
-                // Convertir el valor de pago a long, en lugar de int
-                long payment = 0;
-                try {
-                    payment = Long.parseLong(technicianPayment);  // Usa Long.parseLong() en lugar de Integer.parseInt()
-                } catch (NumberFormatException e) {
-                    Toast.makeText(this, "Error al ingresar el pago. Asegúrese de que sea un número válido.", Toast.LENGTH_SHORT).show();
-                    success = false;
-                    break;
-                }
+            long payment = 0;
+            try {
+                payment = Long.parseLong(technicianPayment);
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "Error al ingresar el pago.", Toast.LENGTH_SHORT).show();
+                success = false;
+                break;
+            }
 
-                // Guardar técnico en la base de datos
-                long id = db.insertTeamMember(technicianName, technicianRole, technicianPhone, Integer.parseInt(technicianAge));
-                if (id == -1) {
-                    success = false;  // Si el guardado falla, no continuar
-                    break;
-                }
+            int age = 0;
+            try {
+                age = Integer.parseInt(technicianAge);
+            } catch (NumberFormatException ignore) {
+            }
+
+            TeamMember member = new TeamMember(requestId, technicianName, technicianRole, technicianPhone, age, payment);
+            long id = db.insertTeamMemberForRequest(member);
+            if (id == -1) {
+                success = false;
+                break;
             }
         }
 

@@ -9,7 +9,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     // Definir el nombre y la versión de la base de datos
     private static final String DATABASE_NAME = "service_db";
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 6;
     
     // Definir constante SQL para crear la tabla equipo_instalar
     private static final String CREATE_EQUIPO_INSTALAR_TABLE = "CREATE TABLE IF NOT EXISTS equipo_instalar (" +
@@ -82,10 +82,12 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         // Crear tabla 'team' (falta esta tabla)
         db.execSQL("CREATE TABLE IF NOT EXISTS team (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "request_id INTEGER, " + // Relación con la solicitud
+                "request_id INTEGER, " +
                 "technician_name TEXT, " +
                 "technician_role TEXT, " +
-                "technician_phone TEXT);");
+                "technician_phone TEXT, " +
+                "technician_age INTEGER, " +
+                "technician_payment REAL);");
 
         // Crear la tabla 'maintenance_requirements'
         String CREATE_MAINTENANCE_REQUIREMENTS_TABLE = "CREATE TABLE IF NOT EXISTS maintenance_requirements (" +
@@ -133,6 +135,18 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         // Manejar la actualización de versión 4 a 5
         if (oldVersion < 5) {
             db.execSQL(CREATE_SMS_NOTIFICATION_TABLE);
+        }
+
+        if (oldVersion < 6) {
+            db.execSQL("DROP TABLE IF EXISTS team");
+            db.execSQL("CREATE TABLE IF NOT EXISTS team (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "request_id INTEGER, " +
+                    "technician_name TEXT, " +
+                    "technician_role TEXT, " +
+                    "technician_phone TEXT, " +
+                    "technician_age INTEGER, " +
+                    "technician_payment REAL);");
         }
     }
 
