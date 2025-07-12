@@ -51,9 +51,15 @@ public class SmsManagementActivity extends AppCompatActivity {
         for (SmsNotification sms : currentList) {
             String text;
             if (sent) {
-                text = "Enviado: " + sms.getSentTime() + " - Servicio: " + sms.getServiceType() + " " + sms.getServiceDate() + " " + sms.getServiceTime();
+                text = "Enviado: " + sms.getSentTime()
+                        + " a " + sms.getPhone()
+                        + " - Servicio: " + sms.getServiceType()
+                        + " " + sms.getServiceDate() + " " + sms.getServiceTime();
             } else {
-                text = "Programado: " + sms.getScheduledSend() + " - Servicio: " + sms.getServiceType() + " " + sms.getServiceDate() + " " + sms.getServiceTime();
+                text = "Programado: " + sms.getScheduledSend()
+                        + " a " + sms.getPhone()
+                        + " - Servicio: " + sms.getServiceType()
+                        + " " + sms.getServiceDate() + " " + sms.getServiceTime();
             }
             display.add(text);
         }
@@ -63,6 +69,7 @@ public class SmsManagementActivity extends AppCompatActivity {
     private void showInstructionDialog(SmsNotification sms) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Agregar instrucciones");
+        builder.setMessage("Tel\u00e9fono: " + sms.getPhone());
         final EditText input = new EditText(this);
         input.setText(sms.getMessage());
         builder.setView(input);
