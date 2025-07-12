@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Base background with red border and a thin gradient line at the bottom.
+    The line goes from near white on the left to the same red used for the
+    button borders on the right.
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Base background with rounded red border -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF"/>
+            <stroke android:width="1dp" android:color="#BD3F3F"/>
+            <corners android:radius="8dp"/>
+        </shape>
+    </item>
+
+    <!-- Gradient underline -->
+    <item android:gravity="bottom">
+        <shape android:shape="rectangle">
+            <size android:height="2dp"/>
+            <gradient android:startColor="#FFF5F5"
+                      android:endColor="#BD3F3F"
+                      android:angle="0"/>
+        </shape>
+    </item>
+</layer-list>
