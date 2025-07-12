@@ -3,8 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#FFFFFF">
+    android:padding="24dp"
+    android:background="#FFFFFF"
+    android:gravity="center_horizontal">
 
     <TextView
         android:text="Registrar Soporte Técnico Remoto"
@@ -25,6 +26,8 @@
         android:id="@+id/spinnerTechnicalServices"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/button_border_red"
+        android:padding="12dp"
         android:layout_marginBottom="24dp"/>
 
     <TextView
@@ -41,6 +44,8 @@
         android:hint="Ej: Zoom, Meet, WhatsApp, etc."
         style="@style/TextAppearance.Body"
         android:inputType="text"
+        android:background="@drawable/edittext_border_red"
+        android:padding="12dp"
         android:layout_marginBottom="16dp"/>
 
     <TextView
@@ -57,23 +62,18 @@
         android:hint="Enlace del medio de comunicación"
         style="@style/TextAppearance.Body"
         android:inputType="textUri"
+        android:background="@drawable/edittext_border_red"
+        android:padding="12dp"
         android:layout_marginBottom="24dp"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Guardar"
         android:background="@drawable/button_border_red"
         android:textColor="#000000"
+        android:padding="12dp"
         android:layout_marginBottom="16dp"/>
-
-    <Button
-        android:id="@+id/btnViewRemoteServices"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Ver Servicios con Soporte Remoto"
-        android:background="@drawable/button_border_red"
-        android:textColor="#000000"/>
 
 </LinearLayout>
