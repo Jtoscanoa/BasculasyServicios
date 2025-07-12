@@ -55,16 +55,6 @@ public class GuardarEquipoAInstalarActivity extends AppCompatActivity {
     private void loadInstallationServices() {
         Log.d(TAG, "Loading installation services...");
         
-        // First, let's check all requests to debug the issue
-        List<Request> allRequests = db.getAllRequests();
-        Log.d(TAG, "Total requests in database: " + allRequests.size());
-        
-        for (Request request : allRequests) {
-            Log.d(TAG, "Request: ID=" + request.getId() + ", ServiceType=" + request.getServiceType() + 
-                  ", Date=" + request.getServiceDate() + ", Time=" + request.getServiceTime() + 
-                  ", Client=" + request.getClientCedula());
-        }
-        
         installationRequests = db.getUpcomingInstallRequests();
         Log.d(TAG, "Installation requests found: " + installationRequests.size());
         
@@ -79,24 +69,13 @@ public class GuardarEquipoAInstalarActivity extends AppCompatActivity {
         tvNoServicesMessage.setVisibility(View.GONE);
         spinnerServices.setVisibility(View.VISIBLE);
 
-        // Crear lista de strings para el spinner con formato "cedula - dd/MM/yyyy - HH:mm"
+        // Crear lista de strings para el spinner
         List<String> spinnerItems = new ArrayList<>();
-        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+        spinnerItems.add("Seleccione un servicio");
         
         for (Request request : installationRequests) {
             String formattedDate = request.getServiceDate();
-            
-            // Convertir fecha de yyyy-MM-dd a dd/MM/yyyy
-            try {
-                Date date = inputFormat.parse(request.getServiceDate());
-                formattedDate = outputFormat.format(date);
-            } catch (ParseException e) {
-                // Si no se puede parsear, usar la fecha original
-                formattedDate = request.getServiceDate();
-            }
-            
-            String item = request.getClientCedula() + " - " + formattedDate + " - " + request.getServiceTime();
+            String item = request.getId() + " - " + formattedDate + " - " + request.getServiceTime();
             spinnerItems.add(item);
             Log.d(TAG, "Added spinner item: " + item);
         }
@@ -113,8 +92,8 @@ public class GuardarEquipoAInstalarActivity extends AppCompatActivity {
         spinnerServices.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position >= 0 && position < installationRequests.size()) {
-                    Request selectedRequest = installationRequests.get(position);
+                if (position > 0) { // Ignorar la opción por defecto
+                    Request selectedRequest = installationRequests.get(position - 1);
                     selectedRequestId = selectedRequest.getId();
                     
                     // Verificar si ya existe equipo para esta solicitud
@@ -191,8 +170,8 @@ public class GuardarEquipoAInstalarActivity extends AppCompatActivity {
 
     private Request getSelectedRequest() {
         int selectedPosition = spinnerServices.getSelectedItemPosition();
-        if (selectedPosition >= 0 && selectedPosition < installationRequests.size()) {
-            return installationRequests.get(selectedPosition);
+        if (selectedPosition > 0 && selectedPosition - 1 < installationRequests.size()) {
+            return installationRequests.get(selectedPosition - 1);
         }
         return null;
     }
