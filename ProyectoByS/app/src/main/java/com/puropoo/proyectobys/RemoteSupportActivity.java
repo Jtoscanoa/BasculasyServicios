@@ -1,6 +1,5 @@
 package com.puropoo.proyectobys;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,7 +22,6 @@ public class RemoteSupportActivity extends AppCompatActivity {
     private EditText etMedio;
     private EditText etLink;
     private Button btnSave;
-    private Button btnViewRemoteServices;
 
     private DatabaseHelper db;
     private List<Request> technicalServices;
@@ -53,7 +51,6 @@ public class RemoteSupportActivity extends AppCompatActivity {
         etMedio = findViewById(R.id.etMedio);
         etLink = findViewById(R.id.etLink);
         btnSave = findViewById(R.id.btnSave);
-        btnViewRemoteServices = findViewById(R.id.btnViewRemoteServices);
     }
 
     private void loadTechnicalServices() {
@@ -120,11 +117,6 @@ public class RemoteSupportActivity extends AppCompatActivity {
         // Listener para el botón guardar
         btnSave.setOnClickListener(v -> saveRemoteSupport());
         
-        // Listener para el botón ver servicios remotos
-        btnViewRemoteServices.setOnClickListener(v -> {
-            Intent intent = new Intent(RemoteSupportActivity.this, RemoteSupportListActivity.class);
-            startActivity(intent);
-        });
     }
 
     private void loadExistingRemoteSupport() {
