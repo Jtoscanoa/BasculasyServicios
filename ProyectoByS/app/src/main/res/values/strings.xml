@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Básculas y Servicios</string>
     <string-array name="service_types">
+        <item>Seleccionar tipo de servicio...</item>
         <item>Servicio Técnico</item>
         <item>Servicio de Mantenimiento</item>
         <item>Servicio de Instalación</item>
@@ -10,7 +11,9 @@
         <item>Pintor</item>
         <item>Soldador</item>
         <!-- Agrega más roles si es necesario -->
-    </array>
-
+</array>
+    <string name="select_client">Seleccionar cliente...</string>
+    <string name="select_request">Seleccionar solicitud...</string>
+    <string name="select_service">Seleccionar servicio...</string>
 
 </resources>

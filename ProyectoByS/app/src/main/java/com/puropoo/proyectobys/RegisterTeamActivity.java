@@ -47,6 +47,7 @@ public class RegisterTeamActivity extends AppCompatActivity {
         // Obtener todas las solicitudes
         requestsList = db.getAllRequests();
         List<String> requestNames = new ArrayList<>();
+        requestNames.add(getString(R.string.select_request));
         for (Request request : requestsList) {
             // Formato: "Nombre del cliente - Fecha"
             requestNames.add(request.getServiceType() + " - " + request.getServiceDate());
@@ -59,8 +60,8 @@ public class RegisterTeamActivity extends AppCompatActivity {
         spinnerRequests.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
-                if (position >= 0 && position < requestsList.size()) {
-                    Request req = requestsList.get(position);
+                if (position > 0 && position - 1 < requestsList.size()) {
+                    Request req = requestsList.get(position - 1);
                     boolean hasTeam = isTeamAssignedToRequest(req.getId());
                     btnManageMembers.setText(hasTeam ? "Editar Integrantes" : "Registrar Integrantes");
                     etTeamMembersCount.setEnabled(!hasTeam);
@@ -75,12 +76,12 @@ public class RegisterTeamActivity extends AppCompatActivity {
 
     private void openMembersScreen() {
         int position = spinnerRequests.getSelectedItemPosition();
-        if (position == -1) {
-            Toast.makeText(this, "Seleccione una solicitud", Toast.LENGTH_SHORT).show();
+        if (position <= 0) {
+            Toast.makeText(this, getString(R.string.select_request), Toast.LENGTH_SHORT).show();
             return;
         }
 
-        Request selectedRequest = requestsList.get(position);
+        Request selectedRequest = requestsList.get(position - 1);
         boolean hasTeam = isTeamAssignedToRequest(selectedRequest.getId());
 
         int membersCount = 0;

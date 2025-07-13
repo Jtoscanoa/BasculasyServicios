@@ -48,6 +48,7 @@ public class RegisterMaintenanceRequirementsActivity extends AppCompatActivity {
     private void loadMaintenanceServices() {
         maintenanceRequests = db.getAllRequests();  // Obtener todos los servicios de mantenimiento
         List<String> serviceNames = new ArrayList<>();
+        serviceNames.add(getString(R.string.select_service));
         for (Request request : maintenanceRequests) {
             // Filtrar solo los servicios de mantenimiento
             if (request.getServiceType() != null && request.getServiceType().toLowerCase().contains("mantenimiento")) {
@@ -60,8 +61,10 @@ public class RegisterMaintenanceRequirementsActivity extends AppCompatActivity {
         spinnerServices.setAdapter(serviceAdapter);
 
         // Cargar los requerimientos existentes para el servicio seleccionado (si existen)
-        String selectedService = spinnerServices.getSelectedItem().toString();
-        loadExistingRequirements(selectedService);
+        if (spinnerServices.getSelectedItemPosition() > 0) {
+            String selectedService = spinnerServices.getSelectedItem().toString();
+            loadExistingRequirements(selectedService);
+        }
     }
 
     // Método para cargar los requerimientos existentes en el campo de texto
@@ -95,6 +98,10 @@ public class RegisterMaintenanceRequirementsActivity extends AppCompatActivity {
         }
 
         // Obtener el servicio seleccionado
+        if (spinnerServices.getSelectedItemPosition() <= 0) {
+            Toast.makeText(this, getString(R.string.select_service), Toast.LENGTH_SHORT).show();
+            return;
+        }
         String selectedService = spinnerServices.getSelectedItem().toString();
 
         // Verificar si los requerimientos ya existen para este servicio
@@ -146,8 +153,10 @@ public class RegisterMaintenanceRequirementsActivity extends AppCompatActivity {
         super.onResume();
 
         // Obtener el servicio seleccionado
-        String selectedService = spinnerServices.getSelectedItem().toString();
-        loadExistingRequirements(selectedService);
+        if (spinnerServices.getSelectedItemPosition() > 0) {
+            String selectedService = spinnerServices.getSelectedItem().toString();
+            loadExistingRequirements(selectedService);
+        }
     }
 
 

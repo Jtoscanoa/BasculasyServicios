@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import java.text.SimpleDateFormat;
@@ -21,7 +23,9 @@ import com.puropoo.proyectobys.SmsUtils;
 public class RegisterRequestActivity extends AppCompatActivity {
 
     Spinner spinnerClients, spinnerServiceType;
-    EditText etServiceDate, etServiceTime, etServiceAddress;
+    DatePicker datePickerServiceDate;
+    TimePicker timePickerServiceTime;
+    EditText etServiceAddress;
     Button btnSaveRequest, btnViewRequests;
     DatabaseHelper db;
     List<Client> clientsList;
@@ -33,8 +37,9 @@ public class RegisterRequestActivity extends AppCompatActivity {
 
         spinnerClients = findViewById(R.id.spinnerClients);
         spinnerServiceType = findViewById(R.id.spinnerServiceType);
-        etServiceDate = findViewById(R.id.etServiceDate);
-        etServiceTime = findViewById(R.id.etServiceTime);
+        datePickerServiceDate = findViewById(R.id.datePickerServiceDate);
+        timePickerServiceTime = findViewById(R.id.timePickerServiceTime);
+        timePickerServiceTime.setIs24HourView(true);
         btnSaveRequest = findViewById(R.id.btnSaveRequest);
         btnViewRequests = findViewById(R.id.btnViewRequests);
         etServiceAddress = findViewById(R.id.etServiceAddress); // Vincula el EditText para la dirección
@@ -45,6 +50,7 @@ public class RegisterRequestActivity extends AppCompatActivity {
         // Cargar clientes al spinner
         clientsList = db.getAllClients();
         List<String> clientNames = new ArrayList<>();
+        clientNames.add(getString(R.string.select_client));
         for (Client client : clientsList) {
             clientNames.add(client.getName() + " - " + client.getCedula());
         }
@@ -69,10 +75,30 @@ public class RegisterRequestActivity extends AppCompatActivity {
     }
 
     private void saveRequest() {
-        String serviceDate = etServiceDate.getText().toString();
-        String serviceTime = etServiceTime.getText().toString();
+        String serviceDate = String.format("%02d/%02d/%04d",
+                datePickerServiceDate.getDayOfMonth(),
+                datePickerServiceDate.getMonth() + 1,
+                datePickerServiceDate.getYear());
+
+        String serviceTime = String.format("%02d:%02d",
+                timePickerServiceTime.getHour(),
+                timePickerServiceTime.getMinute());
+
+        int servicePos = spinnerServiceType.getSelectedItemPosition();
+        int clientPos = spinnerClients.getSelectedItemPosition();
+
+        if (clientPos <= 0) {
+            Toast.makeText(this, getString(R.string.select_client), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (servicePos <= 0) {
+            Toast.makeText(this, getString(R.string.select_service), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         String serviceType = spinnerServiceType.getSelectedItem().toString();
-        String clientCedula = clientsList.get(spinnerClients.getSelectedItemPosition()).getCedula();  // Obtener la cédula del cliente seleccionado
+        String clientCedula = clientsList.get(clientPos - 1).getCedula();
         String newServiceAddress = etServiceAddress.getText().toString();
 
         // Validación de fecha
@@ -87,11 +113,7 @@ public class RegisterRequestActivity extends AppCompatActivity {
             return;
         }
 
-        // Validación de campos vacíos
-        if (serviceDate.isEmpty() || serviceTime.isEmpty() || serviceType.isEmpty()) {
-            Toast.makeText(this, "Por favor complete todos los campos.", Toast.LENGTH_SHORT).show();
-            return;
-        }
+
 
         // Guardar solicitud
         // Obtener la cédula del cliente seleccionado
