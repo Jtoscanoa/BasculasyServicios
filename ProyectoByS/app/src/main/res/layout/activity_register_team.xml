@@ -52,7 +52,9 @@
             android:id="@+id/spinnerRequests"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Seleccione la solicitud" />
+            android:hint="Seleccione la solicitud"
+            android:background="@drawable/button_border_red"
+            android:padding="12dp" />
 
         <EditText
             android:id="@+id/etTeamMembersCount"

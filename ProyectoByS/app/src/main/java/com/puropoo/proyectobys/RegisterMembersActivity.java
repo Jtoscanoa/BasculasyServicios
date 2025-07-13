@@ -64,6 +64,9 @@ public class RegisterMembersActivity extends AppCompatActivity {
         ArrayAdapter<String> roleAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new String[]{"Técnico", "Pintor", "Soldador"});
         roleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerRole.setAdapter(roleAdapter);
+        spinnerRole.setBackgroundResource(R.drawable.button_border_red);
+        int padding = (int) getResources().getDimensionPixelSize(R.dimen.spinner_padding);
+        spinnerRole.setPadding(padding, padding, padding, padding);
         memberContainer.addView(spinnerRole);
 
         EditText etName = new EditText(this);
