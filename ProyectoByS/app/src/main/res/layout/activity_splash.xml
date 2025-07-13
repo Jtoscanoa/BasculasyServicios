@@ -4,13 +4,27 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF">
 
+    <!-- LOGO CENTRADO -->
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/logobys"
+        android:contentDescription="Logo de la empresa" />
+
+    <!-- TEXTO ANIMADO DESDE ABAJO -->
     <TextView
         android:id="@+id/tvSplashMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Básculas y Servicios"
-        style="@style/TextAppearance.Title"
-        android:textSize="36sp"
         android:textColor="#BD3F3F"
-        android:layout_centerInParent="true"/>
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:layout_below="@id/ivLogo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:visibility="invisible"/>
+
 </RelativeLayout>
