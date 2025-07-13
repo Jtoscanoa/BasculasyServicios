@@ -1,117 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp"
     android:background="#FFFFFF">
 
-    <TextView
-        android:text="Menú Principal"
-        style="@style/TextAppearance.Title"
-        android:layout_marginBottom="32dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/btnRegisterClient"
-        android:text="REGISTRAR CLIENTES"
-        android:background="@drawable/button_border_red"
-        android:textColor="#000000"
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp" />
+        android:padding="24dp">
 
-    <Button
-        android:id="@+id/btnRegisterRequests"
-        android:text="REGISTRAR SOLICITUDES"
-        android:background="@drawable/button_border_red"
-        android:textColor="#000000"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp" />
+        <!-- LOGO CENTRADO -->
+        <ImageView
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:src="@drawable/logobys"
+            android:layout_marginBottom="8dp"
+            android:contentDescription="Logo de la empresa"/>
 
-    <Button
-        android:id="@+id/btnViewClients"
-        android:text="VISUALIZAR CLIENTES"
-        android:background="@drawable/button_border_red"
-        android:textColor="#000000"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_marginBottom="16dp" />
+        <!-- TEXTO DE BIENVENIDA -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bienvenido a la Aplicación"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="#000000"/>
 
-    <Button
-        android:id="@+id/btnRegisterTeam"
-        android:text="REGISTRAR EQUIPO TÉCNICO"
-        android:background="@drawable/button_border_red"
-        android:textColor="#000000"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Básculas y Servicios"
+            android:textStyle="normal"
+            android:textSize="14sp"
+            android:textColor="#000000"
+            android:layout_marginBottom="24dp"/>
 
-    <Button
-        android:id="@+id/btnRegisterRequirements"
-        android:text="REGISTRAR REQUERIMIENTOS DE MANTENIMIENTO"
-        android:background="@drawable/button_border_red"
-        android:textColor="#000000"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp" />
+        <!-- TÍTULO DEL MENÚ -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Menú Principal"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:layout_marginBottom="32dp" />
 
-    <Button
-        android:id="@+id/btnRegisterEquipment"
-        android:text="REGISTRAR EQUIPO A INSTALAR"
-        android:background="@drawable/button_border_red"
-        android:textColor="#000000"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_marginBottom="16dp" />
+        <!-- BOTONES -->
+        <Button
+            android:id="@+id/btnRegisterClient"
+            android:text="REGISTRAR CLIENTES"
+            android:background="@drawable/button_border_red"
+            android:textColor="#000000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
 
-    <Button
-        android:id="@+id/btnGuardarEquipoAInstalar"
-        android:text="Guardar Equipo a Instalar"
-        android:background="@drawable/button_border_red"
-        android:textColor="#000000"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp" />
+        <Button
+            android:id="@+id/btnRegisterRequests"
+            android:text="REGISTRAR SOLICITUDES"
+            android:background="@drawable/button_border_red"
+            android:textColor="#000000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
 
-    <Button
-        android:id="@+id/btnRegisterSecondVisit"
-        android:text="REGISTRAR SEGUNDA VISITA"
-        android:background="@drawable/button_border_red"
-        android:textColor="#000000"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp" />
+        <Button
+            android:id="@+id/btnViewClients"
+            android:text="VISUALIZAR CLIENTES"
+            android:background="@drawable/button_border_red"
+            android:textColor="#000000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginBottom="16dp" />
 
-    <Button
-        android:id="@+id/btnRemoteSupport"
-        android:text="SOPORTE TÉCNICO REMOTO"
-        android:background="@drawable/button_border_red"
-        android:textColor="#000000"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp" />
+        <Button
+            android:id="@+id/btnRegisterTeam"
+            android:text="REGISTRAR EQUIPO TÉCNICO"
+            android:background="@drawable/button_border_red"
+            android:textColor="#000000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
 
-    <Button
-        android:id="@+id/btnMensajesSms"
-        android:text="MENSAJES SMS"
-        android:background="@drawable/button_border_red"
-        android:textColor="#000000"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp" />
+        <Button
+            android:id="@+id/btnRegisterRequirements"
+            android:text="REGISTRAR REQUERIMIENTOS DE MANTENIMIENTO"
+            android:background="@drawable/button_border_red"
+            android:textColor="#000000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
 
-    <Spinner
-        android:id="@+id/spinnerClients"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_marginBottom="16dp" />
+        <Button
+            android:id="@+id/btnRegisterEquipment"
+            android:text="REGISTRAR EQUIPO A INSTALAR"
+            android:background="@drawable/button_border_red"
+            android:textColor="#000000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginBottom="16dp" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/btnGuardarEquipoAInstalar"
+            android:text="Guardar Equipo a Instalar"
+            android:background="@drawable/button_border_red"
+            android:textColor="#000000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/btnRegisterSecondVisit"
+            android:text="REGISTRAR SEGUNDA VISITA"
+            android:background="@drawable/button_border_red"
+            android:textColor="#000000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/btnRemoteSupport"
+            android:text="SOPORTE TÉCNICO REMOTO"
+            android:background="@drawable/button_border_red"
+            android:textColor="#000000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/btnMensajesSms"
+            android:text="MENSAJES SMS"
+            android:background="@drawable/button_border_red"
+            android:textColor="#000000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
+
+        <Spinner
+            android:id="@+id/spinnerClients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginBottom="16dp" />
+    </LinearLayout>
+</ScrollView>
