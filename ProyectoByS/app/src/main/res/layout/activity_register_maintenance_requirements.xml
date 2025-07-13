@@ -1,43 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="16dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
     android:background="#FFFFFF">
 
-    <Spinner
-        android:id="@+id/spinnerServices"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"/>
+        android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/etRequirements"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:hint="Ingrese los requerimientos del mantenimiento"
-        style="@style/TextAppearance.Body"
-        android:layout_marginBottom="16dp"
-        android:scrollbars="vertical"
-        android:gravity="top|start"
-        android:inputType="textMultiLine"/>
+        <!-- ENCABEZADO SUPERIOR -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp"
+            android:gravity="center_vertical">
 
-    <Button
-        android:id="@+id/btnSaveRequirements"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Guardar Requerimientos"
-        android:background="@drawable/button_border_red"
-        android:textColor="#000000"/>
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/logobys"
+                android:contentDescription="Logo de la empresa"
+                android:layout_marginEnd="8dp"/>
 
-    <Button
-        android:id="@+id/btnEditRequirements"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Editar Requerimientos"
-        android:background="@drawable/button_border_red"
-        android:textColor="#000000"
-        android:layout_marginTop="16dp"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Básculas y Servicios"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="#000000"/>
+        </LinearLayout>
 
-</LinearLayout>
+        <!-- SUBTÍTULO -->
+        <TextView
+            android:text="Registrar Requerimientos de Mantenimiento"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:gravity="center"
+            android:layout_marginBottom="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- CONTENIDO EXISTENTE -->
+        <Spinner
+            android:id="@+id/spinnerServices"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"/>
+
+        <EditText
+            android:id="@+id/etRequirements"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:hint="Ingrese los requerimientos del mantenimiento"
+            style="@style/TextAppearance.Body"
+            android:layout_marginBottom="16dp"
+            android:scrollbars="vertical"
+            android:gravity="top|start"
+            android:inputType="textMultiLine"/>
+
+        <Button
+            android:id="@+id/btnSaveRequirements"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Guardar Requerimientos"
+            android:background="@drawable/button_border_red"
+            android:textColor="#000000"/>
+
+        <Button
+            android:id="@+id/btnEditRequirements"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Editar Requerimientos"
+            android:background="@drawable/button_border_red"
+            android:textColor="#000000"
+            android:layout_marginTop="16dp"/>
+    </LinearLayout>
+</ScrollView>
