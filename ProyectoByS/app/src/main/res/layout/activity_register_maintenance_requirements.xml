@@ -75,13 +75,7 @@
             android:background="@drawable/button_border_red"
             android:textColor="#000000"/>
 
-        <Button
-            android:id="@+id/btnEditRequirements"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Editar Requerimientos"
-            android:background="@drawable/button_border_red"
-            android:textColor="#000000"
-            android:layout_marginTop="16dp"/>
+        <!-- Este botón cambiará de texto dinámicamente entre
+             "Guardar Requerimientos" y "Editar Requerimientos" -->
     </LinearLayout>
 </ScrollView>
