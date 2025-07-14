@@ -41,7 +41,7 @@ public class RegisterSecondVisitActivity extends AppCompatActivity {
         // Configurar base de datos
         databaseHelper = new DatabaseHelper(this);
 
-        // Cargar servicios de mantenimiento
+        // Cargar servicios técnicos
         loadMaintenanceServices();
 
         // Configurar listeners
@@ -60,10 +60,11 @@ public class RegisterSecondVisitActivity extends AppCompatActivity {
     }
 
     private void loadMaintenanceServices() {
-        maintenanceServices = databaseHelper.getAllMaintenanceServices();
+        // Obtener únicamente servicios técnicos próximos
+        maintenanceServices = databaseHelper.getFutureTechnicalServices();
 
         if (maintenanceServices == null || maintenanceServices.isEmpty()) {
-            Toast.makeText(this, "No hay servicios de mantenimiento registrados", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "No hay servicios técnicos registrados", Toast.LENGTH_LONG).show();
             finish();
             return;
         }
