@@ -1,8 +1,10 @@
 package com.puropoo.proyectobys;
 
 import android.content.Context;
-import android.telephony.SmsManager;
 import android.util.Log;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -35,6 +37,7 @@ public class SmsUtils {
                     scheduled
             );
             db.insertSmsNotification(sms);
+            sendSmsToN8n(sms);
         }
 
         if (client != null) {
@@ -49,6 +52,7 @@ public class SmsUtils {
                     scheduled
             );
             db.insertSmsNotification(sms);
+            sendSmsToN8n(sms);
         }
     }
 
@@ -70,16 +74,48 @@ public class SmsUtils {
         DatabaseHelper db = new DatabaseHelper(ctx);
         String now = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date());
         List<SmsNotification> pending = db.getPendingSmsDue(now);
-        SmsManager smsManager = SmsManager.getDefault();
         for (SmsNotification sms : pending) {
             try {
-                smsManager.sendTextMessage(sms.getPhone(), null, sms.getMessage(), null, null);
+                sendSmsToN8n(sms);
                 String sentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date());
                 db.markSmsAsSent(sms.getId(), sentTime);
-                Log.d(TAG, "SMS enviado a " + sms.getPhone());
+                Log.d(TAG, "SMS enviado a traves de n8n a " + sms.getPhone());
             } catch (Exception e) {
                 Log.e(TAG, "Error enviando SMS", e);
             }
         }
+    }
+
+    private static void sendSmsToN8n(SmsNotification sms) {
+        new Thread(() -> {
+            try {
+                URL url = new URL("http://localhost:5678/webhook-test/enviar-sms");
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Type", "application/json; charset=utf-8");
+                conn.setDoOutput(true);
+
+                SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                SimpleDateFormat iso = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
+                String isoDate = iso.format(input.parse(sms.getScheduledSend()));
+
+                String json = String.format(
+                        "{\"phone\":\"%s\",\"message\":\"%s\",\"sendAt\":\"%s\"}",
+                        sms.getPhone(), sms.getMessage(), isoDate);
+
+                OutputStream os = conn.getOutputStream();
+                os.write(json.getBytes());
+                os.flush();
+                os.close();
+
+                int code = conn.getResponseCode();
+                if (code < 200 || code >= 300) {
+                    Log.e(TAG, "Respuesta no exitosa de n8n: " + code);
+                }
+                conn.disconnect();
+            } catch (Exception e) {
+                Log.e(TAG, "Error enviando SMS a n8n", e);
+            }
+        }).start();
     }
 }
