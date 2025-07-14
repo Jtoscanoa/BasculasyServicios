@@ -18,12 +18,13 @@ public class RegisterMaintenanceRequirementsActivity extends AppCompatActivity {
 
     private Spinner spinnerServices;
     private EditText etRequirements;
-    private Button btnSaveRequirements, btnEditRequirements;
+    private Button btnSaveRequirements;
 
     private DatabaseHelper db;
     private List<Request> maintenanceRequests;
 
     private boolean isEditing = false;  // Estado para saber si estamos editando
+    private boolean hasExistingRequirements = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,15 +34,13 @@ public class RegisterMaintenanceRequirementsActivity extends AppCompatActivity {
         spinnerServices = findViewById(R.id.spinnerServices);
         etRequirements = findViewById(R.id.etRequirements);
         btnSaveRequirements = findViewById(R.id.btnSaveRequirements);
-        btnEditRequirements = findViewById(R.id.btnEditRequirements);
 
         db = new DatabaseHelper(this);
 
         // Cargar los servicios de mantenimiento en el spinner
         loadMaintenanceServices();
 
-        btnSaveRequirements.setOnClickListener(v -> saveRequirements());
-        btnEditRequirements.setOnClickListener(v -> toggleEditing());
+        btnSaveRequirements.setOnClickListener(v -> handleButtonClick());
     }
 
     // Método para cargar los servicios de mantenimiento en el Spinner
@@ -60,11 +59,25 @@ public class RegisterMaintenanceRequirementsActivity extends AppCompatActivity {
         spinnerServices.setAdapter(serviceAdapter);
 
         // Cargar los requerimientos existentes para el servicio seleccionado (si existen)
-        String selectedService = spinnerServices.getSelectedItem().toString();
-        loadExistingRequirements(selectedService);
+        if (spinnerServices.getSelectedItem() != null) {
+            String selectedService = spinnerServices.getSelectedItem().toString();
+            loadExistingRequirements(selectedService);
+        }
+
+        spinnerServices.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
+                String service = parent.getItemAtPosition(position).toString();
+                loadExistingRequirements(service);
+            }
+
+            @Override
+            public void onNothingSelected(android.widget.AdapterView<?> parent) {
+                // No action needed
+            }
+        });
     }
 
-    // Método para cargar los requerimientos existentes en el campo de texto
     // Método para cargar los requerimientos existentes en el campo de texto
     private void loadExistingRequirements(String selectedService) {
         // Buscar los requerimientos para el servicio seleccionado
@@ -74,16 +87,24 @@ public class RegisterMaintenanceRequirementsActivity extends AppCompatActivity {
         Log.d("LoadExistingRequirements", "Servicio seleccionado: " + selectedService);
         Log.d("LoadExistingRequirements", "Requerimientos encontrados: " + requirements);
 
-        // Si hay requerimientos guardados, los mostramos en el campo de texto
         if (requirements != null && !requirements.isEmpty()) {
+            hasExistingRequirements = true;
+            isEditing = false;
             etRequirements.setText(requirements);  // Establecer el texto en el campo de texto
+            etRequirements.setEnabled(false);
+            btnSaveRequirements.setText("Editar Requerimientos");
         } else {
             Log.d("LoadExistingRequirements", "No se encontraron requerimientos para el servicio seleccionado");
+            hasExistingRequirements = false;
+            isEditing = true;
+            etRequirements.setText("");
+            etRequirements.setEnabled(true);
+            btnSaveRequirements.setText("Guardar Requerimientos");
         }
     }
 
 
-    // Método para guardar los requerimientos
+    // Método para guardar o actualizar los requerimientos
     private void saveRequirements() {
         // Obtener el texto de los requerimientos
         String requirements = etRequirements.getText().toString().trim();
@@ -112,33 +133,28 @@ public class RegisterMaintenanceRequirementsActivity extends AppCompatActivity {
 
         if (isSaved) {
             Toast.makeText(this, "Requerimientos guardados correctamente", Toast.LENGTH_SHORT).show();
-            clearFields();  // Limpiar los campos después de guardar
+            hasExistingRequirements = true;
         } else {
             Toast.makeText(this, "Error al guardar los requerimientos", Toast.LENGTH_SHORT).show();
         }
     }
 
-
-
-    // Método para limpiar los campos
-    private void clearFields() {
-        etRequirements.setText("");
-        spinnerServices.setSelection(0);  // Seleccionar el primer servicio
-    }
-
-    // Método para habilitar y deshabilitar la edición
-    private void toggleEditing() {
-        if (isEditing) {
-            // Deshabilitar la edición y cambiar el texto del botón
-            etRequirements.setEnabled(false);
-            btnEditRequirements.setText("Editar Requerimientos");
-        } else {
-            // Habilitar la edición y cambiar el texto del botón
+    // Manejador del botón único para editar o guardar
+    private void handleButtonClick() {
+        if (hasExistingRequirements && !isEditing) {
+            // Permitir edición
             etRequirements.setEnabled(true);
-            btnEditRequirements.setText("Guardar Cambios");
+            btnSaveRequirements.setText("Guardar Cambios");
+            isEditing = true;
+        } else {
+            saveRequirements();
+            etRequirements.setEnabled(false);
+            btnSaveRequirements.setText("Editar Requerimientos");
+            isEditing = false;
         }
-        isEditing = !isEditing;  // Cambiar el estado
     }
+
+
 
     // Método onResume() para recargar los requerimientos cuando la actividad se vuelve a mostrar
     @Override
