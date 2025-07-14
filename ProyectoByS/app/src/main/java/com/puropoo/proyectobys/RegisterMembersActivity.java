@@ -94,7 +94,9 @@ public class RegisterMembersActivity extends AppCompatActivity {
             etName.setText(prefill.getName());
             etAge.setText(String.valueOf(prefill.getAge()));
             etPhone.setText(prefill.getPhone());
-            etPayment.setText(String.valueOf(prefill.getPayment()));
+            // Mostrar el número de pago tal cual fue guardado sin notación científica
+            java.math.BigDecimal paymentValue = java.math.BigDecimal.valueOf(prefill.getPayment());
+            etPayment.setText(paymentValue.toPlainString());
         }
 
         return memberContainer;
