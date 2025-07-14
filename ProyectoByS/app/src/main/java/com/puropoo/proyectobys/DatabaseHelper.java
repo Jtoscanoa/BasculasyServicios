@@ -525,15 +525,13 @@ public class DatabaseHelper {
 
     // Métodos para manejo de segundas visitas
 
-    // Obtener todos los servicios de mantenimiento (para el spinner)
+    // Obtener solo los servicios técnicos (para el spinner)
     public List<Request> getAllMaintenanceServices() {
         List<Request> list = new ArrayList<>();
         SQLiteDatabase db = helper.getReadableDatabase();
-        
+
         String query = "SELECT id, serviceType, serviceDate, serviceTime, clientCedula, serviceAddress " +
-                       "FROM requests WHERE LOWER(serviceType) LIKE LOWER('%mantenimiento%') OR " +
-                       "LOWER(serviceType) LIKE LOWER('%reparac%') OR " +
-                       "LOWER(serviceType) LIKE LOWER('%técnic%') OR " +
+                       "FROM requests WHERE LOWER(serviceType) LIKE LOWER('%técnic%') OR " +
                        "LOWER(serviceType) LIKE LOWER('%tecnic%') " +
                        "ORDER BY serviceDate DESC, serviceTime DESC";
         
