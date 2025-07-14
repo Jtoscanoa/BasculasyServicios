@@ -13,10 +13,12 @@ public class MensajesSmsActivity extends AppCompatActivity {
         Button btnEquipo = findViewById(R.id.btnEquipoTecnico);
         Button btnTecnico = findViewById(R.id.btnTecnico);
         Button btnCliente = findViewById(R.id.btnCliente);
+        Button btnPrueba = findViewById(R.id.btnPruebaFuncional);
 
         btnEquipo.setOnClickListener(v -> openManagement("tecnico"));
         btnTecnico.setOnClickListener(v -> openManagement("tecnico"));
         btnCliente.setOnClickListener(v -> openManagement("cliente"));
+        btnPrueba.setOnClickListener(v -> startActivity(new Intent(this, SmsTestActivity.class)));
     }
 
     private void openManagement(String type) {
