@@ -2,6 +2,7 @@
     package="com.puropoo.proyectobys">
 
     <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -63,5 +64,6 @@
         </activity>
         <activity android:name=".MensajesSmsActivity" />
         <activity android:name=".SmsManagementActivity" />
+        <activity android:name=".SmsTestActivity" />
     </application>
 </manifest>
