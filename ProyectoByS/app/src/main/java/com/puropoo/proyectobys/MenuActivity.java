@@ -16,6 +16,7 @@ public class MenuActivity extends AppCompatActivity {
     Button btnGuardarEquipoAInstalar;  // Nuevo botón para "Guardar Equipo a Instalar"
     Button btnRemoteSupport;  // Nuevo botón para "Soporte Técnico Remoto"
     Button btnMensajesSms;  // Botón para "Mensajes SMS"
+    Button btnWebhookSms;  // Botón para enviar SMS via API
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,7 @@ public class MenuActivity extends AppCompatActivity {
         btnGuardarEquipoAInstalar = findViewById(R.id.btnGuardarEquipoAInstalar);  // Botón para "Guardar Equipo a Instalar"
         btnRemoteSupport = findViewById(R.id.btnRemoteSupport);  // Botón para "Soporte Técnico Remoto"
         btnMensajesSms = findViewById(R.id.btnMensajesSms);  // Botón para "Mensajes SMS"
+        btnWebhookSms = findViewById(R.id.btnWebhookSms);  // Botón para enviar SMS via API
 
         // Configura el botón de "Registrar Solicitudes"
         btnRegisterRequests.setOnClickListener(v -> {
@@ -89,6 +91,11 @@ public class MenuActivity extends AppCompatActivity {
         // Configura el botón de "Mensajes SMS"
         btnMensajesSms.setOnClickListener(v -> {
             Intent intent = new Intent(MenuActivity.this, MensajesSmsActivity.class);
+            startActivity(intent);
+        });
+
+        btnWebhookSms.setOnClickListener(v -> {
+            Intent intent = new Intent(MenuActivity.this, SendSmsWebhookActivity.class);
             startActivity(intent);
         });
     }
