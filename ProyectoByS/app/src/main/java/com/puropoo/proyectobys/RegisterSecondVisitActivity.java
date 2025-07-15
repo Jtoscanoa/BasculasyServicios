@@ -310,11 +310,7 @@ public class RegisterSecondVisitActivity extends AppCompatActivity {
         }
 
         if (missingFields.length() > 0) {
-            String missingFieldsStr = missingFields.toString();
-            if (missingFieldsStr.endsWith(", ")) {
-                missingFieldsStr = missingFieldsStr.substring(0, missingFieldsStr.length() - 2);
-            }
-            Toast.makeText(this, "Faltan campos obligatorios: " + missingFieldsStr, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Por favor complete todos los campos", Toast.LENGTH_SHORT).show();
             return false;
         }
 
