@@ -283,12 +283,12 @@ public class RegisterSecondVisitActivity extends AppCompatActivity {
     }
 
     private boolean validateFormForSave() {
-        StringBuilder missingFields = new StringBuilder();
-
-        // Validar servicio seleccionado
         if (selectedService == null) {
-            missingFields.append("Servicio de mantenimiento, ");
+            Toast.makeText(this, "Debe seleccionar el servicio", Toast.LENGTH_SHORT).show();
+            return false;
         }
+
+        StringBuilder missingFields = new StringBuilder();
 
         // Validar hora dentro del rango permitido
         int currentHour = timePickerSecondVisit.getHour();
