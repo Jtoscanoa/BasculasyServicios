@@ -222,7 +222,7 @@ public class RegisterSecondVisitActivity extends AppCompatActivity {
             missingFields.append("Fecha válida (hoy o futuro), ");
         }
 
-        btnSaveSecondVisit.setEnabled(isValid);
+
         
         // Mostrar campos faltantes si hay alguno
         if (!isValid && missingFields.length() > 0) {
@@ -283,12 +283,14 @@ public class RegisterSecondVisitActivity extends AppCompatActivity {
     }
 
     private boolean validateFormForSave() {
-        StringBuilder missingFields = new StringBuilder();
-
-        // Validar servicio seleccionado
         if (selectedService == null) {
-            missingFields.append("Servicio de mantenimiento, ");
+            Toast.makeText(this,
+                    "Por favor seleccione un servicio de mantenimiento",
+                    Toast.LENGTH_SHORT).show();
+            return false;
         }
+
+        StringBuilder missingFields = new StringBuilder();
 
         // Validar hora dentro del rango permitido
         int currentHour = timePickerSecondVisit.getHour();
