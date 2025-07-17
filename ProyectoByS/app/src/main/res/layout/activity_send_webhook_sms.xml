@@ -45,6 +45,14 @@
             android:gravity="center"
             android:layout_marginBottom="32dp" />
 
+        <Spinner
+            android:id="@+id/spinnerRecipientType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/button_border_red"
+            android:padding="12dp" />
+
         <EditText
             android:id="@+id/etPhone"
             android:layout_width="match_parent"

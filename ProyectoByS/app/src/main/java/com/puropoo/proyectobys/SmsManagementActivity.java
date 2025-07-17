@@ -56,10 +56,13 @@ public class SmsManagementActivity extends AppCompatActivity {
                         + " - Servicio: " + sms.getServiceType()
                         + " " + sms.getServiceDate() + " " + sms.getServiceTime();
             } else {
-                text = "Programado: " + sms.getScheduledSend()
+                text = "Programada " + sms.getScheduledSend()
                         + " a " + sms.getPhone()
                         + " - Servicio: " + sms.getServiceType()
                         + " " + sms.getServiceDate() + " " + sms.getServiceTime();
+                if (sms.getMessage() != null && !sms.getMessage().isEmpty()) {
+                    text += " Mensaje Opcional: " + sms.getMessage();
+                }
             }
             display.add(text);
         }
