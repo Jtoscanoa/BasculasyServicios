@@ -14,7 +14,7 @@ public class MensajesSmsActivity extends AppCompatActivity {
         Button btnTecnico = findViewById(R.id.btnTecnico);
         Button btnCliente = findViewById(R.id.btnCliente);
 
-        btnEquipo.setOnClickListener(v -> openManagement("tecnico"));
+        btnEquipo.setOnClickListener(v -> openManagement("equipo"));
         btnTecnico.setOnClickListener(v -> openManagement("tecnico"));
         btnCliente.setOnClickListener(v -> openManagement("cliente"));
     }

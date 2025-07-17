@@ -9,6 +9,9 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.puropoo.proyectobys.DatabaseHelper;
+
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONObject;
@@ -19,6 +22,7 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import com.puropoo.proyectobys.SmsNotification;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -34,6 +38,7 @@ public class SendSmsWebhookActivity extends AppCompatActivity {
     private DatePicker dpDate;
     private TimePicker tpTime;
     private Spinner spinnerServiceType;
+    private Spinner spinnerRecipientType;
     private Button btnSend;
 
     private static final String WEBHOOK_URL = "https://fhurtadoa2116.app.n8n.cloud/webhook-test/enviar-sms";
@@ -49,12 +54,18 @@ public class SendSmsWebhookActivity extends AppCompatActivity {
         tpTime = findViewById(R.id.tpTime);
         tpTime.setIs24HourView(true);
         spinnerServiceType = findViewById(R.id.spinnerServiceTypeSms);
+        spinnerRecipientType = findViewById(R.id.spinnerRecipientType);
         btnSend = findViewById(R.id.btnSendSms);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+        ArrayAdapter<CharSequence> serviceAdapter = ArrayAdapter.createFromResource(this,
                 R.array.service_types, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerServiceType.setAdapter(adapter);
+        serviceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerServiceType.setAdapter(serviceAdapter);
+
+        ArrayAdapter<CharSequence> recipientAdapter = ArrayAdapter.createFromResource(this,
+                R.array.recipient_types, android.R.layout.simple_spinner_item);
+        recipientAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerRecipientType.setAdapter(recipientAdapter);
 
         btnSend.setOnClickListener(v -> sendSms());
     }
@@ -66,6 +77,12 @@ public class SendSmsWebhookActivity extends AppCompatActivity {
             return;
         }
 
+        int recipientPos = spinnerRecipientType.getSelectedItemPosition();
+        if (recipientPos <= 0) {
+            Toast.makeText(this, getString(R.string.select_recipient), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         int servicePos = spinnerServiceType.getSelectedItemPosition();
         if (servicePos <= 0) {
             Toast.makeText(this, getString(R.string.select_service), Toast.LENGTH_SHORT).show();
@@ -73,6 +90,18 @@ public class SendSmsWebhookActivity extends AppCompatActivity {
         }
 
         String serviceType = spinnerServiceType.getSelectedItem().toString();
+        String recipientType;
+        switch (recipientPos) {
+            case 1:
+                recipientType = "cliente";
+                break;
+            case 2:
+                recipientType = "tecnico";
+                break;
+            default:
+                recipientType = "equipo";
+                break;
+        }
 
         int day = dpDate.getDayOfMonth();
         int month = dpDate.getMonth() + 1;
@@ -85,11 +114,30 @@ public class SendSmsWebhookActivity extends AppCompatActivity {
         ZonedDateTime zoned = ZonedDateTime.of(date, time, ZoneId.of("America/Bogota"));
         String sendAt = zoned.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
 
+        LocalDate serviceDate = date.plusDays(1);
+        LocalTime serviceTime = time;
+        String serviceDateStr = serviceDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        String serviceTimeStr = serviceTime.format(DateTimeFormatter.ofPattern("HH:mm"));
+        String scheduledForDb = zoned.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+
         String optional = etMessage.getText().toString().trim();
         String fullMessage = (optional + " " + serviceType + " " +
                 date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).trim();
 
         try {
+            DatabaseHelper db = new DatabaseHelper(this);
+            SmsNotification record = new SmsNotification(
+                    0,
+                    recipientType,
+                    phoneInput,
+                    serviceDateStr,
+                    serviceTimeStr,
+                    serviceType,
+                    optional,
+                    scheduledForDb
+            );
+            db.insertSmsNotification(record);
+
             JSONObject json = new JSONObject();
             json.put("phone", "+57" + phoneInput);
             json.put("message", fullMessage);
